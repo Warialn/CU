@@ -1,0 +1,652 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">违法信息安全管理</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0;">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 49px">指令id：</label>
+                                                <input type="text" id="commandid" name="commandid">
+                                            </li>
+                                            <li>
+                                                <label>机房名称：</label>
+                                                <select id="house_name" name="house_name">
+                                                    <option value="">请选择</option>
+                                                    <volist name="rooms" id="room_info">
+                                                        <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                    </volist>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>指令类型：</label>
+                                                <select id="type" name="type">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">监测</option>
+                                                    <option value="2">过滤</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label  style="margin-left: 36px">操作类型：</label>
+                                                <select id="operationtype" name="operationtype">
+                                                    <option value="">请选择</option>
+                                                    <option value="0">新增</option>
+                                                    <option value="1">删除</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>指令来源：</label>
+                                                <select id="source" name="source">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">本地配置</option>
+                                                    <option value="0">SMMS</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>指令状态：</label>
+                                                <select id="status" name="status">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">下发中</option>
+                                                    <option value="2">下发成功</option>
+                                                    <option value="3">下发失败</option>
+                                                    <option value="4">接口不通</option>
+                                                    <option value="5">取消中</option>
+                                                    <option value="6">取消成功</option>
+                                                    <option value="7">取消失败</option>
+                                                    <option value="8">未回复ack</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>生成起止时间段：</label>
+                                                <input class="date-range-picker" type="text"
+                                                       name="timestamp" data-date-format="YYYY-MM-DD"
+                                                       id="timestamp" style="width:220px"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <div class="card-body">
+                                <a href="{:U('Policy/info_add')}">
+                                    {:authcheck('Home/Policy/info_add','
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"
+                                          style="color: #ADFF2F;margin-right: 5px"></span>添加
+                                    ','')}
+                                </a>
+                                <span style="margin-left: 15px;cursor: pointer;color: white" data-toggle="modal"
+                                      data-target="#myModal-plxf">
+                                     {:authcheck('Home/Policy/info_add','
+                                    <span class="glyphicon glyphicon-download" aria-hidden="true"
+                                          style="margin-right: 5px;color: #22A7F0"></span>批量下发
+                                     ','')}
+                                </span>
+                                {:authcheck('Home/Policy/upload_iplib','
+                                <a href="#" style="margin-left: 15px;cursor: pointer;" id="leading_in"  data-toggle="modal"  data-target="#myModal_leading_in">
+                                    <span class="glyphicon glyphicon-log-in"  style="margin-right: 5px;color: #00BD8B"></span>导入
+                                </a>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">指令ID</th>
+                                        <th style="text-align:center">指令类型</th>
+                                        <th style="text-align:center">机房名称</th>
+                                        <th style="text-align:center">规则条件</th>
+                                        <th style="text-align:center">生效时间</th>
+                                        <th style="text-align:center">过期时间</th>
+                                        <th style="text-align:center">指令优先级</th>
+                                        <th style="text-align:center">生成时间</th>
+                                        <th style="text-align:center">指令状态</th>
+                                        <th style="text-align:center">操作类型</th>
+                                        <th style="text-align:center">指令来源</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="illegal_info_status">
+                                    <volist name="result" id="info">
+                                        <tr class="illegal_statuses" >
+                                            <td style="text-align:center;" class="illegal_commandid">{$info['commandid']}</td>
+                                            <td style="text-align:center">{$info['type']}</td>
+                                            <td style="text-align:center">
+                                                <a class="show_roomInfo" style="color: blue;cursor: pointer;text-align:center;" data-toggle="modal" data-target="#myModal-jfmc">{$info['house_name']}</a>
+                                            </td>
+                                            <td style="text-align:center">
+                                             <a class="show_ruleInfo" style="cursor: pointer;color: blue;text-align:center"
+                                                    data-toggle="modal" data-target="#myModal-gztj">查看</a>
+                                            </td>
+                                            <td style="text-align:center">{$info['effect_time']|date='Y-m-d H:i:s',###
+                                                }
+                                            </td>
+                                            <td style="text-align:center">{$info['expired_time']|date='Y-m-d H:i:s',###
+                                                }
+                                            </td>
+                                            <td style="text-align:center">{$info['level']}</td>
+                                            <td style="text-align:center">{$info['timestamp']|date='Y-m-d H:i:s',### }
+                                            </td>
+                                            <td  style="text-align:center" class="illegal_status" id="{$info['commandid']}">{$info['status']}</td>
+                                            <td style="text-align:center">{$info['operationtype']}</td>
+                                            <td style="text-align:center">{$info['source']}
+                                                
+                                            </td>
+                                            <td style="text-align: center">
+                                                
+                                                <if condition="$info['source'] eq 'SMMS'">
+                                                    --
+                                                <elseif condition="$info['source'] eq '本地配置' AND $info['operationtype'] neq '删除'  "  />
+                                                    {:authcheck('Home/Policy/info_del','
+                                                <span title="取消策略" class="glyphicon glyphicon-remove-sign info_del_l deleteDef" aria-hidden="true"
+                                                      style="color: red;cursor: pointer;margin-left: 5px" data-toggle="modal"
+                                                      data-target="#myModal-sc"></span>
+                                                    ','')}
+                                                    <span data="{$info['id']}"></span>
+
+                                                <elseif condition="$info['source'] eq '本地配置' AND $info['operationtype'] eq '删除'" />
+                                                <!-- <input type="button" onclick="real_del(' {$info['id']}  ')" value="删除" > -->
+                                                {:authcheck('Home/Policy/info_realdel','
+                                                <input type="button"  class="info_realdel" value="删除" >
+                                                ','')}
+                                                <span data="{$info['id']}"></span>
+                                                </if>
+
+                                            </td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right" >
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!--  导入 模态框  -->
+                                <div class="modal fade" id="myModal_leading_in" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-add" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-add">导入</h4>
+                                            </div>
+                                            <form id="form_upload" enctype="multipart/form-data" action="__URL__/before_upload" method="post">
+                                            <div class="modal-body" style="margin-bottom:20px;">
+                                                
+                                                   <div class="form-group" >
+                                                        <div class="col-sm-9" style="margin-bottom:10px;">
+                                                            <a href="__PUBLIC__/Download/policy_isms.csv" style="color:#22a7f0;" >下载模板</a>
+                                                        </div>
+                                                    </div><br/>
+
+                                                    <div class="form-group">
+
+                                                        <div class="col-sm-9">
+                                                            <div class="widget-main">
+                                                                <input type="file" id="id-input-file-2" name="file"/>
+                                                                <input type='hidden' name="count" value="0">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="space-4"></div>
+                                                
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="submit" class="btn btn-info" value="确定">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                            </form>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                <!-- 批量下发 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-plxf" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-plxf" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-plxf">批量下发</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" id="illegal_info_val" method="post">
+                                                    <div class="form-group">
+                                                        <label style="width: 98px;text-align: right">指令类型：</label>
+                                                        <select id="type2" name="type" class="form-control input-sm" style="width: 150px">
+                                                            <option value="1">监测</option>
+                                                            <option value="2">过滤</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label style="width: 98px;text-align: right">机房名称：</label>
+                                                         <select id="house_name2" name="house_name"   class="selectpicker show-tick roomname" multiple data-live-search="false" style="width: 150px">
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">生效日期：</label>
+                                                          <input placeholder="请输入日期" style="width:150px;height: 32px" class="input-sm   laydate-icon" id="effect_time"/>
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">失效日期：</label>
+                                                         <input placeholder="请输入日期" style="width:150px;height: 32px" class="input-sm   laydate-icon" id="expired_time">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">URL数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="url">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">关键字数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="gjz">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">域名数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="ym">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">源IP地址数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="yip">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+
+                                                        <label style="width: 98px;text-align: right">源端口数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="ydk">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+
+                                                        <label style="width: 98px;text-align: right">目的IP地址数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="mdip">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+
+                                                        <label style="width: 98px;text-align: right">目的端口数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="mddk">
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">传输层协议数量：</label>
+                                                        <input type="number" class="form-control input-sm"
+                                                               placeholder="请输入下发数量" value="" style="width: 150px"
+                                                               id="cscxy">
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="illegal_info_ok">确定
+                                                </button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 机房名称  模态框  -->
+                                <div class="modal fade" id="myModal-jfmc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-jfmc">机房名称</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table id="version-detail-table" class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                <tr class="active">
+                                                <th style="text-align: center;">机房名称</th>
+                                                <th style="text-align: center;">下发结果</th>
+                                                </tr>
+
+                                                </thead>
+                                                <tbody id="info_td">
+                                                </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 规则条件  模态框  -->
+                                <div class="modal fade" id="myModal-gztj" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-plxf" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content" style="height: auto;max-height:550px;overflow: auto;">
+                                            <!--<div class="modal-header" style="width:598px;height:56px;position:fixed;left: 1px;top: 0;z-index: 10;background-color:white;">-->
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-gztj">规则条件</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!--<table class="table table-bordered table-hover" style="margin-top: 60px">-->
+                                                <table class="table table-bordered table-hover">
+                                                    <thead>
+                                                    <tr class="active">
+                                                        <th style=" width: 60px">规则类型</th>
+                                                        <th style=" width: 180px">规则值</th>
+                                                        <th style=" width: 120px">关键字作用范围</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="rule_td">
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 删除 模态框 -->
+                                <div class="modal fade" id="myModal-sc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>是否取消该策略？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="del">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="__PUBLIC__/js/jquery.form.js"></script>
+<script type="text/javascript">
+    $('#commandid').val("<?=$commandid?>");
+    $('#house_name').val("<?=$house_name?>");
+    $('#type').val("<?=$type?>");
+    $('#operationtype').val("<?=$operationtype?>");
+    $('#status').val("<?=$status?>");
+    $('#timestamp').val("<?=$timestamp?>");
+    $('#source').val("<?=$source?>");
+    $(document).ready(function(){
+        setInterval(check_status,5000);
+    })
+    laydate({
+        elem: '#effect_time', //指定元素
+        istime: true,
+        format: 'YYYY-MM-DD hh:mm:ss'
+    });
+    laydate({
+        elem: '#expired_time', //指定元素
+        istime: true,
+        format: 'YYYY-MM-DD hh:mm:ss'
+    });
+    var import_condition = {};
+    $(document).ready(function(){
+        $("#form_upload").ajaxForm({
+            success:function(data){
+                if(data.status === 1) {
+                confirm('没有数据', {
+                    btn: ['确定'] //按钮
+                }, function () {
+                    closeAll();
+                });
+            } else if (data.status === '3') {
+                    import_condition.count = data.count;
+                    import_result();
+                }else{
+                    alert(data.info);
+                }
+            }
+        });
+    })
+    
+    function import_result(){
+        $.post("__URL__/info_upload",import_condition , function(data){
+            if(data.status === 'success') {
+                alert('导入成功！');
+            } else if (data.status === '3') {
+                import_condition.count = data.count;
+                import_result();
+            }else{
+                alert(data.message)
+            }
+        });
+
+    }
+
+    function check_status(){
+            var data = [];
+            $('#illegal_info_status .illegal_statuses').each(function() {
+                var info = '';
+                if($(this).find('.illegal_status').html()=="下发中" || $(this).find('.illegal_status').html()=="取消中" ){
+                    info = $(this).find('.illegal_commandid').html();
+                    data.push(info);
+                }
+            });
+            var commandid = data.join(',');
+            //console.log(commandid);
+            if(commandid){
+                $.ajax({
+                    url: '__URL__/illegal_info',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {commandid: commandid},
+                    success:function(data){
+                        //console.log(data);
+                        if(data){
+                            $.each(data, function (index, value) {
+                                $('#'+value.commandid).html(value.new_status);
+                            });
+                        }else{
+                           clearInterval(status_interval)
+                            status_interval = setInterval(function(){
+                                check_status()
+                            },1000); 
+                        }
+                       
+                        
+                    }
+                })
+            }
+        }
+
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+    //    批量下发
+    $("#illegal_info_ok").click(function () {
+        var data = {};
+        var data1= {};
+        data1.type = $("#type2").val();
+        data1.house_id = $("#house_name2").val();
+        data1.effect_time = $("#effect_time").val();
+        data1.expired_time = $("#expired_time").val();
+        data.url = $("#url").val();
+        data.gjz = $("#gjz").val();
+        data.ym = $("#ym").val();
+        data.yip = $("#yip").val();
+        data.ydk = $("#ydk").val();
+        data.mdip = $("#mdip").val();
+        data.mddk = $("#mddk").val();
+        data.cscxy = $("#cscxy").val();
+//        console.log(data);
+        $.ajax({
+            type: 'get',
+            url: '__URL__/info_add',
+            data: {'number':data,'data1':data1},
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 'success') {
+                    $("#myModal-plxf").modal('hide');
+                    //$("#fade").hide();
+                    alert("下发成功");
+                    //window.location.reload();
+                } else {
+                    alert(data.info);
+                }
+            }
+        })
+    })
+    //机房名称
+    $(".show_roomInfo").click(function (){
+        var commandid = $(this).parents('tr').children('td:eq(0)').html();
+        $.ajax({
+            type: "get",
+            //url: "__URL__/room_info",
+            url: "__URL__/illegal_info",
+            data: {'commandid':commandid,n:'room'},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#info_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        $("<tr><td>" + value.house_name + "</td><td>" + value.status +"</td></tr>").appendTo($("#info_td"));
+                    });
+                }
+            }
+        })
+    });
+    //真的从数据库删除
+    //function real_del(id){
+    $('.info_realdel').click(function(){
+        var id = $(this).next().attr('data');
+        $.ajax({
+            type: "get",
+            url: "__URL__/info_realdel",
+            data: {'id':id},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    })
+        
+    
+    //删除
+    var del = '',htm = '';
+    $('.table').on('click','.deleteDef',function () {
+        //del = $(this).data('id');
+        del = $(this).next().attr('data');
+        htm = $(this).parent('tr');
+    });
+    $('#del').click(function () {
+        $("#myModal-sc").modal('hide');
+        $.ajax({
+            type: "get",
+            url: "__URL__/info_del",
+            data: {'id':del},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('取消成功,该策略已失效！');
+                    window.location.reload();
+                    /*console.log(htm);
+                    htm.remove();*/
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+
+
+    $(".show_ruleInfo").click(function (){
+        var commandid = $(this).parents('tr').children('td:eq(0)').html();
+        $.ajax({
+            type: "get",
+            //url: "__URL__/rule_info",
+            url: "__URL__/illegal_info",
+            data: {'commandid':commandid,n:'rule'},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#rule_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        value.value_start=value.value_start.replace(/.{30}\x01?/g,"$&\n");
+                        $("<tr><td>" + value.subtype + "</td><td>" + value.value_start +"</td><td>"+value.keywordrange+"</td></tr>").appendTo($("#rule_td"));
+                    });
+                }
+            }
+        })
+    });
+
+
+</script>

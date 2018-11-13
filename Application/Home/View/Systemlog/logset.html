@@ -1,0 +1,130 @@
+<div class="app-container no-padding">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>系统管理</li>
+            <li class="active" style="color: white">日志管理</li>
+        </ol>
+        <div class="container-fluid" >
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>客户端IP：</label>
+                                                <input type="text" name="ip" id="ip">
+                                            </li>
+                                            <li>
+                                                <label>用户名：</label>
+                                                <input type="text" name="username" id="username">
+                                            </li>
+                                            <li>
+                                                <label>操作时间：</label>
+                                                <input class="date-range-picker" type="text" name="time" id="time" data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <div class="card-body">
+
+                                <!--  表格  -->
+                                <table class="table table-bordered" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">客户IP</th>
+                                        <th style="text-align: center">操作详情</th>
+                                        <th style="text-align: center">用户名</th>
+                                        <th style="text-align: center">操作时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="log_data" id="log_data_vo">
+                                            <tr>
+                                                <td style="text-align: center">{$log_data_vo['ip']}</td>
+                                                <td style="text-align: center" title="{$log_data_vo['message']}">{$log_data_vo['message']|subtext=50}</td>
+                                                <td style="text-align: center">{$log_data_vo['user_login']}</td>
+                                                <td style="text-align: center">{$log_data_vo['time']|date='Y-m-d H:i:s',###}</td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#ip').attr('value',getParam("ip"));
+    $('#username').attr('value',getParam("username"));
+    $('#time').attr('value',URLdecode(getParam("time")));
+
+    function URLdecode(sStr){
+       return sStr.replace(/\+/g,' ').replace(/\%2F/g,'\/').replace(/\%20/g,'').replace(/\%3A/g,':'); 
+    }
+
+    function getParam(paramName)
+    {
+        paramValue = "";
+        isFound = false;
+        if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=")>1)
+        {
+            arrSource = this.location.search.substring(1,this.location.search.length).split("&");
+            i = 0;
+            while (i < arrSource.length && !isFound)
+            {
+                if (arrSource[i].indexOf("=") > 0)
+                {
+                    if (arrSource[i].split("=")[0].toLowerCase()==paramName.toLowerCase())
+                    {
+                        paramValue = arrSource[i].split("=")[1];
+                        isFound = true;
+                    }
+                }
+                i++;
+            }
+        }
+        return paramValue;
+    }
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>

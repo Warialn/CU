@@ -1,0 +1,98 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;margin-top: -25px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">代码表发布</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title no-padding">
+
+                                    <form class="form-inline">
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label for="exampleInput-a">指令ID：</label>
+                                            <input type="text" class="form-control input-sm" id="exampleInput-a">
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label for="exampleInput-b">接收处理结果：</label>
+                                            <input type="text" class="form-control input-sm" id="exampleInput-b">
+                                        </div>
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <label for="exampleInput-c">下发处理结果：</label>
+                                            <input type="text" class="form-control input-sm" id="exampleInput-c">
+                                        </div>
+
+                                        <div class="form-group" style="margin-left: 10px">
+                                            <div class="form-group">
+                                                <label for="datetimepicker">生成起止时间段：</label>
+                                                <input class="form-control date-range-picker input-sm" type="text" name="date-range-picker" data-date-format="YYYY-MM-DD"
+                                                       id="id-date-range-picker-1" style="width: 220px"/>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th>指令ID</th>
+                                        <th>接收处理结果</th>
+                                        <th>下发处理结果</th>
+                                        <th>接收指令备份</th>
+                                        <th>下发执行备份</th>
+                                        <th>生成时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>f</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    jQuery(function ($) {
+        $('input[name=date-range-picker]').daterangepicker({
+                locale : {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五','六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker:true,
+                timePickerIncrement:1,
+                timePicker12Hour:false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>

@@ -1,0 +1,405 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">免过滤网站列表</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 12px">指令ID：</label>
+                                                <input type="text" name="commandid" id="commandid">
+                                            </li>
+                                            <li>
+                                                <label>规则类型：</label>
+                                                <select id="type1" name="type1">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">域名</option>
+                                                    <option value="2">IP</option>
+
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 12px">指令状态：</label>
+                                                <select id="status" name="status">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">下发中</option>
+                                                    <option value="2">下发成功</option>
+                                                    <option value="3">下发失败</option>
+                                                    <option value="4">接口不通</option>
+                                                    <option value="5">取消中</option>
+                                                    <option value="6">取消成功</option>
+                                                    <option value="7">取消失败</option>
+                                                    <option value="8">未回复ack</option>
+                                                </select>
+                                            </li>
+
+                                            <li>
+                                                <label>操作类型：</label>
+                                                <select id="operationtype" name="operationtype">
+                                                    <option value="">请选择</option>
+                                                    <option value="0">新增</option>
+                                                    <option value="1">删除</option>
+                                                </select>
+                                            </li>
+                                            
+                                            <li>
+                                                <label>指令来源：</label>
+                                                <select id="source" name="source" >
+                                                    <option value="">请选择</option>
+                                                    <option value="1">本地配置</option>
+                                                    <option value="0">SMMS</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>生成起止时间段：</label>
+                                                <input class="form-control date-range-picker input-sm" type="text" name="timestamp" data-date-format="YYYY-MM-DD"
+                                                       id="timestamp" style="width:220px"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+                            <div class="card-body">
+                                 {:authcheck('Home/Policy/no_filter_add','  
+                                <span style="color: white;cursor: pointer" data-toggle="modal"
+                                      data-target="#myModal">
+                                    <span  class="glyphicon glyphicon-plus" aria-hidden="true" style="color: #ADFF2F;margin-right: 5px;"></span>添加
+                                </span>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th>指令ID</th>
+                                        <th>IDC/ISP经营者ID</th>
+                                        <th>机房名称</th>
+                                        <th>规则类型</th>
+                                        <th>规则内容</th>
+                                        <th>指令优先级</th>
+                                        <th>生成时间</th>
+                                        <th>指令状态</th>
+                                        <th>操作类型</th>
+                                        <th>指令来源</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="no_filter_status">
+                                        <volist name="res" id="info">
+                                            <tr class="no_filter_statuses">
+                                                <td class="no_filter_commandid">{$info['commandid']}</td>
+                                                <td>{$info['idc_name']}</td>
+                                                <td class="show_roomInfo" style="cursor: pointer;color: blue" data-toggle="modal" data-target="#myModal-jfmc">{$info['house_name']}</td>
+                                                <td>{$info['type']}</td>
+                                                <td title="{$info['contents']}">{$info['contents']|subtext=15}</td>
+                                                <td>{$info['level']}</td>
+                                                <td>{$info['timestamp'] | date=('Y-m-d H:i:s'),###}</td>
+                                                <td id="{$info['commandid']}" class="no_filter_status">{$info['status']}</td>
+                                                <td>{$info['operationtype']}</td>
+                                                <td>{$info['source']}</td>
+                                                <td style="text-align: center">
+                                                
+                                                <if condition="$info['source'] eq 'SMMS'">
+                                                    --
+                                                <elseif condition="$info['source'] eq '本地配置' AND $info['operationtype'] neq '删除'  "  />
+                                                {:authcheck('Home/Policy/no_filter_del','
+                                                <span title="取消策略" class="glyphicon glyphicon-remove-sign info_del_l deleteDef" aria-hidden="true"
+                                                      style="cursor: pointer;margin-left: 5px" data-toggle="modal" 
+                                                      data-target="#myModal-sc"></span> 
+                                                ','')}
+                                                <span data="{$info['id']}"></span> 
+                                                <elseif condition="$info['source'] eq '本地配置' AND $info['operationtype'] eq '删除'" />
+                                                {:authcheck('Home/Policy/no_filter_realdel','
+                                                <input type="button" class="no_filter_realdel" value="删除">
+                                                ','')}
+                                                <span data="{$info['id']}"></span> 
+                                                </if>
+
+                                            </td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-a" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabe-a">添加</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" id="type">
+                                                        <label>规则类型：</label>
+                                                        <div class="radio3 radio-check radio-success radio-inline">
+                                                            <input type="radio" id="radio5" name="radio2" value="1">
+                                                            <label for="radio5">域名</label>
+                                                        </div>
+                                                        <div class="radio3 radio-check radio-warning radio-inline">
+                                                            <input type="radio" id="radio6" name="radio2" value="2">
+                                                            <label for="radio6">IP</label>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-bottom: 10px;margin-top: 5px;">
+                                                        <label>规则内容：</label>
+                                                        <input type="text" class="form-control input-sm" id="contents">
+                                                    </div>
+                                                </form>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="no_filter_btn">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+
+                            </div>
+                                <!-- 删除 模态框 -->
+                                <div class="modal fade" id="myModal-sc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>是否删除此数据？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="del">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 机房名称 模态框 -->
+                                <div class="modal fade" id="myModal-jfmc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-jfmc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-jfmc">机房名称</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table class="table table-bordered table-hover">
+                                                    <thead>
+                                                    <tr class="active   ">
+                                                        <th>机房名称</th>
+                                                        <th>下发结果</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="info_td">
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <!--<button type="button" class="btn btn-info" id="del">确定</button>-->
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$('#commandid').val("<?=$commandid?>");
+$('#status').val("<?=$status?>");
+$('#type1').val("<?=$type1?>");
+$('#operationtype').val("<?=$operationtype?>");
+$('#timestamp').val("<?=$timestamp?>");
+$('#source').val("<?=$source?>");
+$(document).ready(function(){
+        setInterval(check_status,5000);
+    })
+    function check_status(){
+            var data = [];
+            $('#no_filter_status .no_filter_statuses').each(function() {
+                var info = '';
+                if($(this).find('.no_filter_status').html()=="下发中" || $(this).find('.no_filter_status').html()=="取消中" ){
+                    info = $(this).find('.no_filter_commandid').html();
+                    data.push(info);
+                }
+            });
+            var commandid = data.join(',');
+            //console.log(commandid);
+            if(commandid){
+                $.ajax({
+                    url: '__URL__/no_filter',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {commandid: commandid},
+                    success:function(data){
+                        //console.log(data);
+                        if(data){
+                            $.each(data, function (index, value) {
+                                $('#'+value.commandid).html(value.new_status);
+                            });
+                        }else{
+                           clearInterval(status_interval)
+                            status_interval = setInterval(function(){
+                                check_status()
+                            },1000); 
+                        }
+                       
+                        
+                    }
+                })
+            }
+        }
+
+ //真的从数据库删除
+    //function real_del(id){
+    $('.no_filter_realdel').click(function(){
+        var id = $(this).next().attr('data');
+        $.ajax({
+            type: "get",
+            url: "__URL__/no_filter_realdel",
+            data: {'id':id},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    })
+        
+  
+
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale : {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五','六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker:true,
+                timePickerIncrement:1,
+                timePicker12Hour:false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    });
+    $("#no_filter_btn").click(function () {
+        var data={};
+        data.type = $("input[type='radio']:checked").val();
+        data.contents=$("#contents").val();
+        $("#myModal").modal('hide');
+        
+        $.ajax({
+            type: 'get',
+            url: '__URL__/no_filter_add',
+            data: data,
+            dataType: 'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('下发成功');
+                    $("input[type=radio]").prop('checked',false);
+                    $("input").val("");
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+    });
+    //删除
+    var del = '',htm = '';
+    $('.table').on('click','.deleteDef',function () {
+        //del = $(this).data('id');
+        del = $(this).next().attr('data');
+        htm = $(this).parent('tr');
+    });
+    $('#del').click(function () {
+        $("#myModal-sc").modal('hide');
+        $.ajax({
+            type: "get",
+            url: "__URL__/no_filter_del",
+            data: {'id':del},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('取消成功,该策略已失效！');
+//                    window.location.href('__URL__/no_filter') 把他隐藏
+                    window.location.reload();
+                    //htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+
+    //机房名称
+    $(".show_roomInfo").click(function (){
+        var commandid = $(this).parents('tr').children('td:eq(0)').html();
+        $.ajax({
+            type: "get",
+            //url: "__URL__/no_filter_room",
+            url: "__URL__/no_filter",
+            data: {'commandid':commandid,type:'room'},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#info_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        $("<tr><td>" + value.house_name + "</td><td>" + value.status +"</td></tr>").appendTo($("#info_td"));
+                    });
+                }
+            }
+        })
+    });
+</script>

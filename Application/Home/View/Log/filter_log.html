@@ -1,0 +1,172 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>日志管理</li>
+            <li class="active" style="color: white">监测过滤日志</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 24px;">指令ID：</label>
+                                                <input type="text" id="commandid" name="commandid">
+                                            </li>
+                                            <li>
+                                                <label>机房名称：</label>
+                                                <select class="s house_id newSelect" name="house_id" id="house_id">
+                                                    <option value="">请选择</option>
+                                                    <volist name="rooms" id="room_info">
+                                                        <option value="{$room_info['house_id']}">
+                                                            {$room_info['house_name']}
+                                                        </option>
+                                                    </volist>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 24px;">源IP：</label>
+                                                <input type="text" id="src_ip" name="src_ip">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 24px;">目的IP：</label>
+                                                <input type="text" id="dst_ip" name="dst_ip">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 12px;">源端口：</label>
+                                                <input type="text" id="src_port" name="src_port">
+                                            </li>
+                                            <li>
+                                                <label>目的端口：</label>
+                                                <input type="text" name="dst_port" id="dst_port">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 36px;">域名：</label>
+                                                <input type="text" name="domain" id="domain">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 22px;">URL：</label>
+                                                <input type="text" id="url" name="url"></li>
+                                            <li>
+                                                <label>有无快照：</label>
+                                                <select name="is_sc" id="is_sc">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">有</option>
+                                                    <option value="0">无</option>
+                                                </select>
+                                            </li>
+                                            <li>
+
+                                                <label>采集时间段：</label>
+                                                <input class="date-range-picker" type="text" name="first_time"
+                                                       data-date-format="YYYY-MM-DD" id="first_time"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body" style="overflow-x: auto">
+                                <table class="table table-bordered table-hover"
+                                       style="width: 2000px;max-width: 5000px;text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">日志ID</th>
+                                        <th style="text-align:center">指令ID</th>
+                                        <th style="text-align:center">机房名称</th>
+                                        <th style="text-align:center">源ip</th>
+                                        <th style="text-align:center">源端口</th>
+                                        <th style="text-align:center">目的ip</th>
+                                        <th style="text-align:center">目的端口</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center;">url</th>
+                                        <th style="text-align:center">标题</th>
+                                        <th style="text-align:center">快照</th>
+                                        <th style="text-align:center">采集时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="res" id="info">
+                                        <tr>
+                                            <td>{$info['logid']}</td>
+                                            <td>{$info['commandid']}</td>
+                                            <td>{$info['house_name']}</td>
+                                            <td>{$info['src_ip']}</td>
+                                            <td>{$info['src_port']}</td>
+                                            <td>{$info['dst_ip']}</td>
+                                            <td>{$info['dst_port']}</td>
+                                            <td style="overflow: hidden;white-space: nowrap;max-width: 100px;text-overflow:ellipsis;"
+                                                title="{$info['domain']}">{$info['domain']}
+                                            </td>
+                                            <td style="overflow: hidden;white-space: nowrap;max-width: 156px;text-overflow:ellipsis;"
+                                                title="{$info['url']}">{$info['url']}
+                                            </td>
+                                            <td style="overflow: hidden;white-space: nowrap;max-width: 100px;text-overflow:ellipsis;"
+                                                title="{$info['title']}">{$info['title']}
+                                            </td>
+                                            <td><a style="color:blue" href="javascript:void(0)"
+                                                   onclick="javascript:window.open('/byzoro/snap/{$info['content_link']}','_blank','toolbar=0, location=0, directories=0, status=0, menubar=0, scrollbars=1, resizable=0, titlebar=1, width=, height=, left=, top=')">{$info['content_link']}</a>
+                                            </td>
+                                            <td>{$info['gathertime']}</td>
+                                        </tr>
+                                    </volist>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="dataTables_paginate paging_bootstrap pull-right">
+                                <ul class="pagination">
+                                    {$show}
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#house_id').val('<?=$house_id?>');
+    $('#commandid').val('<?=$commandid?>');
+    $('#src_ip').val('<?=$src_ip?>');
+    $('#src_port').val('<?=$src_port?>');
+    $('#dst_ip').val('<?=$dst_ip?>');
+    $('#dst_port').val('<?=$dst_port?>');
+    $('#url').val('<?=$url?>');
+    $('#domain').val('<?=$domain?>');
+    $('#first_time').val('<?=$first_time?>');
+    $('#is_sc').val('<?=$is_sc?>');
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                maxDate: new Date(),
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>

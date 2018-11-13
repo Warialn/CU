@@ -1,0 +1,199 @@
+<div class="main-content" style="margin-left:100px;">
+    <div class="breadcrumbs" id="breadcrumbs">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('breadcrumbs', 'fixed')
+            } catch (e) {
+            }
+        </script>
+        <style>
+            .table th, td{
+                text-align: left;
+            }
+        </style>
+        <ul class="breadcrumb">
+            <li style="color: white">
+                用户组管理
+            </li>
+            <li class="active" style="color: white">权限管理</li>
+        </ul>
+        <!-- .breadcrumb -->
+
+        <!-- #nav-search -->
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="table-responsive">
+                    <form class="J_ajaxForm"  method="post">
+                        <div class="table_full">
+                            <table width="100%" cellspacing="0" id="dnd-example">
+                                <tbody>
+                                {$categorys}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-actions">
+                            <input type="hidden" name="roleid" value="{$roleid}" />
+                            {:authcheck('Home/Systemlog/authorize_post','
+                            <button class="btn btn_submit btn-primary mr10 J_ajax_submit_btn" type="submit">授权</button>
+                            ','')}
+                            <!-- <a class="btn" href="__URL__">返回</a> -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+   <!-- <script type="text/javascript">
+        $('.J_ajaxForm').submit(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var addNet_data = $('.J_ajaxForm').serialize();
+        $.ajax({
+            url:'__URL__/authorize_post',
+            type:'POST',
+            dataType:'json',
+            data:addNet_data,
+            success:function(data){
+                if(data.status=='success'){
+                    alert(data.info);
+                    window.location.href="__URL__/usergroup";
+                } else if (data.status=='clear') {
+                    alert(data.info);
+                     window.location.href="__URL__/usergroup";
+                }else if (data.status=='failed') {
+                    alert(data.info);
+                    window.location.href="__URL__/usergroup";
+                };
+            }
+        });
+    });
+        $(document).ready(function () {
+//            Wind.css('treeTable');
+            Wind.use('treeTable', function () {
+                $("#dnd-example").treeTable({
+                    indent: 20,
+                    initialState:"expanded"
+            });
+            });
+        });
+
+        function checknode(obj) {
+            var chk = $("input[type='checkbox']");
+            var count = chk.length;
+            var num = chk.index(obj);
+            var level_top = level_bottom = chk.eq(num).attr('level');
+            for (var i = num; i >= 0; i&#45;&#45;) {
+                var le = chk.eq(i).attr('level');
+                if (eval(le) < eval(level_top)) {
+                    chk.eq(i).attr("checked", true);
+                    var level_top = level_top - 1;
+                }
+            }
+            for (var j = num + 1; j < count; j++) {
+                var le = chk.eq(j).attr('level');
+                if (chk.eq(num).attr("checked") == "checked") {
+                    if (eval(le) > eval(level_bottom)) {
+                        chk.eq(j).attr("checked", true);
+                    }
+                    else if (eval(le) == eval(level_bottom)) {
+                        break;
+                    }
+                } else {
+                    if (eval(le) > eval(level_bottom)) {
+                        chk.eq(j).attr("checked", false);
+                    } else if (eval(le) == eval(level_bottom)) {
+                        break;
+                    }
+                }
+            }
+        }
+    </script>-->
+
+<script src="__PUBLIC__/lib/js/tree/jquery.js"></script>
+<script type="text/javascript">
+    $('.J_ajaxForm').submit(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var addNet_data = $('.J_ajaxForm').serialize();
+        $.ajax({
+            url:'__URL__/authorize_post',
+            type:'POST',
+            dataType:'json',
+            data:addNet_data,
+            success:function(data){
+                if(data.status=='success'){
+                    alert(data.info);
+                    window.location.href="__URL__/usergroup";
+                } else if (data.status=='clear') {
+                    alert(data.info);
+                    window.location.href="__URL__/usergroup";
+                }else if (data.status=='failed') {
+                    alert(data.info);
+                    window.location.href="__URL__/usergroup";
+                };
+            }
+        });
+    });
+   /* $(document).ready(function () {
+        Wind.css('treeTable');
+        Wind.use('treeTable', function () {
+            $("#dnd-example").treeTable({
+                indent: 20,
+                initialState:"expanded"
+            });
+        });
+    });*/
+
+    function checknode(obj) {
+        var chk = $("input[type='checkbox']");
+        var count = chk.length;
+        var num = chk.index(obj);
+        var level_top = level_bottom = chk.eq(num).attr('level');
+        for (var i = num; i >= 0; i--) {
+            var le = chk.eq(i).attr('level');
+            if (eval(le) < eval(level_top)) {
+                chk.eq(i).attr("checked", true);
+                var level_top = level_top - 1;
+            }
+        }
+        for (var j = num + 1; j < count; j++) {
+            var le = chk.eq(j).attr('level');
+            if (chk.eq(num).attr("checked") == "checked") {
+                if (eval(le) > eval(level_bottom)) {
+                    chk.eq(j).attr("checked", true);
+                }
+                else if (eval(le) == eval(level_bottom)) {
+                    break;
+                }
+            } else {
+                if (eval(le) > eval(level_bottom)) {
+                    chk.eq(j).attr("checked", false);
+                } else if (eval(le) == eval(level_bottom)) {
+                    break;
+                }
+            }
+        }
+    }
+    $(document).on('click','input[type=checkbox]',function(){
+        if($(this).val()=='54'){
+            if(!($('input[value=8]').is(':checked')&&$('input[value=7]').is(':checked')&&$('input[value=9]').is(':checked'))){
+                alert('必须同时选中,IDC/ISP经营单位信息,机房管理,用户管理,才能选中外置。')
+                $('input[value=54]').attr("checked",false)
+            }
+        }
+    })
+
+    $(document).on('click','input[type=checkbox]',function(){
+        if($(this).val()=='8'||$(this).val()=='7'||$(this).val()=='9'){
+            if(!$(this).attr("checked")){
+                $('input[value=54]').attr("checked",false)
+            }
+        }
+    })
+
+
+</script>

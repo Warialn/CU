@@ -1,0 +1,181 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>日志管理</li>
+            <li class="active" style="color: white">访问日志</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 11px">指令ID：</label>
+                                                <input type="text" id="commandid" name="commandid">
+                                            </li>
+                                            <li>
+                                                <label>机房名称：</label>
+                                                <select class="s house_id newSelect" name="house_id" id="house_id">
+                                                    <option value="">请选择</option>
+                                                    <volist name="rooms" id="room_info">
+                                                        <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                    </volist>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>访问时间：</label>
+                                                <input class=" date-range-picker " type="text" data-date-format="YYYY-MM-DD" id="accesstime" name="accesstime"/>
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 23px">源IP：</label>
+                                                <input type="text" id="src_ip" name="src_ip">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 12px">目的IP：</label>
+                                                <input type="text" id="dst_ip" name="dst_ip">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left:12px">源端口：</label>
+                                                <input type="text" id="src_port" name="src_port">
+                                            </li>
+                                            <li>
+                                                <label>目的端口：</label>
+                                                <input type="text" id="dst_port" name="dst_port">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 23px">URL：</label>
+                                                <input type="text" id="url" name="url">
+                                            </li>
+
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+
+                                        </ul>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <div class="card-body" style="overflow-x: auto">
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="width:2000px;max-width:5000px;text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">日志记录ID</th>
+                                        <th style="text-align: center">指令ID</th>
+                                        <th style="text-align: center">机房名称</th>
+                                        <th style="text-align: center">源IP</th>
+                                        <th style="text-align: center">源端口</th>
+                                        <th style="text-align: center">目的IP</th>
+                                        <th style="text-align: center">目的端口</th>
+                                        <th style="text-align: center">URL</th>
+                                        <th style="text-align: center"  >访问时间</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>{$info['logid']}</td>
+                                                <td>{$info['commandid']}</td>
+                                                <td>{$info['house_name']}</td>
+                                                <td>{$info['src_ip']}</td>
+                                                <td>{$info['src_port']}</td>
+                                                <td>{$info['dst_ip']}</td>
+                                                <td>{$info['dst_port']}</td>
+                                                <td title="{$info['url']}">{$info['url'] | subtext=40}</td>
+                                                <td>{$info['accesstime']}</td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-a" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabe-a">修改</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <label>
+                                                        <span>IP地址库名称：</span>
+                                                        <input type="text" class="form-control">
+                                                    </label>
+                                                    <label>
+                                                        <span>起始IP地址：</span>
+                                                        <input type="text" class="form-control">
+                                                    </label>
+                                                    <label>
+                                                        <span>	终止IP地址：</span>
+                                                        <input type="text" class="form-control">
+                                                    </label>
+
+
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#house_id').val('<?=$house_id?>');
+    $('#commandid').val('<?=$commandid?>');
+    $('#src_ip').val('<?=$src_ip?>');
+    $('#src_port').val('<?=$src_port?>');
+    $('#dst_ip').val('<?=$dst_ip?>');
+    $('#dst_port').val('<?=$dst_port?>');
+    $('#url').val('<?=$url?>');
+    $('#accesstime').val('<?=$accesstime?>');
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                maxDate:new Date(),
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>

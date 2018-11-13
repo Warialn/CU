@@ -1,0 +1,263 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">
+                <a href="{:U('Policy/illegal_info')}">违法信息安全管理
+            </a>
+            </li>
+            <li class="active" style="color: white">添加</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header" style="width: 100%">
+                                <div class="card-title no-padding" style="width: 100%">
+
+                                    <form class="form-inline" style="padding-top: 5px">
+                                        <label style="width: 105px;text-align: right">指令类型：</label>
+                                        <select name="type" id="type" style="width: 168px;height: 30px;">
+                                            <option value="">请选择</option>
+                                            <option value="1">监测</option>
+                                            <option value="2">过滤</option>
+                                        </select> 
+                                        <label style="width: 105px;text-align: right">机房名称：</label>
+
+                                        <select id="house_name" name="usertype"
+                                                class="selectpicker show-tick roomname" multiple data-live-search="false">
+                                            <volist name="rooms" id="room_info">
+                                                <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                            </volist>
+                                            <option value="all">全部机房</option>
+                                        </select>
+
+                                        <label style="width: 105px;text-align: right">生效时间：</label>
+                                        <input placeholder="请输入日期" style="width:168px;height: 32px" class="input-sm   laydate-icon" id="effect_time"/>
+
+                                        <label style="width: 105px;text-align: right">过期时间：</label>
+                                        <input placeholder="请输入日期" style="width:168px;height: 32px" class="input-sm   laydate-icon" id="expired_time">
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+                                <span id="info_add" style="color: white;cursor: pointer " data-toggle="modal" data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-right: 5px"></span>添加
+                                </span>
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" id="info_table_add" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th>规则类型</th>
+                                        <th>规则内容</th>
+                                        <th>关键字规则的匹配范围</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </table>
+                                <div class="text-center">
+
+                                        <button class="btn btn-info" type="submit" id="illegal_info_add_btn">下发</button>
+
+                                    <a href="{:U('Policy/illegal_info')}" class="btn btn-default"  style="color: #000;"> 返回</a>
+                                </div>
+                                <!--  添加 模态框   -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">添加</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group">
+                                                        <label>规则类型：</label>
+                                                        <select name="" style="width:200px;height: 30px" id="isms_ruletype">
+                                                            <option value="">请选择</option>
+                                                            <option value="1">域名</option>
+                                                            <option value="2">URL</option>
+                                                            <option value="3">关键字</option>
+                                                            <option value="4">源IP地址</option>
+                                                            <option value="5">目的IP地址</option>
+                                                            <option value="6">源端口</option>
+                                                            <option value="7">目的端口</option>
+                                                            <option value="8">传输层协议</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px">
+                                                        <label>规则内容：</label>
+                                                        <input type="text" class="form-control input-sm"
+                                                               style="width: 201px" id="value_start" >
+                                                        <input type="text" class="form-control input-sm"
+                                                               style="width: 201px;display: none" id="value_end">
+                                                    </div>
+                                                    <div class="form-group TCP_UDP" style="display: none;margin-top: 10px;">
+                                                        <select style="width: 198px" class="select_val">
+                                                            <option value="请选择">请选择</option>
+                                                            <option value="TCP协议">TCP协议</option>
+                                                            <option value="UDP协议">UDP协议</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group" style="display:none;margin-left: 65px;margin-top: 8px;" id="text_radio_show">
+                                                        <input type="checkbox"  value="0" style="margin-right:5px;">
+                                                        <label>正文标题及正文本身 </label>
+                                                        <input type="checkbox"  value="1" style="margin-right:5px;">
+                                                        <label>附件文件题目 </label>
+                                                        <input type="checkbox"  value="2" style="margin-right:5px;">
+                                                        <label>附件正文</label>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="illegal_info_add_modal">
+                                                    提交
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    laydate({
+        elem: '#effect_time', //指定元素
+        istime: true,
+        format: 'YYYY-MM-DD hh:mm:ss'
+    });
+    laydate({
+        elem: '#expired_time', //指定元素
+        istime: true,
+        format: 'YYYY-MM-DD hh:mm:ss'
+    });
+    //机房名称
+    $(window).on('load', function () {
+        $('.selectpicker').selectpicker({
+            'selectedText': 'cat'
+        });
+    });
+    $("#isms_ruletype").change(function(){
+        var a= $("#isms_ruletype>option:checked").val();
+        if(a==3){
+            $("#text_radio_show").css("display","inline-block")
+        }else{
+            $("#text_radio_show").css("display","none")
+        };
+        if(a==4||a==5){
+            $("#value_end").css("display","inline-block")
+        }else{
+            $("#value_end").css("display","none")
+        };
+        if(a==8){
+            $("#value_start").css("display","none");
+            $(".TCP_UDP").css("display","inline-block");
+            $(".select_val").attr("id","value_start");
+        }else{
+            $(".TCP_UDP").css("display","none");
+            $("#value_start").css("display","inline-block");
+            $(".select_val").removeAttr("id","value_start");
+        }
+    });
+
+    //添加表格
+    $("#illegal_info_add_modal").click(function () {
+        $("#myModal").modal('hide');
+        var ss = true;
+        var a = $("#isms_ruletype").find("option:selected").text();
+        var b = '';
+        var c = $("#value_end").val();
+        var f = $("#value_start").val();
+
+        if(a == '请选择'){
+            confirm('请填写信息，规则类型不能为空');
+            ss = false;
+        }
+        if($(".select_val > option:selected").text() != '请选择' && $( ".select_val > option:selected").text() != ''){
+            b = $(".select_val > option:selected").text();
+            ss = false;
+            x()
+        }else{
+            b = $("#value_start").val();
+        }
+        if(ss){
+            if(b ==''){
+                confirm('请填写信息，规则内容不能为空');
+            }else{
+                x();
+            }
+        }
+        function x() {
+            var status = $("#isms_ruletype>option:checked").val();
+            if(status == 8){
+                var e = $(".select_val").val();
+                $("#info_table_add").append('<tr class="valMsg"><td>' + a + '</td><td>' + e  + '</td><td></td><td><span class="glyphicon glyphicon-trash del_IO" aria-hidden="true" style="cursor: pointer"></span></td></tr>');
+            }else{
+                var d = [];
+                $('#text_radio_show > input:checkbox').each(function (i,v) {
+                    if($(v).prop('checked') == true){
+                        d.push($(v).next().text());
+                    }
+                });
+                if(!c){
+                    $("#info_table_add").append('<tr class="valMsg"><td>' +a+ '</td><td>' +f+ '</td><td>'+d+'</td><td><span class="glyphicon glyphicon-trash del_IO" aria-hidden="true" style="cursor: pointer"></span></td></tr>');
+                }else{
+                    $("#info_table_add").append('<tr class="valMsg"><td>' +a+ '</td><td>' +f+'-'+c+ '</td><td>'+d+'</td><td><span class="glyphicon glyphicon-trash del_IO" aria-hidden="true" style="cursor: pointer"></span></td></tr>');
+                };
+            }
+        }
+
+        $("#info_table_add").on('click','.del_IO',function () {
+            $(this).parent().parent().remove();
+        })
+
+        $("input[type=checkbox]").prop('checked',false);
+        $("#isms_ruletype").change();
+        $("#value_start").val("");
+        $("#value_end").val("");
+        $("#value_end").hide();
+        $("#text_radio_show").hide();
+        $("#myModal select").val('').select2();
+    });
+    //ajax传递
+    $("#illegal_info_add_btn").click(function () {
+        var arr={};
+        arr.type=$("#type").val();
+        arr.house_id=$("#house_name").val();
+        arr.effect_time=$("#effect_time").val();
+        arr.expired_time=$("#expired_time").val();
+          var num = [];
+          $('#info_table_add .valMsg').each(function (i,v) {
+               num.push({subtype: $(v).find(':nth-of-type(1)').text(), valueStart: $(v).find(':nth-of-type(2)').text(), keywordRange: $(v).find(':nth-of-type(3)').text()})
+          });
+        $.ajax({
+            type: 'get',
+            url: '__URL__/info_add',
+            data: {'data1':arr,'data2':num},
+            dataType: 'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('下发成功');
+//                    window.location.href('')
+                    window.location.href="__URL__/illegal_info";
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+
+
+
+
+</script>

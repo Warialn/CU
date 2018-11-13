@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CU</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <!-- Fonts -->
+    <!--<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>-->
+    <!--<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>-->
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/zyUpload.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/style.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/webuploader.css">
+
+
+
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/select2.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/css/tree/treeTable.css">-->
+    <!--<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/css/jquery.gritter.css">-->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/jquery.treemenu.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/lib/js/select/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/daterangepicker-bs3.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/js/time/jedate.css">
+
+
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/style.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/css/themes/flat-blue.css">
+
+    <link rel="stylesheet" href="__PUBLIC__/lib/css/ztreecss/zTreeStyle/zTreeStyle.css" type="text/css">
+
+
+</head>
+
+<body class="flat-blue">
+<div class="app-container">
+    <div class="row content-container">
+        <!--  top 导航  -->
+        <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-expand-toggle">
+                        <i class="fa fa-bars icon"></i>
+                    </button>
+                    <ol class="breadcrumb navbar-breadcrumb">
+                        <!--<img src="__PUBLIC__/img/5a939e2f3ee5a.png"  height="30px" >-->
+                        <li style="margin-left: 10px;color: white">CU管理平台 <span style="color: white;font-size: 12px">v1.0</span></li>
+                    </ol>
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-th icon"></i>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-times icon"></i>
+                    </button>
+                    <!-- <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comments-o"></i></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="title">
+                                Notification <span class="badge pull-right">0</span>
+                            </li>
+                            <li class="message">
+                                No new notification
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown danger">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
+                        <ul class="dropdown-menu danger  animated fadeInDown">
+                            <li class="title">
+                                Notification <span class="badge pull-right">4</span>
+                            </li>
+                            <li>
+                                <ul class="list-group notifications">
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i> new registration
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge success">1</span> <i class="fa fa-check icon"></i> new orders
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item">
+                                            <span class="badge danger">2</span> <i class="fa fa-comments icon"></i> customers messages
+                                        </li>
+                                    </a>
+                                    <a href="#">
+                                        <li class="list-group-item message">
+                                            view all
+                                        </li>
+                                    </a>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li> -->
+                    <li class="dropdown profile">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{$Think.session.username}<span class="caret"></span></a>
+                        <ul class="dropdown-menu animated fadeInDown">
+                            <li class="profile-img">
+                                <img src="__PUBLIC__/img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">
+                            </li>
+                            <li>
+                                <div class="profile-info">
+                                    <h4 class="username">{$Think.session.username}</h4>
+                                    <p>{$Think.session.user_email}</p>
+                                    <div class="btn-group margin-bottom-2x" role="group">
+                                        <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile</button>
+                                        <button id="logout" type="button" class="btn btn-default"><i class="fa fa-sign-out"></i> Logout</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--  left -->
+        <div class="side-menu sidebar-inverse">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="side-menu-container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            <div class="icon fa fa-paper-plane"></div>
+                            <div class="title">CU管理平台</div>
+                        </a>
+                        <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-times icon"></i>
+                        </button>
+                    </div>
+                    <!--  left nav  -->
+                    <ul class="nav navbar-nav">
+                        <!--  基础数据管理 -->
+                        <li class="panel panel-default dropdown">
+                            <if condition = "authcheck('Home/Basicinfo/company,Home/Basicinfo/room,Home/Basicinfo/user','1','')">
+                            <a data-toggle="collapse" href="#dropdown-bid">
+                                <span class="icon fa fa fa-tachometer"></span><span class="title">基础数据管理</span>
+                            </a>
+                            <div id="dropdown-bid" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        {:authcheck('Home/Basicinfo/company','
+                                        <li><a href="__APP__/Basicinfo/company">IDC/ISP经营单位信息</a>
+                                        </li>
+                                        ','')}
+                                        {:authcheck('Home/Basicinfo/room','
+                                        <li><a href="__APP__/Basicinfo/room">机房管理</a>
+                                        </li>
+                                        ','')}
+                                        {:authcheck('Home/Basicinfo/user','
+                                        <li><a href="__APP__/Basicinfo/user">用户管理</a>
+                                        </li>
+                                        ','')}
+                                    </ul>
+                                </div>
+                            </div>
+                            </if>
+                        </li>
+                        <!--  策略管理 -->
+                        <li class="panel panel-default dropdown">
+                            <if condition = "authcheck('Home/Policy/basicsearch,Home/Policy/basic_check,Home/Policy/illegal_info,Home/Policy/illegal_net,Home/Policy/no_filter,Home/Policy/access_log,Home/Policy/active_resource,Home/Policy/active_time','1','')">
+                            <a data-toggle="collapse" href="#dropdown-element">
+                                <span class="icon fa fa-desktop"></span><span class="title">策略管理</span>
+                            </a>
+                            <!-- Dropdown level 1 -->
+                            <div id="dropdown-element" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        {:authcheck('Home/Policy/basicsearch','
+                                        <li><a href="__APP__/Policy/basicsearch">基础数据查询</a></li>
+                                        ','')}
+                                        {:authcheck('Home/Policy/basic_check','
+                                        <li><a href="__APP__/Policy/basic_check">基础数据核验处理</a></li>
+                                        ','')}
+                                        {:authcheck('Home/Policy/illegal_info','
+                                        <li><a href="__APP__/Policy/illegal_info">违法信息安全管理</a></li>
+                                        ','')}
+                                        {:authcheck('Home/Policy/illegal_net','
+                                        <li><a href="__APP__/Policy/illegal_net">违法网站列表</a></li>
+                                        ','')}
+                                        {:authcheck('Home/Policy/no_filter','
+                                        <li><a href="__APP__/Policy/no_filter">免过滤网站列表</a></li>
+                                        ','')}
+                                        {:authcheck('Home/Policy/access_log','
+                                        <li><a href="__APP__/Policy/access_log">访问日志查询指令</a></li>
+                                        ','')}
+                                        {:authcheck('Home/Policy/active_resource','
+                                        <li><a href="__APP__/Policy/active_resource">活跃资源访问量查询</a></li>
+                                        ','')}
+                                        <!--<li><a href="{:U('Policy/illegal_manage')}">违法管理指令执行记录</a></li>-->
+                                        <!--<li><a href="{:U('Policy/code_table')}">代码表发布</a></li>-->
+                                        {:authcheck('Home/Policy/active_time','
+                                        <li><a href="__APP__/Policy/active_time">活跃资源周期</a></li>
+                                        ','')}
+                                    </ul>
+                                </div>
+                            </div>
+                            </if>
+                        </li>
+                        <!--  日志管理 -->
+                        <li class="panel panel-default dropdown">
+                            <if condition = "authcheck('Home/Log/access_log,Home/Log/active_ip,Home/Log/active_domain,Home/Log/filter_log,Home/Log/illegal_log,Home/Log/basic_abnormal,Home/Log/isms_status','1','')">
+                                <a data-toggle="collapse" href="#dropdown-table">
+                                    <span class="icon fa fa-table"></span><span class="title">日志管理</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-table" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            {:authcheck('Home/Log/access_log','
+                                            <li><a href="__APP__/Log/access_log">访问日志</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Log/active_ip','
+                                            <li><a href="__APP__/Log/active_ip">活跃资源IP</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Log/active_domain','
+                                            <li><a href="__APP__/Log/active_domain">活跃资源域名</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Log/filter_log','
+                                            <li><a href="__APP__/Log/filter_log">监测过滤日志</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Log/illegal_log','
+                                            <li><a href="__APP__/Log/illegal_log">违法违规日志</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Log/basic_abnormal','
+                                            <li><a href="__APP__/Log/basic_abnormal">基础数据异常日志</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Log/isms_status','
+                                            <li><a href="__APP__/Log/isms_status">ISMS活动状态上报</a>
+                                            </li>
+                                            ','')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </if>
+                        </li>
+                        <!--  参数设置 -->
+                        <li class="panel panel-default dropdown">
+                            <if condition = "authcheck('Home/Interface/cu_eu,Home/Interface/active_ip,Home/Interface/cu_smms,Home/Interface/cu_du,Home/Interface/setting_cu,Home/Interface/inner','1','')">
+                                <a data-toggle="collapse" href="#dropdown-misjudgement">
+                                    <span class="icon fa fa-file-text-o"></span><span class="title">配置管理</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-misjudgement" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            {:authcheck('Home/Interface/cu_eu','
+                                            <li><a href="__APP__/Interface/cu_eu">CU与EU参数</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Interface/cu_smms','
+                                            <li><a href="__APP__/Interface/cu_smms">CU与SMMS参数</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Interface/cu_du','
+                                            <li><a href="__APP__/Interface/cu_du">CU与DU参数</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Interface/setting_cu','
+                                            <li><a href="__APP__/Interface/setting_cu">CU系统配置</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Interface/inner','
+                                            <li><a href="__APP__/Interface/inner">EU设备管理</a>
+                                            </li>
+                                            ','')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </if>
+                        </li>
+                        <!--  系统管理 -->
+                        <li class="panel panel-default dropdown">
+                            <if condition = "authcheck('Home/Systemlog/user,Home/Systemlog/usergroup,Home/Systemlog/logset','1','')">
+                                <a data-toggle="collapse" href="#dropdown-system">
+                                    <span class="icon icon fa fa-cubes"></span><span class="title">系统管理</span>
+                                </a>
+                                <!-- Dropdown level 1 -->
+                                <div id="dropdown-system" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <ul class="nav navbar-nav">
+                                            {:authcheck('Home/Systemlog/user','
+                                            <li><a href="__APP__/Systemlog/user">用户管理</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Systemlog/usergroup','
+                                            <li><a href="__APP__/Systemlog/usergroup">用户组管理</a>
+                                            </li>
+                                            ','')}
+                                            {:authcheck('Home/Systemlog/logset','
+                                            <li><a href="__APP__/Systemlog/logset">系统日志</a>
+                                            </li>
+                                            ','')}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </if>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div>
+
+        <!-- Javascript Libs -->
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/jquery.min.js"></script> -->
+         <script type="text/javascript" src="__PUBLIC__/js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jquery.treemenu.js"></script>
+
+        <script type="text/javascript" src="__PUBLIC__/lib/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/Chart.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/bootstrap-switch.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jquery.matchHeight-min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/select2.full.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/ace/ace.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/ace/mode-html.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/ace/theme-github.js"></script>
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/datetimepicker.js"></script>
+     <script type="text/javascript" src="__PUBLIC__/js/data.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/daterangepicker.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/moment.min.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/js/datetimepicker/datetimepicker.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/datetimepicker/datetimepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/bootstrap-datepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/bootstrap-timepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/date-time/moment.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/time/jquery.jedate.js"></script>
+
+
+        <script type="text/javascript" src="__PUBLIC__/lib/js/zyFile.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/jqueryrotate.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/zyUpload.js"></script>
+        <!--<script type="text/javascript" src="__PUBLIC__/lib/js/index.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/lib/js/webuploader.min.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/extend-webuploader.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/lib/js/select/bootstrap-select.js"></script>
+
+
+        <!-- Javascript -->
+        <!--<script type="text/javascript" src="__PUBLIC__/js/app.js"></script>-->
+        <script type="text/javascript" src="__PUBLIC__/js/city.js"></script>
+        <script type="text/javascript" src="__PUBLIC__/js/layDate/laydate.js"></script>
+        <!--<script type="text/javascript" src="__PUBLIC__/js/chartjs.js"></script>-->
+
+        <!--<script src="__PUBLIC__/lib/js/tree/wind.js"></script>-->
+
+
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    $('#logout').click(function(){
+        window.location.href="{:U('Login/logout')}"
+    })
+</script>

@@ -1,0 +1,201 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>配置管理</li>
+            <li class="active" style="color: white">EU设备管理</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>机房名称：</label>
+                                                <select id="house_id" name="house_id" style="width: 168px">
+                                                    <option value="">请选择</option>
+                                                    <volist name="rooms" id="room_info">
+                                                        <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                    </volist>
+                                                </select>
+                                            </li>
+
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {:authcheck('Home/Interface/inner_addoredit',' 
+                                <span style="cursor: pointer;color: white" data-toggle="modal" data-target="#myModal">
+                                    <span  class="glyphicon glyphicon-plus" aria-hidden="true" style="color: #ADFF2F;margin-right: 5px;"></span>添加
+                                </span>
+                                ','')}
+                                <table class="table table-bordered table-hover" style="background-color:#F9F9F9;text-align: center">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">设备名称</th>
+                                        <th style="text-align: center">机房名称</th>
+                                        <th style="text-align: center">webservice地址</th>
+                                        <th style="text-align: center">状态</th>
+                                        <th style="text-align: center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="data" id="info">
+                                            <tr>
+                                                <td>{$info['device_name']}</td>
+                                                <td>{$info['house_name']}</td>
+                                                <td>{$info['webservice_addr']}</td>
+                                                <td>{$info['status']}</td>
+                                                <td>
+                                                    {:authcheck('Home/Interface/inner_del',' 
+                                                        <span class="glyphicon glyphicon-trash info_del_l deleteDef" aria-hidden="true" style="color: red;cursor: pointer;" data-toggle="modal" data-target="#myModal-sc"></span>
+                                                    ','')}
+                                                    <span data="{$info['id']}"></span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+
+                                    </tbody>
+                                </table>
+                                <!--  删除 模态框  -->
+                                <div class="modal fade" id="myModal-sc" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>是否删除此数据？</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="id" >
+                                                <button type="button" class="btn btn-info" id="del">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-a" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabe-a">添加设备</h4>
+                                            </div>
+                                            <form class="form-inline">
+                                                <div class="modal-body">
+                                                    <div class="form-group" style="margin-bottom: 10px">
+                                                        <label style="width: 101px;text-align: right">设备名称：</label>
+                                                        <input type="text" value="" class="form-control input-sm" id="device_name" placeholder="请填写设备名称" style="width: 240px">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-bottom: 10px">
+                                                        <label style="width: 101px;text-align: right">机房名称：</label>
+                                                        <select id="house_name" name="house_name" style="width: 240px" class=" h30">
+                                                            <!-- <option value="">请选择</option> -->
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div><br>
+
+                                                    <div class="form-group" style="margin-bottom: 10px">
+                                                        <label style="width: 101px;text-align: right">webservice地址：</label>
+                                                        <input type="text" value="" class="form-control input-sm" id="webservice_addr" placeholder="请填写webservice地址" style="width: 240px" required>
+                                                    </div><br>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-info" id="inner_btn">确定</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                        </button>
+                                                    </div>
+                                                </div><!-- /.modal-content -->
+                                            </form>
+                                        </div><!-- /.modal -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#house_id').val('<?=$house_name?>')
+    $("#inner_btn").click(function () {
+        
+        var data={};
+        data.webservice_addr=$("#webservice_addr").val();
+        data.house_id=$("#house_name").val();
+        data.device_name=$("#device_name").val();
+        data.online= $("#online input[type='radio']:checked").val();
+        if(data.device_name==''){
+            alert('设备名称不能为空');
+            return;
+        }
+        if(data.webservice_addr==''){
+            alert('webservice地址不能为空');
+            return;
+        }
+        $("#myModal").modal('hide');
+//        console.log(data)
+        $.ajax({
+            type: "get",
+            url: "__URL__/inner_addoredit",
+            data:data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('保存成功');
+                    window.location.reload()
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+    })
+
+    //删除
+    $('.table').on('click','.deleteDef',function () {
+        var htm = $(this).parent('tr');
+        //var id = $(this).attr('data');
+        var id = $(this).next().attr('data');
+        $("#id").val(id);
+    });
+    $('#del').click(function () {
+        $("#myModal-sc").modal('hide');
+        var id = $("#id").val();
+        $.ajax({
+            type: "get",
+            url: "__URL__/inner_del",
+            data: {'id':id},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+</script>

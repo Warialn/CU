@@ -1,0 +1,846 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>基础数据管理</li>
+            <li class="active"><a href="{:U('Basicinfo/room')}" style="color: blue">机房管理</a></li>
+            <li class="active" style="color: white">修改</li>
+        </ol>
+        <style>
+            @media (min-width: 768px) {
+                .form-inline .form-control {
+                    width: 140px;;
+                }
+            }
+
+        </style>
+        <!-- <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+             <div class="container-fluid">
+                 <div class="navbar-header">
+                     <button type="button" class="navbar-expand-toggle">
+                         <i class="fa fa-bars icon"></i>
+                     </button>
+                     <ol class="breadcrumb navbar-breadcrumb">
+                         <li>基础数据管理</li>
+                         <li class="active"><a href="{:U('Basicinfo/room')}"  style="color: blue">机房管理</a></li>
+                         <li class="active">修改</li>
+                     </ol>
+                     <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                         <i class="fa fa-th icon"></i>
+                     </button>
+                 </div>
+                 <ul class="nav navbar-nav navbar-right">
+                     <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                         <i class="fa fa-times icon"></i>
+                     </button>
+                     <li class="dropdown">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-expanded="false"><i class="fa fa-comments-o"></i></a>
+                         <ul class="dropdown-menu animated fadeInDown">
+                             <li class="title">
+                                 Notification <span class="badge pull-right">0</span>
+                             </li>
+                             <li class="message">
+                                 No new notification
+                             </li>
+                         </ul>
+                     </li>
+                     <li class="dropdown danger">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
+                         <ul class="dropdown-menu danger  animated fadeInDown">
+                             <li class="title">
+                                 Notification <span class="badge pull-right">4</span>
+                             </li>
+                             <li>
+                                 <ul class="list-group notifications">
+                                     <a href="#">
+                                         <li class="list-group-item">
+                                             <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i>
+                                             new registration
+                                         </li>
+                                     </a>
+                                     <a href="#">
+                                         <li class="list-group-item">
+                                             <span class="badge success">1</span> <i class="fa fa-check icon"></i> new
+                                             orders
+                                         </li>
+                                     </a>
+                                     <a href="#">
+                                         <li class="list-group-item">
+                                             <span class="badge danger">2</span> <i class="fa fa-comments icon"></i>
+                                             customers messages
+                                         </li>
+                                     </a>
+                                     <a href="#">
+                                         <li class="list-group-item message">
+                                             view all
+                                         </li>
+                                     </a>
+                                 </ul>
+                             </li>
+                         </ul>
+                     </li>
+                     <li class="dropdown profile">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Emily
+                             Hart <span class="caret"></span></a>
+                         <ul class="dropdown-menu animated fadeInDown">
+                             <li class="profile-img">
+                                 &lt;!&ndash;<img src="../../img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">&ndash;&gt;
+                             </li>
+                             <li>
+                                 <div class="profile-info">
+                                     <h4 class="username">Emily Hart</h4>
+                                     <p>emily_hart@email.com</p>
+                                     <div class="btn-group margin-bottom-2x" role="group">
+                                         <button type="button" class="btn btn-default"><i class="fa fa-user"></i> Profile
+                                         </button>
+                                         <button type="button" class="btn btn-default"><i class="fa fa-sign-out"></i>
+                                             Logout
+                                         </button>
+                                     </div>
+                                 </div>
+                             </li>
+                         </ul>
+                     </li>
+                 </ul>
+             </div>
+         </nav>-->
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <form class="form-inline" id="edit_form">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="title">
+                                            <!--<p>机房基础信息</p>-->
+                                        </div>
+                                        <p style="font-size: 16px;font-weight: 500">机房基础信息</p>
+                                        <!--<form class="form-inline" id="edit_form">-->
+                                        <div class="col-md-4">
+                                            <label style="width: 105px;text-align: right">机房编号：</label>
+                                            <input type="text" class="form-control input-sm" id="house_id"
+                                                   value="{$data.house_id}" style="width: 168px" pattern="^\d{1,32}$"
+                                                   title="请输入1-32位数字" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label style="width: 105px;text-align: right">机房名称：</label>
+                                            <input type="text" class="form-control input-sm" id="house_name"
+                                                   value="{$data.house_name}" style="width: 168px" pattern="^\S{1,128}$"
+                                                   title="请输入1-128位字符" required>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: 2px">
+                                            <label style="width: 105px;text-align: right">机房性质：</label>
+                                            <select name="house_type" id="house_type" class="house_type h30"
+                                                    style="width: 168px" value="{$data.house_type}">
+                                                <option value="1">租用</option>
+                                                <option value="2">自建</option>
+                                                <option value="999">其他</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 h30" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">省份：</label>
+                                            <select id="province" class="province h30" name="province"
+                                                    style="width: 168px" required>
+                                                <option value="">省份</option>
+
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">城市：</label>
+                                            <select id="city" class="city h30" name="city" style="width: 168px"
+                                                    required>
+                                                <option value="">市/区</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">县级市：</label>
+                                            <select id="county" class="county h30" name="county" style="width: 168px">
+                                                <option value="">县/区</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">地址：</label>
+                                            <input type="text" class="form-control input-sm" id="house_addr"
+                                                   value="{$data.house_addr}" style="width: 168px" required>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">邮编：</label>
+                                            <input type="text" class="form-control input-sm" id="house_zip"
+                                                   value="{$data.house_zip}" style="width: 168px"
+                                                   pattern="^[0-9]\d{5}(?!\d)$" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">IDC/ISP经营单位：</label>
+                                            <select name="idc_id" id="idc_id" class="idc_id h30" value="{$data.idc_id}"
+                                                    style="width: 168px">
+                                                <!--<option value="">请选择</option>-->
+                                                <volist name="basic_idc" id="idc_info">
+                                                    <option value="{$idc_info['idc_id']}">{$idc_info['idc_name']}
+                                                    </option>
+                                                </volist>
+                                            </select>
+                                        </div>
+                                        <!--</form>-->
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <p style="font-size: 16px;font-weight: 500;">网络信息安全负责人</p>
+                                    <!--<form class="form-inline">-->
+                                    <div class=" col-md-4  ">
+                                        <label style="width: 105px;text-align: right">姓名：</label>
+                                        <input type="text" class="form-control input-sm" id="house_officer_name"
+                                               value="{$data.house_officer_name}" style="width: 168px" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label style="width: 105px;text-align: right">证件类型：</label>
+                                        <select name="" id="house_officer_idtype" class="house_officer_idtype h30"
+                                                style="width: 168px" value="{$data.house_officer_idtype}">
+                                            <!--<option value="">请选择</option>-->
+                                            <option
+                                            <?php if($ip_info['house_officer_idtype'] == "2"){ echo "selected='true'"; } ?>
+                                            value="2">身份证</option>
+                                            <option
+                                            <?php if($ip_info['house_officer_idtype'] == "7"){ echo "selected='true'"; } ?>
+                                            value="7">护照</option>
+                                            <option
+                                            <?php if($ip_info['house_officer_idtype'] == "8"){ echo "selected='true'"; } ?>
+                                            value="8">军官证</option>
+                                            <option
+                                            <?php if($ip_info['house_officer_idtype'] == "9"){ echo "selected='true'"; } ?>
+                                            value="9">台胞证</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label style="width: 105px;text-align: right">证件号：</label>
+                                        <input type="text" class="form-control input-sm" id="house_officer_id"
+                                               value="{$data.house_officer_id}" style="width: 168px" required>
+                                    </div>
+                                    <div class=" col-md-4" style="margin-top: 10px">
+                                        <label style="width: 105px;text-align: right">固定电话：</label>
+                                        <input type="text" class="form-control input-sm" id="house_officer_tel"
+                                               value="{$data.house_officer_tel}" style="width: 168px" required>
+                                    </div>
+                                    <div class=" col-md-4" style="margin-top: 10px">
+                                        <label style="width: 105px;text-align: right">移动电话：</label>
+                                        <input type="text" class="form-control input-sm" id="house_officer_mobile"
+                                               value="{$data.house_officer_mobile}" style="width: 168px" required>
+                                    </div>
+                                    <div class=" col-md-4" style="margin-top: 10px">
+                                        <label style="width: 105px;text-align: right">email地址：</label>
+                                        <input type="text" class="form-control input-sm" id="house_officer_email"
+                                               value="{$data.house_officer_email}" style="width: 168px"
+                                               pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" required>
+                                    </div>
+                                    <!--</form>-->
+                                    <br><br><br><br>
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;margin-bottom: 10px ">
+                                        IP段列表</p>
+                                    <span style="cursor: pointer" id="IP_add">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"
+                                              style="color: green;margin-right: 5px;"></span>添加
+                                    </span>
+                                    <!--  表格IP  -->
+                                    <table class="table table-bordered" id="room_table_IP">
+                                        <thead>
+                                        <tr>
+                                            <th>起始IP地址</th>
+                                            <th>终止IP地址</th>
+                                            <th>IP地址使用方式</th>
+                                            <th>使用人</th>
+                                            <th>使用人证件类型</th>
+                                            <th>使用人证件号</th>
+                                            <th>来源单位</th>
+                                            <th>分配单位</th>
+                                            <th>使用时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <!-- pattern="^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$|^\s*((([0-9A-Fa-f]{1,4}:){7}(([0-9A-Fa-f]{1,4})|:))|(([0-9A-Fa-f]{1,4}:){6}(:|((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})|(:[0-9A-Fa-f]{1,4})))|(([0-9A-Fa-f]{1,4}:){5}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){0,1}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){0,2}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){0,3}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){0,4}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(:(:[0-9A-Fa-f]{1,4}){0,5}((:((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})?)|((:[0-9A-Fa-f]{1,4}){1,2})))|(((25[0-5]|2[0-4]\d|[01]?\d{1,2})(\.(25[0-5]|2[0-4]\d|[01]?\d{1,2})){3})))(%.+)?\s*$"  -->
+                                        <tbody>
+                                        <volist name="ip_data" id="ip_info">
+                                            <tr>
+                                                <td data-id="{$ip_info.id}">
+                                                    <input type="text" class="form-control input-sm startIP startIP_a" style="width: 85px" id="startip"  value="{$ip_info.startip}" required="ture"></td>
+                                                <td>
+                                                    <input type="text" class="form-control input-sm endIP endIP_a" style="width: 85px" id="endip" value="{$ip_info.endip}" required="ture"></td>
+                                                <td>
+                                                    <select id="type" class="type selects" style="width: 108px;height: 30px">
+                                                        <!--<option value="">请选择</option>-->
+                                                        <option
+                                                        <?php if($ip_info['type'] == "0"){ echo "selected='true'"; } ?>
+                                                        value="0">静态</option>
+                                                        <option
+                                                        <?php if($ip_info['type'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">动态</option>
+                                                        <option
+                                                        <?php if($ip_info['type'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">保留</option>
+                                                        <option
+                                                        <?php if($ip_info['type'] == "3"){ echo "selected='true'"; } ?>
+                                                        value="3">专线</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control input-sm"
+                                                           value="{$ip_info.user}" id="user" style="width: 65px"
+                                                           pattern="^\S{1,128}$" title="请输入1-128位字符" ></td>
+                                                <td>
+                                                    <!--<input type="text" class="form-control input-sm" value="{$ip_info.id_type}">-->
+                                                    <select id="id_type" class="selects id_type" style="height: 30px;">
+                                                        <option value="">请选择</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">工商营业执照号码</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">身份证</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "3"){ echo "selected='true'"; } ?>
+                                                        value="3">组织机构代码证书</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "4"){ echo "selected='true'"; } ?>
+                                                        value="4">事业法人证书</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "5"){ echo "selected='true'"; } ?>
+                                                        value="5">军队代号</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "6"){ echo "selected='true'"; } ?>
+                                                        value="6">社团法人证</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "7"){ echo "selected='true'"; } ?>
+                                                        value="7">护照</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "8"){ echo "selected='true'"; } ?>
+                                                        value="8">军官证</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "9"){ echo "selected='true'"; } ?>
+                                                        value="9">台胞证</option>
+                                                        <option
+                                                        <?php if($ip_info['id_type'] == "999"){ echo "selected='true'"; } ?>
+                                                        value="999">其他</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control input-sm"
+                                                           value="{$ip_info.idnumber}" id="idnumber"
+                                                           pattern="^\S{1,32}$" title="请输入1-32位字符"></td>
+                                                <td><input type="text" class="form-control input-sm"
+                                                           value="{$ip_info.sourceunit}" id="sourceunit"
+                                                           pattern="^\S{1,128}$" title="请输入1-128位字符" required></td>
+                                                <td><input type="text" class="form-control input-sm"
+                                                           value="{$ip_info.allocationunit}" id="allocationunit"
+                                                           required></td>
+                                                <td><input type="text" class="form-control input-sm datetimepicker"
+                                                           value="{$ip_info.usertime}" id="usertime" style="width: 90px"
+                                                           pattern="^\S{1,128}$" title="请输入1-128位字符" required></td>
+                                                <td style="line-height: 30px;width: 43px">
+                                                    <span class="glyphicon glyphicon-trash info_del_l del_IP"
+                                                          aria-hidden="true" style="cursor: pointer;margin-left: 5px"
+                                                          data-toggle="modal" data="{$info['id']}"
+                                                          data-target="#myModal-sc" required></span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;margin-bottom: 10px ">
+                                        机架信息列表</p>
+                                    <span style="cursor: pointer" id="IO_add">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"
+                                              style="color: green;margin-right: 5px;"></span>添加
+                                    </span>
+                                    <!-- 机架信息列表 表格  -->
+                                    <table class="table table-bordered" id="room_table_IO">
+                                        <thead>
+                                        <tr>
+                                            <th>是否为专线</th>
+                                            <th>机架/机位名称</th>
+                                            <th>使用类型</th>
+                                            <th>分配状态</th>
+                                            <th>占用状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <volist name="frame_data" id="frame_info">
+                                            <tr>
+                                                <td data-id="{$frame_info['id']}"><select id="is_special" class="selects usertype" value="{$frame_info.is_special}" style="width: 168px;height: 30px;">
+                                                        <option
+                                                        <?php if($frame_info['is_special'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">否</option>
+                                                        <option
+                                                        <?php if($frame_info['is_special'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">是</option>
+                                                    </select></td>
+                                                <td><input type="text" class="form-control input-sm" value="{$frame_info.frame_name}" id="frame_name" pattern="^\S{1,128}$" title="请输入1-128位字符" required>
+                                                </td>
+                                                <!--<td><input type="text" class="form-control input-sm" value="{$frame_info.usertype}"></td>-->
+                                                <td>
+                                                    <select id="usertype" class="selects usertype"
+                                                            value="{$frame_info.usertype}"
+                                                            style="width: 168px;height: 30px;">
+                                                        <!--<option value="">请选择</option>-->
+                                                        <option
+                                                        <?php if($frame_info['usertype'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">自用</option>
+                                                        <option
+                                                        <?php if($frame_info['usertype'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">出租</option>
+                                                    </select>
+                                                </td>
+                                                <!--<td><input type="text" class="form-control input-sm" value="{$frame_info.distribution}"></td>-->
+                                                <td>
+                                                    <select id="distribution" class="selects distribution"
+                                                            value="{$frame_info.distribution}"
+                                                            style="width: 168px;height: 30px;">
+                                                        <!--<option value="">请选择</option>-->
+                                                        <option
+                                                        <?php if($frame_info['distribution'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">未分配</option>
+                                                        <option
+                                                        <?php if($frame_info['distribution'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">已分配</option>
+                                                    </select>
+                                                </td>
+                                                <!--<td><input type="text" class="form-control input-sm" value="{$frame_info.occupancy}"></td>-->
+                                                <td>
+                                                    <select id="occupancy" class="selects occupancy"
+                                                            value="{$frame_info.occupancy}"
+                                                            style="width: 168px;height: 30px;">
+                                                        <!--<option value="">请选择</option>-->
+                                                        <option
+                                                        <?php if($frame_info['occupancy'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">未占用</option>
+                                                        <option
+                                                        <?php if($frame_info['occupancy'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">已占用</option>
+                                                    </select>
+                                                </td>
+                                                <td style="line-height: 30px">
+                                                    <?php if($frame_info['id'] !='' && $frame_info['status'] == '0'){
+                                                        echo "--";
+                                                    }else{
+                                                    echo '<span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer"></span>
+                                                    ';
+                                                    }?>
+
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;margin-bottom: 10px ">
+                                        链路信息列表</p>
+                                    <span style="cursor: pointer" id="LL_add">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"
+                                              style="color: green;margin-right: 5px;"></span>添加
+                                    </span>
+                                    <table class="table table-bordered" id="room_table_LL">
+                                        <thead>
+                                        <tr>
+                                            <th>链路带宽</th>
+                                            <th>链路类型</th>
+                                            <th>链路接入单位信息</th>
+                                            <th>网关IP</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <volist name="gateway_data" id="gateway_info">
+                                            <tr>
+
+                                                <td data-id="{$gateway_info['id']}"><input type="text" class="form-control input-sm" value="{$gateway_info.bandwidth}" id="bandwidth" required></td>
+                                                <!--<td><input type="text" class="form-control input-sm" value="{$gateway_info.usertype}" id="linktype"></td>-->
+                                                <td>
+                                                    <select id="linktype" class="selects linktype" style="width: 168px;height: 30px;" value="{$gateway_info.linktype}">
+                                                        <!--<option value="">请选择</option>-->
+                                                        <option
+                                                        <?php if($gateway_info['linktype'] == "1"){ echo "selected='true'"; } ?>
+                                                        value="1">电信</option>
+                                                        <option
+                                                        <?php if($gateway_info['linktype'] == "2"){ echo "selected='true'"; } ?>
+                                                        value="2">联通</option>
+                                                        <option
+                                                        <?php if($gateway_info['linktype'] == "3"){ echo "selected='true'"; } ?>
+                                                        value="3">移动</option>
+                                                        <option
+                                                        <?php if($gateway_info['linktype'] == "9"){ echo "selected='true'"; } ?>
+                                                        value="9">其他</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control input-sm"
+                                                           value="{$gateway_info.accessunit}" id="accessunit" required>
+                                                </td>
+                                                <td><input type="text" class="form-control input-sm"
+                                                           value="{$gateway_info.gatewayip}" id="gatewayip" required>
+                                                </td>
+                                                <td style="line-height: 30px">
+                                                    <span class="glyphicon glyphicon-trash info_del_l del_IP"
+                                                          aria-hidden="true" style="cursor: pointer"></span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                        </tbody>
+                                    </table>
+                                    <!--  保存按钮 -->
+                                    <div class="text-center">
+                                        <button class="btn btn-info" style="margin-top: 20px" type='submit'
+                                                id="room_edit_btn">保存
+                                        </button>
+                                        <a href="{:U('Basicinfo/room')}" class="btn btn-default"
+                                           style="margin-top: 20px;color:black;">返回</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.house_type').val({$data['house_type']});
+    $('.idc_id').val("{$data['idc_id']}");
+    $('.house_officer_idtype').val({$data['house_officer_idtype']});
+    /*$(".type").val({$ip_info['type']});
+     $(".id_type").val({$ip_info['id_type']});
+     $(".usertype").val({$frame_info['usertype']});
+     $(".distribution").val({$frame_info['distribution']});
+     $(".occupancy").val({$frame_info['occupancy']});
+     $(".linktype").val({$gateway_info['linktype']});*/
+
+
+    function sel(elem) {
+        $('.' + elem).select2();
+    }
+    sel('selects');
+    //时间
+    function data(elem) {
+        var el = elem || 'datetimepicker';
+        $('.' + el).datetimepicker({
+            language: 'zh-CN',  //日期
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+    }
+    data();
+    //删除
+
+    $("#room_table_IP").on('click', '.del_IP', function () {
+        var id = $(this).parents('tr').find(':first-child').data('id') >= 0 ? $(this).parents('tr').find(':first-child').data('id') : false;
+        if (id || 0) { //防止异常
+            if ($(this).parents('#room_table_IP').find('tbody>tr').length <= 1) {
+                alert('不能再删除了');
+            } else {
+                if (confirm("确定要删除吗？")) {
+                    $(this).parent().parent().remove();
+                    $.ajax({
+                        url: '__URL__/room_edit_ip_del',
+                        data: {
+                            id: id,
+                            type: "ip"
+                        },
+                        success: function (data) {
+                            if (data.status == 'error') {
+                                alert(data.info);
+                            }
+                        }
+
+                    })
+                }
+            }
+        } else {
+            if (confirm("确定要删除吗？")) {
+                $(this).parent().parent().remove();
+            }
+        }
+    });
+
+    $("#room_table_IO").on('click', '.del_IP', function () {
+        var id = $(this).parents('tr').find(':first-child').data('id') >= 0 ? $(this).parents('tr').find(':first-child').data('id') : false;
+        if (id || 0) { //防止异常
+            if ($(this).parents('#room_table_IO').find('tbody>tr').length <= 1) {
+                alert('不能再删除了');
+            } else {
+                if (confirm("确定要删除吗？")) {
+                    $(this).parent().parent().remove();
+                    $.ajax({
+                        url: '__URL__/room_edit_frame_del',
+                        data: {
+                            id: id,
+                            type: "frame"
+                        },
+                        success: function (res) {
+                            if (data.status == 'error') {
+                                alert(data.info);
+                            }
+                        }
+                    })
+                }
+            }
+        } else {
+            if (confirm("确定要删除吗？")) {
+                $(this).parent().parent().remove();
+            }
+        }
+    });
+
+    $("#room_table_LL").on('click', '.del_IP', function () {
+        var id = $(this).parents('tr').find(':first-child').data('id') >= 0 ? $(this).parents('tr').find(':first-child').data('id') : false;
+        if (id || 0) { //防止异常
+            if ($(this).parents('#room_table_LL').find('tbody>tr').length <= 1) {
+                alert('不能再删除了');
+            } else {
+                if (confirm("确定要删除吗？")) {
+                    $(this).parent().parent().remove();
+                    $.ajax({
+                        url: '__URL__/room_edit_gateway_del',
+                        data: {
+                            id: id,
+                            type: "gateway"
+                        },
+                        success: function (res) {
+                            if (data.status == 'error') {
+                                alert(data.info);
+                            }
+                        }
+                    })
+                }
+            }
+        } else {
+            if (confirm("确定要删除吗？")) {
+                $(this).parent().parent().remove();
+            }
+        }
+    });
+    /*pattern="^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$"*/
+    //IP添加
+    var m = 0;
+    $("#IP_add").click(function () {
+        $("#room_table_IP").append('<tr>' +
+            '<td><input type="text" class="form-control input-sm startIP startIP_a"   title="请输入正确格式的IP地址" style="width: 85px" required></td>' +
+            '<td><input type="text" class="form-control input-sm endIP endIP_a"   title="请输入正确格式的IP地址" style="width: 85px" required></td>' +
+            '<td><select  class="type selects" style="width: 108px"><option value="0">静态</option><option value="1">动态</option> <option value="2">保留</option><option value="3">专线</option></select></td>' +
+            '<td><input type="text" class="form-control input-sm" style="width: 65px"></td>' +
+            '<td><select class="id_type selects"><option value="">请选择</option><option value="1">工商营业执照号码</option><option value="2">身份证</option><option value="3">组织机构代码证书</option><option value="4">事业法人证书</option><option value="5">军队代号</option><option value="6">社团法人证</option><option value="7">护照</option><option value="8">军官证</option><option value="9">台胞证</option><option value="999">其他</option></select></td>' +
+            '<td><input type="text" class="form-control input-sm"></td>' +
+            '<td><input type="text" class="form-control input-sm" required></td>' +
+            '<td><input type="text" class="form-control input-sm" required></td>' +
+            '<td><input type="text" class="form-control input-sm datetimepicker' + m + '" style="width: 90px" required></td>' +
+            '<td style="line-height: 30px;width: 43px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' +
+            '</tr>')
+        sel('selects');
+        data('datetimepicker' + m);
+    });
+
+    $("#IO_add").click(function () {
+        $("#room_table_IO").append('<tr>' +
+            '<td><select class="selects" style="width: 168px"><option value="1">否</option> <option value="2">是</option> </select></td>' +
+            '<td><input type="text" class="form-control input-sm" required></td>' +
+            '<td><select class="selects" style="width: 168px"><option value="1">自用</option><option value="2">出租</option></select></td>' +
+//            '<td><select style="width: 168px;height: 30px;"><option value="1">自用</option><option value="2">出租</option></select></td>' +
+            '<td><select class="selects" style="width: 168px"><option value="1">未分配</option> <option value="2">已分配</option> </select></td>' +
+            '<td><select class="selects" style="width: 168px"><option value="1">未占用</option> <option value="2">已占用</option> </select></td>' +
+            '<td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' +
+            '</tr>')
+        sel('selects');
+
+    });
+
+    $("#LL_add").click(function () {
+        $("#room_table_LL").append('<tr>' +
+            '<td><input type="text" class="form-control input-sm" required></td>' +
+            '<td><select class="selects" style="width: 168px"><option value="1">电信</option> <option value="2">联通</option> <option value="3">移动</option> <option value="9">其他</option> </select></td>' +
+            '<td><input type="text" class="form-control input-sm" required></td>' +
+            '<td><input type="text" class="form-control input-sm" required></td>' +
+            '<td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' +
+            '</tr>')
+        sel('selects');
+    });
+
+    //ajax传值
+    $("#edit_form").submit(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+       var exp1 = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+       var exp2 = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
+       var is_true = false;
+       $(".startIP_a").each(function(){
+            var startIP_a1 = $(this).val().match(exp1);
+            var startIP_a2 = $(this).val().match(exp2);
+            if(startIP_a1 == undefined || startIP_a1=='' ){
+                if(startIP_a2 == undefined || startIP_a2==''){
+                    is_true = true;
+                    alert('互联网起始IP地址请填写正确的ipv4或者ipv6格式！') ;
+                    
+                    return false
+                }
+                return false
+            }
+        })
+       if(is_true == true){
+        return false
+       }
+       $(".endIP_a").each(function(){
+            var endIP_a1 = $(this).val().match(exp1);
+            var endIP_a2 = $(this).val().match(exp2);
+            if(endIP_a1 == undefined || endIP_a1=='' ){
+                if(endIP_a2 == undefined || endIP_a2==''){
+                    is_true = true;
+                    alert('互联网终止IP地址请填写正确的ipv4或者ipv6格式！') ;
+                    
+                    return false
+                }
+                return false
+            }
+        })
+       if(is_true == true){
+        return false
+       }
+       /*var sip = $(".startIP_a").val();
+       var eip = $(".endIP_a").val();
+       var start_flag1 = sip.match(exp1);
+       var start_flag2 = sip.match(exp2);
+       if (start_flag1 == undefined || start_flag1 == '') {
+           if (start_flag2 == undefined || start_flag2 == '') {
+               alert('起始IP地址请填写正确的ipv4或者ipv6格式！');
+               return false
+           }
+           return false
+       }*/
+       /*var end_flag1 = eip.match(exp1);
+       var end_flag2 = eip.match(exp2);
+       if (end_flag1 == undefined || end_flag1 == '') {
+           if (end_flag2 == undefined || end_flag2 == '') {
+               alert('终止IP地址请填写正确的ipv4或者ipv6格式！');
+               return false
+           }
+           return false
+       }*/
+//        $("#room_edit_btn").click(function () {
+//            机房基础信息
+            var data = {};
+            data.id = "<?=$data['id']?>";
+            data.house_id = $("#house_id").val();
+            data.house_name = $("#house_name").val();
+            data.idc_id = $("#idc_id").val();
+            data.house_type = $("#house_type").val();
+            data.province = $("#province").val();
+            data.city = $("#city").val();
+            data.county = $("#county").val();
+            data.house_addr = $("#house_addr").val();
+            data.house_zip = $("#house_zip").val();
+            //网络信息安全负责人
+            var arr = {};
+            arr.house_officer_name = $("#house_officer_name").val();
+            arr.house_officer_idtype = $("#house_officer_idtype").val();
+            arr.house_officer_id = $("#house_officer_id").val();
+            arr.house_officer_tel = $("#house_officer_tel").val();
+            arr.house_officer_mobile = $("#house_officer_mobile").val();
+            arr.house_officer_email = $("#house_officer_email").val();
+            //IP段列表
+            var num = [];
+            $("#room_table_IP tbody tr").each(function (i, v) {
+                num.push({
+                    id: $(v).find('td:nth-of-type(1)').data('id'),
+                    startip: $(v).find('td:nth-of-type(1) input').val(),
+                    endip: $(v).find('td:nth-of-type(2) input').val(),
+                    type: $(v).find('td:nth-of-type(3) option:selected').val(),
+                    user: $(v).find('td:nth-of-type(4) input').val(),
+                    id_type: $(v).find('td:nth-of-type(5) option:selected').val(),
+                    idnumber: $(v).find('td:nth-of-type(6) input').val(),
+                    sourceunit: $(v).find('td:nth-of-type(7) input').val(),
+                    allocationunit: $(v).find('td:nth-of-type(8) input').val(),
+                    usertime: $(v).find('td:nth-of-type(9) input').val()
+                });
+            });
+            if (num.length == 0) {
+                alert("请添加IP段信息");
+                return;
+            }
+
+            //机架信息列表
+            var num_b = [];
+            $("#room_table_IO  tbody tr").each(function (i, v) {
+                num_b.push({
+//                id:"<?=$frame_info['id']?>",
+                    id: $(v).find('td:nth-of-type(1)').data('id'),
+
+                    is_special: $(v).find('td:nth-of-type(1) option:selected').val(),
+                    frame_name: $(v).find('td:nth-of-type(2) input').val(),
+                    usertype: $(v).find('td:nth-of-type(3) option:selected').val(),
+                    distribution: $(v).find('td:nth-of-type(4) option:selected').val(),
+                    occupancy: $(v).find('td:nth-of-type(5) option:selected').val()
+                })
+            });
+            if (num_b.length == 0) {
+                alert("请添加机架信息");
+                return;
+            }
+            //链路信息列表
+            var num_c = [];
+            $("#room_table_LL tbody tr").each(function (i, v) {
+                num_c.push({
+//                id:"<?=$gateway_info['id']?>",
+                    id: $(v).find('td:nth-of-type(1)').data('id'),
+
+                    //gateway_id: $(v).find('td:nth-of-type(1) input').val(),
+                    bandwidth: $(v).find('td:nth-of-type(1) input').val(),
+                    linktype: $(v).find('td:nth-of-type(2) option:selected').val(),
+                    accessunit: $(v).find('td:nth-of-type(3) input').val(),
+                    gatewayip: $(v).find('td:nth-of-type(4) input').val()
+                })
+            });
+            if (num_c.length == 0) {
+                alert("请添加链路信息");
+                return;
+            }
+            $.ajax({
+                type: 'get',
+                url: '__URL__/room_edit',
+                data: {
+                    'data1': data,
+                    'data2': arr,
+                    'data3': num,
+                    'data4': num_b,
+                    'data5': num_c,
+                    'type': 'room'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 'success') {
+                        alert('编辑成功！');
+//                    console.log(data)
+//                    window.location.href('')
+                        window.location.href = "__URL__/room"
+                    } else if (data.status = 'error') {
+                        alert(data.info)
+                    } else {
+                        alert("编辑失败！");
+                    }
+                }
+            })
+//        });
+
+    })
+
+    $(document).ready(function () {
+        $("#edit_form").createCity("{:U('City/index')}");
+        $('#province').val("<?=$data['province']?>");
+        $('#province').change();
+        $('#city').val("<?=$data['city']?>");
+        $('#city').change();
+        $('#county').val("<?=$data['county']?>");
+        $('#county').change();
+    })
+</script>
+

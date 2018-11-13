@@ -1,0 +1,492 @@
+<div class="app-container no-padding">
+
+    <div class="row content-container">
+
+        <div class="container-fluid" >
+            <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+                <li>系统管理</li>
+                <li class="active" style="color: white">用户管理</li>
+            </ol>
+
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" method="get" action="__URL__/user" >
+                                        <ul>
+
+                                            <li>
+                                                <label>用户组：</label>
+                                                <select name="usergroup" class="usergroup">
+                                                    <option value="">请选择</option>
+                                                    <volist name="group_data" id="group_data_vo" >
+                                                          <option value="{$group_data_vo['id']}" <if condition="$usergroup_id eq $group_data_vo['id']"> selected </if>>{$group_data_vo['title']}</option>
+                                                    </volist>
+                                                 </select>
+                                            </li>
+                                            <li>
+                                                <label>用户名：</label>
+                                                <!-- <input type="text" name="username" class="username"> -->
+                                                <select name="username" class="username">
+                                                    <option value="">请选择</option>
+                                                    <volist name="username_data" id="username_data_vo" >
+                                                          <option value="{$username_data_vo['user_login']}" <if condition="$user_login eq $username_data_vo['user_login']"> selected </if>>{$username_data_vo['user_login']}</option>
+                                                    </volist>
+                                                 </select>
+                                            </li>
+                                            <li>
+                                                <label>注册时间：</label>
+                                                <input class="date-range-picker" type="text" name="time"  data-date-format="YYYY-MM-DD"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px" id="kSearch">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {:authcheck('Home/Systemlog/user_add','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal"  data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-plus info_del_l " aria-hidden="true" style="margin-right: 5px;color: greenyellow" ></span>添加
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Systemlog/user_del','
+                                <a href="#" class="deleteDef"  data-toggle="modal" data-target="#myModal-deleteDef">
+                                    <span class="glyphicon glyphicon-remove info_del_l " aria-hidden="true"  style="margin-right: 5px;color: red"></span>批量删除
+                                </a>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center;">
+                                            <input type="checkbox" id="allCheck">
+                                        </th>
+                                        <th style="text-align: center;">用户名</th>
+                                        <th style="text-align: center;">用户组</th>
+                                        <th style="text-align: center;">注册时间</th>
+                                        <th style="text-align: center;">最后在线时间</th>
+                                        <th style="text-align: center;">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <volist name="user_data" id="user_data_vo">
+                            <tr>
+                                <td><input type="checkbox" name="checkbox"  value="{$user_data_vo['id']}" class="checkbtn"></td>
+                                <td>{$user_data_vo['user_login']}</td>
+                                <td style="max-width: 360px"><span style="max-width: 350px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;display: inline-block">
+                                <!--<td ><span>-->
+                                    {$user_data_vo['title']}</span>
+                               <!-- <select style="width: 168px;height: 20px; font-size: 12px;padding: 0px;" >
+                                    <volist name="user_data_vo['title']" id="title_vo" >
+                                          <option>{$title_vo['title']}</option>
+                                    </volist>
+                                 </select>-->
+                                </td>
+                                <td>{$user_data_vo['create_time']|date='Y-m-d H:i:s',###}</td>
+                                <td><if condition="$user_data_vo['last_login_time'] eq 0" >
+                                --
+                                <else />
+                                {$user_data_vo['last_login_time']|date='Y-m-d H:i:s',###}
+                                </if></td>
+                                <td>
+                                    {:authcheck('Home/Systemlog/user_edit','
+                                    <span title="编辑" class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="modal" style="color: #1ABC9C;margin-right: 5px;margin-left: 5px;cursor: pointer" data-target="#myModal-edit"></span>
+                                    ','')}
+                                    <span data="{$user_data_vo['id']}"></span>
+                                    {:authcheck('Home/Systemlog/user_del','
+                                    <span title="删除" class="glyphicon glyphicon-trash del" aria-hidden="true" style="cursor: pointer;color: red" data-toggle="modal" data-target="#myModal-deleteDef"></span>
+                                    ','')}
+
+                                </td>
+                            </tr>
+                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$user_show}
+                                    </ul>
+                                </div>
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">添加用户</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" id="addUser_form">
+                                                <input type="password" style="display: none;" />
+                                                    <div class="form-group">
+                                                        <span style="color: red">*</span>
+                                                        <label>用户名：</label>
+                                                        <input type="text" name="user_login" id="user_login" class="form-control input-sm" style="width: 168px" pattern="^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$" title="用户名请输入4-12位字母或数字,首位必须为英文字母"   placeholder="请填写用户名" required>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px;margin-left: 12px">
+                                                        <span style="color: red">*</span>
+                                                        <label>密码：</label>
+                                                        <!--<input type="password" name="user_pass" id="user_pass" class="form-control input-sm" style="width: 168px"  pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_.!@#$%^&*]{6,12}$"  title="密码请输入6-12位字母数字特殊字符,且必须包含字母和数字"  placeholder="请填写密码" required>-->
+                                                        <input type="password" name="user_pass" id="user_pass" class="form-control input-sm" style="width: 168px"  title="密码请输入6-12位字母数字特殊字符,且必须包含字母和数字"  placeholder="请填写密码" required>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px">
+                                                        <span style="color: red">*</span>
+                                                        <label>用户组：</label>
+                                                        <div class="form-group" id="userGroup_add">
+                                                            <volist name="group_data" id="group_data_vo" >
+                                                                
+                                                                <input type="checkbox" name="usergroup[]" class="user_type_add" id="user_type" value="{$group_data_vo['id']}" style="margin:0px 2px 0px 5px;" >{$group_data_vo['title']}
+                                                            </volist>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-info" id="user_add_btn">确定</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  编辑 模态框  -->
+                                <div class="modal fade" id="myModal-edit" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-edit" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-edit">编辑</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" id="editUser_form">
+                                                    <input type="hidden" id='id' name="id"  />
+                                                    <input type="hidden"  name="type"  value="1" />
+                                                    <input type="password" style="display: none;" />
+                                                    <div class="form-group">
+                                                        <span style="color: red">*</span>
+                                                        <label>用户名：</label>
+                                                        <input type="text" name="username" class="form-control input-sm user_edit" style="width: 168px" pattern="^[a-zA-Z]{1}[a-zA-Z0-9]{3,11}$" title="用户名请输入4-12位字母或数字,首位必须为英文字母">
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px;margin-left: 20px">
+
+                                                        <label>密码：</label>
+                                                        <!--<input type="password" name="password" class="form-control input-sm pass_edit" style="width: 168px"  pattern="^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z_.!@#$%^&*]{6,12}$" title="密码请输入6-12位字母数字特殊字符,且必须包含字母和数字"  placeholder="不修改为空即可">-->
+                                                        <input type="password" name="password" class="form-control input-sm pass_edit" id="edit_pass" style="width: 168px" title="密码请输入6-12位字母数字特殊字符,且必须包含字母和数字"  placeholder="不修改为空即可">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px">
+                                                        <span style="color: red">*</span>
+                                                        <label>用户组：</label>
+                                                        <div class="form-group" id="userGroup_sel">
+                                                            <volist name="group_data" id="group_data_vo" >
+                                                                  <input type="checkbox" class="user_type_adit"  name="usergroup[]" value="{$group_data_vo['id']}" style="margin-right:5px;">{$group_data_vo['title']}
+                                                            </volist>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-info" id="user_edt_btn">确定</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                <!-- 批量删除 模态框  -->
+                                <div class="modal fade" id="myModal-deleteDef" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-edit" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-deleteDef">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                               <p style="font-size: 16px"><span class="glyphicon glyphicon-remove-sign info_del_l " aria-hidden="true"  style="margin-right: 5px;color: red"></span>确定要删除吗？</p>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="user_deleteDef">确定</button>
+                                                <button type="button" class="btn btn-default pop" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $('.checkbtn').prop('checked',false);
+    $('#allCheck').prop('checked',false);
+    $('.checkbtn').each(function(){
+        if($(this).val()=='1'){
+            $(this).parents('tr').children().last().remove()
+            $(this).remove();
+        }
+
+    })
+
+</script>
+<script>
+    $('.usergroup').attr('value',getParam("usergroup"));
+    $('.username').attr('value',getParam("username"));
+    $('.date-range-picker').attr('value',URLdecode(getParam("time")));
+
+    function URLdecode(sStr){
+       return sStr.replace(/\+/g,' ').replace(/\%2F/g,'\/').replace(/\%20/g,'').replace(/\%3A/g,':'); 
+    }
+
+    function getParam(paramName)
+    {
+        paramValue = "";
+        isFound = false;
+        if (this.location.search.indexOf("?") == 0 && this.location.search.indexOf("=")>1)
+        {
+            arrSource = this.location.search.substring(1,this.location.search.length).split("&");
+            i = 0;
+            while (i < arrSource.length && !isFound)
+            {
+                if (arrSource[i].indexOf("=") > 0)
+                {
+                    if (arrSource[i].split("=")[0].toLowerCase()==paramName.toLowerCase())
+                    {
+                        paramValue = arrSource[i].split("=")[1];
+                        isFound = true;
+                    }
+                }
+                i++;
+            }
+        }
+        return paramValue;
+    }
+    //    时间
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                startDate: moment().subtract(1, 'days'),
+                endDate: moment(),
+                maxDate : moment(),
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>
+<script>
+$('.checkbtn').prop('checked',false)
+//添加
+    $('#addUser_form').submit(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var data=$('#addUser_form').serialize();
+        var checkVal = $('#userGroup_add input').serialize();
+
+        var reg = /^[0-9a-zA-Z\_\.\!\@\#\$\%\^\&\*]{2,}$/
+        var reg1 = /[0-9]+/;
+        var reg2 = /[a-zA-Z]+/;
+        var str = $('#user_pass').val();
+        if(!(reg.test(str)&&reg1.test(str)&&reg2.test(str))){
+            //不满足条件
+            alert("密码为6-12位的字符串(要包含数字、字母)，支持特殊符号");
+            return false
+        }else if (checkVal =='') {
+            alert("请选择用户组");
+            return false
+        }else{
+
+            $.ajax({
+                type: "GET",
+                url: "__URL__/user_add",
+                data: data,
+                dataType: "json",
+                success:function(data){
+                    if(data.status=='success'){
+                        $("#myModal-add").modal('hide');
+                        $('#addUser_form')[0].reset();
+                        alert("添加成功");
+                        $("form input").val('');
+                        window.location.reload();
+                    }else if(data.status=='1'){
+                        alert("用户已存在");
+                    }
+                }
+            });
+        }
+
+    })
+
+//    编辑
+
+    $(document).on("click",".glyphicon-pencil",function(){
+        $('#userGroup_sel input').attr('checked',false);
+        var row = $(this).parents('tr');
+        $(".user_edit").val(row.children('td:eq(1)').html());
+        var id = $(this).next().attr('data');
+        var group_id = [];
+        $.ajax({
+            type: "get",
+            url: "__URL__/user_edit",
+            data: {'id':id},
+            dataType: "json",
+            success: function(data){
+                for (var i = 0; i < data.length; i++) {
+                    group_id.push(data[i]['group_id']);
+                }
+                $('#userGroup_sel input').each(function(){
+                    id = $(this).val();
+                    for(var i=0;i<group_id.length;i++){
+                        if (id==group_id[i]) {
+                            $(this).prop('checked','checked');
+                        }
+                    }
+                });
+            }
+        });
+        $('#id').val(id);
+
+    })
+$('#editUser_form').submit(function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    var data     = $('#editUser_form').serialize();
+    var checkVal = $('#userGroup_sel input').serialize();
+    var reg      = /^[0-9a-zA-Z\_\.\!\@\#\$\%\^\&\*]{2,}$/
+    var reg1     = /[0-9]+/;
+    var reg2     = /[a-zA-Z]+/;
+    var str      = $('#edit_pass').val();
+    if(str&&!(reg.test(str)&&reg1.test(str)&&reg2.test(str))){
+        //不满足条件
+        alert("密码为6-12位的字符串(要包含数字、字母)，支持特殊符号");
+        return false
+    }else if (checkVal =='') {
+            alert("请选择用户组");
+            return false
+        }else{
+            $.ajax({
+                url:'__URL__/user_edit',
+                type:'get',
+                dataType:'json',
+                data:data,
+                success:function(data){
+                    if(data.status=='success'){
+                        $("#myModal-edit").modal('hide');
+                        $('#editUser_form')[0].reset();
+                        alert("编辑成功");
+                        window.location.reload();
+                    }else if(data.status=='error'){
+                        alert("用户已存在");
+                    }else{
+                        alert("没有权限");
+                    }
+                }
+            });
+        }
+    })
+
+    
+
+
+
+    //    批量删除
+    $(document).on("click","#user_deleteDef",function(){
+        var id = $("input:checkbox[name='checkbox']:checked").map(function() {
+            return $(this).val();
+        }).get().join(',');
+        $.ajax({
+            url:'__URL__/user_del',
+            type:'get',
+            dataType:'json',
+            data:{'id':id},
+            success:function(data){
+                if(data.status=='success'){
+                    $("#myModal-deleteDef").modal('hide');
+                    alert(data.msg);
+                    window.location.reload();
+                }else{
+                    $("#myModal-deleteDef").modal('hide');
+                    alert(data.msg);
+                }
+            }
+        });
+       
+      
+
+    })
+    //    单条删除时选中当前的单选框
+    $(document).on("click",".del",function(){
+        $('.checkbtn').prop('checked',false);
+        $('#allCheck').prop('checked',false);
+        $(this).parents("tr").children('td:eq(0)').children().prop('checked',true);
+
+    })
+    //    取消的事件
+    $(document).on("click",".pop",function(){
+        $('.checkbtn').prop('checked',false);
+        $('#allCheck').prop('checked',false);
+
+    })
+
+    //    全选全不选
+    //点击其他，更新全选
+    $(document).on('click', '.checkbtn', function () {
+        if($('.checkbtn:not(:checked)').length === 0){
+            var is_checked = $(this).prop("checked");
+            $('#allCheck').prop("checked", is_checked);
+        }else{
+            $('#allCheck').prop('checked', false);
+        }
+    })
+    //设置全选，全不选
+    $(document).on('click', '#allCheck', function () {
+        $('.checkbtn').prop('checked', this.checked);
+    });
+
+
+</script>

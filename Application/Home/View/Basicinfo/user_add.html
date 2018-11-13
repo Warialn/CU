@@ -1,0 +1,795 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>基础数据管理</li>
+            <li class="active"><a href="{:U('Basicinfo/user')}"  style="color: blue">用户管理</a></li>
+            <li class="active" style="color: white">添加</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <form class="form-inline Top_a" id="Use_add">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <p style="font-size: 16px;font-weight: 500">添加用户</p>
+                                        <!--<form class="form-inline Top_a">-->
+                                        <div class="col-md-4" >
+                                            <label style="width: 105px;text-align: right">用户属性：</label>
+                                            <select name="house_type" style="width: 168px;box-shadow: 0 0;" id="nature" class="h30" required>
+                                                <option value="">请选择</option>
+                                                <option value="1">提供互联网服务用户</option>
+                                                <option value="2">其他用户</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4" >
+                                            <label style="width: 105px;text-align: right">单位名称：</label>
+                                            <input type="text" class="form-control input-sm" id="unitname" pattern="^\S{1,128}$"  title="单位名称请输入1-128位字符" required>
+                                        </div>
+                                        <div class="col-md-4" style="margin-top: 2px" >
+                                            <label style="width: 105px;text-align: right">单位地址：</label>
+                                            <input type="text" class="form-control input-sm" id="addr" pattern="^\S{1,128}$"  title="单位地址请输入1-128位字符" required>
+
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">单位属性：</label>
+                                            <select style="width: 168px" id="unitnature" class="h30">
+                                                <option value="1">军队</option>
+                                                <option value="2">政府机关</option>
+                                                <option value="3">事业单位</option>
+                                                <option value="4">企业</option>
+                                                <option value="5">个人</option>
+                                                <option value="6">社会团体</option>
+                                                <option value="999">其他</option>
+                                            </select>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">证件类型：</label>
+                                            <select style="width: 168px" id="id_type" class="h30">
+                                                <option value="1">工商营业执照号码</option>
+                                                <option value="2">身份证</option>
+                                                <option value="3">组织机构代码证书</option>
+                                                <option value="4">事业法人证书</option>
+                                                <option value="5">军队代号</option>
+                                                <option value="6">社团法人证书</option>
+                                                <option value="7">护照</option>
+                                                <option value="8">军官证</option>
+                                                <option value="9">台胞证</option>
+                                                <option value="999">其他</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4"  style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">证件号码：</label>
+                                            <input type="text" class="form-control input-sm" id="idnumber" maxlength="32" title="证件号码不能超过32位" required>
+                                        </div>
+                                        <div class="col-md-4"  style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">单位邮编：</label>
+                                            <input type="text" class="form-control input-sm" id="zip_code" pattern="^[0-9]\d{5}(?!\d)$" title="请输入6位数字邮编" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label  style="width: 105px;text-align: right">IDC/ISP经营单位：</label>
+                                            <select name="idc_id" id="idc_id" class="idc_id h30"  style="width: 168px">
+                                                <volist name="basic_idc" id="idc_info">
+                                                    <option value="{$idc_info['idc_id']}">{$idc_info['idc_name']}</option>
+                                                </volist>
+                                            </select>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">注册时间：</label>
+                                            <input type="text" class="form-control datetimepickfirst input-sm" style="width: 168px" id="registertime" required>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+
+                                    <p style="font-size: 16px;font-weight: 500;">网络信息安全负责人</p>
+                                    <!--<form class="form-inline">-->
+                                    <div class=" col-md-4  ">
+                                        <label style="width: 105px;text-align: right">姓名：</label>
+                                        <input type="text" class="form-control input-sm" id="officer_name" pattern="^\S{1,32}$"  title="网络信息安全负责人姓名请输入1-32位字符" required>
+                                    </div>
+                                    <div class="col-md-4" >
+                                        <label style="width: 105px;text-align: right">证件类型：</label>
+                                        <select name="" id="officer_idtype" style="width: 168px;height: 30px;">
+                                            <option value="2">身份证</option>
+                                            <option value="7">护照</option>
+                                            <option value="8">军官证</option>
+                                            <option value="9">台胞证</option>
+                                        </select>
+                                    </div>
+                                    <div class=" col-md-4  " >
+                                        <label style="width: 105px;text-align: right">证件号：</label>
+                                        <input type="text" class="form-control input-sm" id="officer_id" maxlength="32" title="请输入不超过32位相应的证件号码" required>
+                                    </div>
+                                    <div class=" col-md-4" style="margin-top: 10px">
+                                        <label style="width: 105px;text-align: right">固定电话：</label>
+                                        <input type="text" class="form-control input-sm" id="officer_tel" maxlength="32" required>
+                                    </div>
+                                    <div class=" col-md-4" style="margin-top: 10px" >
+                                        <label style="width: 105px;text-align: right">移动电话：</label>
+                                        <input type="text" class="form-control input-sm" id="officer_mobile" pattern="^1[3,4,5,7,8]\d{9}$" maxlength="32" title="请输入正确的不超过32位的移动电话" required>
+                                    </div>
+                                    <div class=" col-md-4" style="margin-top: 10px" >
+                                        <label style="width: 105px;text-align: right">email地址：</label>
+                                        <input type="text" class="form-control input-sm" id="officer_email" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" title="请输入正确的不超过32位的email地址" required>
+                                    </div>
+                                    <!--</form>-->
+                                    <br><br><br><br>
+
+                                    <!--提供互联网服务用户列表-->
+                                    <div id="use" style="display: none;width: 100%">
+                                        <p class="sub-title add_user_title" >应用服务信息列表
+                                        <span id="Use_btn" class="glyphicon glyphicon-plus-sign add_user_glyphicon"></span></p>
+                                        <span class="copy_info">
+
+
+                                        </span>
+
+
+                                        <!--<div class="ym_div" style="margin-top: 10px">
+                                            <span style="font-size: 14px;vertical-align:top;font-weight: bold;width: 92px;text-align: right;display: inline-block;" class="server_ym_add">
+                                                域名<span class="glyphicon glyphicon-plus-sign " aria-hidden="true" style="color: green;cursor: pointer;margin-left: 5px"></span>
+                                            </span>
+
+
+                                            <div class="wrap_ym_length" style="width: 1100px;display: inline-block;border: 1px solid #eee">
+                                                <div style="margin-bottom: 10px;" class="ym_length marT">
+                                                    <label style="width: 105px;text-align: right">域名:</label><input type="text" class="input-sm form-control domain_name" pattern="^\\S{1,128}$"  title="请输入1-128位字符" required><span style="cursor: pointer;margin-left: 20px;" class="glyphicon glyphicon-trash ym_del" aria-hidden="true"></span>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>-->
+
+
+
+                                        </div>
+                                    </div>
+
+                                    <div id="other" style="display: none;width: 100%;" >
+                                        <p class="sub-title" id="Other_btn" style="font-size: 16px;font-weight: 500;margin-bottom: 10px;cursor: pointer">占用机房列表<span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-left: 5px;"></span></p>
+                                        <div class="other_Add">
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--  保存按钮 -->
+                                    <div class="text-center">
+                                        <button class="btn btn-info" type="submit" style="margin-top: 20px" >保存</button>
+                                        <a href="{:U('Basicinfo/user')}">
+                                            <button class="btn btn-default" style="margin-top: 20px">返回</button>
+                                        </a>
+                                    </div>
+                                <!--</div>-->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+   /* function sel(elem) {
+        var e = elem || 'select';
+        $(e).select2();_first
+    }*/
+    function data(elem) {
+        var el = elem || 'datetimepicker';
+        $('.' + el).datetimepicker({
+            language: 'zh-CN', //日期
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+    };
+   data('datetimepickfirst')
+/*function data(){
+    $('.datetimepicker').datetimepicker({
+        language: 'zh-CN', //日期
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: "yyyy-mm-dd"
+    });
+}*/
+//    data()
+
+    function otherHTMLFun(n){
+        return otherHTML='<div class="kk"><p style="background-color:#22A7F0;"><span style="font-size: 14px;color: #ffffff;" class="other_title">占用机房-1 </span><span style="cursor: pointer;font-size: 14px;color: #ffffff;margin-right: 20px;line-height: 18px" class="glyphicon glyphicon-trash pull-right zyjf_del" aria-hidden="true"></span></p><div class="col-md-4" ><label style="width: 105px;text-align: right">IDC/ISP机房：</label><select class="house_id newSelect" style="width: 168px;height: 30px;" required><volist name="rooms" id="room_info"><option value="{$room_info['house_id']}">{$room_info['house_name']}</option></volist></select></div><div class=" col-md-4  "><label style="width: 105px;text-align: right">网络宽带：</label><input type="text" class="form-control input-sm band_width" style="width: 168px;" pattern="^[1-9]\\d*$"  title="请输入数字"></div><div class="col-md-4" ><label style="width: 105px;text-align: right">资源分配时间：</label><input type="text" required class="form-control input-sm datetimepicker' + n + ' distribute_time" style="width: 168px"></div><div class="row"><p class="col-md-2 Other_ip_btn" style="margin-top: 18px;padding-left: 57px;font-size: 14px; font-weight: bold;">ip地址转换<span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-left: 5px;cursor: pointer"></span></p><table class="table table-bordered col-md-7 Other_ip_table" style="width: 83.333%;margin-top: 10px;margin-left: -38px"><thead><tr><th>是否为专线</th><th>互联网起始IP</th><th>互联网终止IP</th><th>操作</th></tr></thead><tbody><tr class="other_ip_tr"><td><select class="form-control is_special" reqiured><option value="1">否</option><option value="2">是</option></select></td><td><input type="text" class="form-control input-sm startip startip1"  required></td><td><input type="text" class="form-control input-sm endip endip1"  required></td><td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td></tr></tbody></table></div></div>';
+    }
+
+    function useHtml(m){
+        return useHTML = ' <div  class="k info_list"><div class="titleTop"><span class="minTitle">应用服务信息-1 </span><span  class="glyphicon glyphicon-trash pull-right delF minTitle_del" ></span></div><div class="col-md-3 marT selectpicker_select" style="width: 20%;margin-top: 2px;"><label style="margin-top: 10px">服务内容：</label><select class="service_content newSelect selectpicker show-tick fuwu_contant" multiple data-live-search="false"style="width: 168px" required><option value="500">基础应用</option><option value="501">网络媒体</option><option value="502">电子政务、电子商务</option><option value="503">数字娱乐</option><option value="504">其他</option><option value="1">即时通信</option><option value="2">搜索引擎</option><option value="3">综合门户</option><option value="4">网上邮局</option><option value="5">网络新闻</option><option value="6">博客/个人空间</option><option value="7">网络广告/信息</option><option value="8">单位门户网站</option><option value="9">网络购物</option><option value="10">网上支付</option><option value="11">网上银行</option><option value="12">网上炒股/股票基金</option><option value="13">网络游戏</option><option value="14">网络音乐</option><option value="15">网络影视</option><option value="16">网络图片</option><option value="17">网络软件/下载</option><option value="18">网上求职</option><option value="19">网上交友/婚介</option><option value="20">网上房产</option><option value="21">网络教育</option><option value="22">网站建设</option><option value="23">WAP</option><option value="24">其他</option></select></div><div class=" col-md-3 marT" style="width: 20%"><label>备案类型：</label><select class="regtype newSelect"><option value="0">无</option><option value="1">经营性网站</option><option value="2">非经营性网站</option><option value="3">SP</option><option value="4">BBS</option><option value="999">其他</option></select></div><div class="col-md-3 marT" style="width: 20%;height:28px;"><label>备案号：</label><input type="text" class="form-control input-sm regid" pattern="^\\S{1,64}$"  title="请输入1-64位字符" ></div><div class="col-md-3 marT" style="width: 20%" ><label>接入方式：</label><select class="set_mode newSelect jieru"><option value="0">专线</option><option value="1">虚拟主机</option><option value="2">主机托管</option><option value="3">整机租用</option><option value="999">其他</option></select></div><div class="col-md-3 marT" style="width: 20%"><label>业务类型：</label><select class="set_mode newSelect business yw_type"><option value="1">IDC业务</option><option value="2">ISP业务</option></select></div><div class="row ses" style="margin: 10px 0px 16px 0px"><div class="pull-left" style="width: 112px;margin-top: 40px;cursor: pointer"><p style="margin-top: 38px;font-size: 14px; font-weight: bold;" class="pushHtml">占用机房列表<span class="glyphicon glyphicon-plus-sign glyphicon_add"></span></p></div><div class="blockPar pull-left marT"><div class="par" style="width: 1100px;border: 2px solid #cccccc;margin-bottom: 10px;"><p class="par_title"><span class="par_title_num">占用机房列表-1</span><span class="glyphicon glyphicon-trash pull-right par_del delY " ></span></p><div class="col-md-4 par_list_div"><label>IDC/ISP机房：</label><select class="s house_id newSelect" ><option value="">请选择</option><volist name="rooms" id="room_info"><option value="{$room_info['house_id']}">{$room_info['house_name']}</option></volist></select></div><div class="col-md-4 par_list_div" ><label>网络宽带：</label><input type="text" class="form-control input-sm inputWidth band_width " pattern="^[1-9]\\d*$"  title="请输入数字"></div><div class="col-md-4 par_list_div" ><label>资源分配时间：</label><input type="text" class="form-control input-sm datetimepicker'+m+' inputWidth distribute_time" required></div><div class="col-md-4 par_list_div" ><label>机架名称：</label><select class="frame_info_id newSelect" ><option value="">请选择</option></select></div><div class="wrap_list host_btn"><p class="Use_host_add_btn">添加主机信息<span class="glyphicon glyphicon-plus-sign" aria-hidden="true" ></span></p><table class="table table-bordered " style="float: right ;width: 900px;margin-top:10px;margin-right: 20px;"><thead><tr><th>虚拟主机名称</th><th>虚拟主机状态</th><th>虚拟主机网络地址</th><th>虚拟主机管理地址</th><th>虚拟主机类型</th><th>操作</th></tr></thead><tbody class="host_body"></tbody></table><div class="clearfix"></div></div><div class="wrap_list ip_btn"><p class="Use_ip_add_btn">IP地址转换<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></p><table class="table table-bordered " style="float: right ;width: 900px;margin-top:10px;margin-right: 20px;"><thead><tr><th>互联网起始IP</th><th>互联网终止IP</th><th>对应的私网起始IP</th><th>对应的私网终止IP</th><th>域名</th><th>操作</th></tr></thead><tbody><tr class="ip_tr"><td><input type="text" class="form-control input-sm internet_start_ip internet_start_ip1"  required></td><td><input type="text" class="form-control input-sm internet_end_ip internet_end_ip1" required></td><td><input type="text" class="form-control input-sm net_start_ip net_start_ip1" ></td><td><input type="text" class="form-control input-sm net_end_ip net_end_ip1" ></td><td><input type="text" class="input-sm form-control domain_name" ></td><td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td></tr></tbody></table></div><div class="clearfix"></div></div><div class="clearfix"></div></div></div></div>';
+    }
+//   <div class="ym_div" style="margin-top: 10px;margin-bottom: 10px;">
+   // <span style="font-size: 14px;vertical-align:top;font-weight: bold;width: 92px;text-align: right;display: inline-block;" class="server_ym_add">域名<span class="glyphicon glyphicon-plus-sign " aria-hidden="true" style="color: green;cursor: pointer;margin-left: 5px"></span></span><div class="wrap_ym_length" style="width: 1100px;display: inline-block;border: 1px solid #eee"><div style="margin-bottom: 10px;" class="ym_length marT"><label style="width: 105px;text-align: right">域名:</label>
+   // <input type="text" class="input-sm form-control domain_name" pattern="^\\S{1,128}$"  title="请输入1-128位字符" required>
+   // <span style="cursor: pointer;margin-left: 20px;" class="glyphicon glyphicon-trash ym_del" aria-hidden="true"></span></div></div>
+    //机房和机架关联代码
+    $(document).on('change','.house_id',function(){
+        var house_id = $(this).val();
+        var _this = $(this);
+        $.ajax({
+            url: '__URL__/user_add',
+            type: 'GET',
+            dataType: 'json',
+            data: {house_id: house_id},
+            success:function(data){
+                var frame = _this.parents('.par').find('.frame_info_id');
+                frame.empty();
+                var str = '';
+                if(data.length>0){
+                    var business = _this.parents('.info_list').find('.business').val();
+                    if(business == '2'){
+                        str += '<option value="">请选择</option>';
+                        $.each(data,function(index,value){
+                        str += '<option value="'+value.id+'">'+value.frame_name+'</option>';
+                        });
+                    }else if(business == '1'){
+                        $.each(data,function(index,value){
+                        str += '<option value="'+value.id+'">'+value.frame_name+'</option>';
+                        });
+                    }
+
+                }else{
+                    str += '<option value="">请选择</option>';
+                }
+                frame.html(str);
+            }
+        })
+    })
+    $(document).on('change','.business',function(){
+        var business = $(this).val();
+        var _this = $(this);
+        var house_id = _this.parents('.info_list').find('.house_id').val();
+        $.ajax({
+            url: '__URL__/user_add',
+            type: 'GET',
+            dataType: 'json',
+            data: {house_id: house_id},
+            success:function(data){
+                var frame = _this.parents('.info_list').find('.frame_info_id');
+                frame.empty();
+                var str = '';
+                if(data.length>0){
+                    if(business == '2'){
+                        str += '<option value="">请选择</option>';
+                        $.each(data,function(index,value){
+                        str += '<option value="'+value.id+'">'+value.frame_name+'</option>';
+                        });
+                    }else if(business == '1'){
+                        $.each(data,function(index,value){
+                        str += '<option value="'+value.id+'">'+value.frame_name+'</option>';
+                        });
+                    }
+                    
+                }else{
+                    str += '<option value="">请选择</option>';
+                }
+                frame.html(str);
+            }
+        })
+    });
+
+//用户属性选择不同弹出不同的页面
+    $(document).on('change','#nature',function(){
+        if($('#nature').val()==1){
+            $(".copy_info").html(useHtml('0'));
+            $('.selectpicker').selectpicker();
+//            $(".ym_length").html(ym);
+            $(".other_Add").html("");
+            //    当选择用户属性为提供互联网服务用户的表格
+            $("#use").css("display", "inline-block");
+            $("#other").css("display", "none");
+            data('datetimepicker'+0)
+//            sel();
+
+        }else if($('#nature').val()==2){
+            //    当选择用户属性为其他用户的表格
+            $(".other_Add").html(otherHTMLFun("other"));
+            $(".copy_info").html("");
+//            $(".ym_length").html("");
+            $("#use").css("display", "none");
+            $("#other").css("display", "inline-block");
+            data('datetimepickerother')
+        }else {
+            $("#use").css("display", "none");
+            $("#other").css("display", "none");
+        }
+    })
+//    添加占用机房列表
+    var m = 0;
+//    var kk=$('.other_Add').html()
+    $('body').on('click', '#Other_btn', function () {
+       m++;
+        $('.other_Add').append(otherHTMLFun(m))
+
+        var lengths = $(".other_Add .kk").length ;
+
+        var numtitle=$('.other_title')[lengths-1]
+        $(numtitle) .html('占用机房- '+(lengths))
+//        sel();
+        data('datetimepicker' + m)
+//        data('datetimepicker' + m);
+    });
+    //删除
+    $('body').on('click', '.zyjf_del', function () {
+        var ins=0;
+//        console.log($(this).parents('.other_Add').find('.kk').length)
+        if ($(this).parents('.other_Add').find('.kk').length <= 1) {
+            alert("不能删除了");
+        } else {
+        if (confirm('确定要删除吗？')) {
+            $(this).parents('.kk').remove();
+
+            var lengths = $('.other_Add .kk').length ;
+//                console.log(lengths)
+            for(var i=0;i<=lengths;i++){
+                var num=ins++;
+                var numtitle=$('.other_title')[num]
+                $(numtitle) .html('占用机房- '+(num+1))
+            }
+        }
+        }
+    });
+
+    //其他   IP添加
+    $("body").on('click', '.Other_ip_btn', function () {
+        $(this).next().append('<tr class="other_ip_tr"><td><select class=" form-control is_special" reqiured><option value="1">否</option><option value="2">是</option></select></td><td><input type="text" class="form-control input-sm startip startip1"  required></td><td><input type="text" class="form-control input-sm endip endip1"  required></td><td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td></tr>');
+    });
+    //删除
+    $("body").on('click', '.del_IP', function () {
+    if (confirm("确定要删除吗？")) {
+        $(this).parent().parent().remove();
+    }
+    });
+
+
+    //添加占用机房列表
+    var n = 0;
+    $(document).on('click', '.pushHtml', function () {
+        n++;
+        var lengths=$(this).parents('.pull-left').next().find('.par_title_num').length;
+//         pattern="^(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])\\.(\\d{1,2}|1\\d\\d|2[0-4]\\d|25[0-5])$"
+        var html = '<div class="par" style="width: 1100px;border: 2px solid #cccccc;margin-bottom: 10px;"><p class="par_title"><span class="par_title_num">占用机房列表-1</span><span class="glyphicon glyphicon-trash pull-right par_del delY " ></span></p><div class="col-md-4 par_list_div"><label>IDC/ISP机房：</label><select class="s house_id newSelect"><option value="">请选择</option><volist name="rooms" id="room_info"><option value="{$room_info['house_id']}">{$room_info['house_name']}</option></volist></select></div><div class="col-md-4 par_list_div" ><label>网络宽带：</label><input type="text" class="form-control input-sm inputWidth band_width"  pattern="^[1-9]\\d*$"  title="请输入数字"></div><div class="col-md-4 par_list_div" ><label>资源分配时间：</label><input type="text" class="form-control input-sm datetimepicker'+n+' inputWidth distribute_time" required></div><div class="col-md-4 par_list_div" ><label>机架名称：</label><select class="frame_info_id newSelect" ><option value="">请选择</option></select></div><div class="wrap_list host_btn"><p class="Use_host_add_btn">添加主机信息<span class="glyphicon glyphicon-plus-sign" aria-hidden="true" ></span></p><table class="table table-bordered " style="float: right ;width: 900px;margin-top:10px;margin-right: 20px;"><thead><tr><th>虚拟主机名称</th><th>虚拟主机状态</th><th>虚拟主机网络地址</th><th>虚拟主机管理地址</th><th>虚拟主机类型</th><th>操作</th></tr></thead><tbody class="host_body"></tbody></table><div class="clearfix"></div></div><div class="wrap_list ip_btn"><p class="Use_ip_add_btn">IP地址转换<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></p><table class="table table-bordered " style="float: right ;width: 900px;margin-top:10px;margin-right: 20px;"><thead><tr><th>互联网起始IP</th><th>互联网终止IP</th><th>对应的私网起始IP</th><th>对应的私网终止IP</th><th>域名</th><th>操作</th></tr></thead><tbody><tr class="ip_tr"><td><input type="text" class="form-control input-sm internet_start_ip internet_start_ip1" required></td><td><input type="text" class="form-control input-sm internet_end_ip internet_end_ip1" required></td><td><input type="text" class="form-control input-sm net_start_ip net_start_ip1"></td><td><input type="text" class="form-control input-sm net_end_ip net_end_ip1"></td><td><input type="text" class="input-sm form-control domain_name" ></td><td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td></tr></tbody></table></div><div class="clearfix"></div></div><div class="clearfix"></div></div>';
+        $(this).parent().parent().parent().find('.blockPar').append(html);
+//        sel();
+        data('datetimepicker' + n);
+        var numtitle=$(this).parents('.pull-left').next().find('.par_title_num')[lengths]
+        $(numtitle) .html('占用机房列表- '+(lengths+1))
+    });
+    // 添加整个应用服务信息列表
+    var ins=0
+    $(document).on('click', '#Use_btn', function () {
+        ins++
+        var lengths = $('.k').length ;
+        $('.copy_info').append(useHtml(ins))
+//        sel('.newSelect');
+        $('.selectpicker').selectpicker();
+        data('datetimepicker' + ins);
+        var numtitle=$('.minTitle')[lengths]
+       $(numtitle) .html('应用服务信息- '+(lengths+1))
+       var select= $('.selectpicker_select')[lengths]
+        $(select) .html($('.wrapaa').html())
+
+    });
+    //删除机房占用列表
+    $('body').on('click', '.delY', function () {
+        var ins=0;
+        if ($(this).parents('.blockPar').find('.par').length <= 1) {
+            alert('不能再删除了');
+        } else {
+
+            if (confirm("确定要删除吗？")) {
+                var bar= $(this).parents('.pull-left ')
+                $(this).parents('.par').remove();
+//                var lengths = $('.par').length ;
+                var lengths = bar.find(".par_title_num").length ;
+
+//                console.log(lengths)
+                for(var i=0;i<=lengths;i++){
+                    var num=ins++;
+                    var numtitle=bar.find('.par_title_num')[lengths-1]
+
+                    $(numtitle) .html('占用机房列表- '+(num))
+                }
+
+            }
+        }
+    });
+//    删除整个应用服务信息
+    $(document).on('click', '.delF', function () {
+
+        var ins=0;
+
+        if ($(this).parents('.copy_info').find('.k').length <= 1) {
+            alert('不能再删除了');
+        } else {
+            if (confirm("确定要删除吗？")) {
+                $(this).parents('.k').remove();
+
+                var lengths = $('.k').length ;
+                for(var i=0;i<=lengths;i++){
+//                console.log(ins++)
+                    var num=ins++;
+                    var numtitle=$('.minTitle')[num]
+                    $(numtitle) .html('应用服务信息- '+(num+1))
+                }
+
+            }
+        }
+
+    });
+//    域名的删除
+    $(document).on('click', '.ym_del', function () {
+        if ($(this).parents('.wrap_ym_length').find('.ym_length').length <= 1) {
+            alert("不能删除了");
+        } else {
+            if (confirm('确定要删除吗？')) {
+                $(this).parents('.ym_length').remove();
+            }
+        }
+    });
+    //用户   IP添加
+    $("body").on('click', '.Use_ip_add_btn', function () {
+        $(this).next().append('<tr class="ip_tr">' + '<td><input type="text" class="form-control input-sm internet_start_ip internet_start_ip1" required></td><td><input type="text" class="form-control input-sm internet_end_ip internet_end_ip1" required></td><td><input type="text" class="form-control input-sm net_start_ip net_start_ip1"></td><td><input type="text" class="form-control input-sm net_end_ip net_end_ip1"></td><td><input type="text" class="input-sm form-control domain_name" ></td><td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_IP" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' + '</tr>');
+    });
+    //用户   主机添加
+    $("body").on('click', '.Use_host_add_btn', function () {
+
+        if($(this).parents(".info_list").find(".jieru").val()=='1'){
+            $(this).next().append('<tr class="host_tr">' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_name" required></td>' + '<td><input type="text" class="form-control input-sm state_host internet_start_host virtual_host_state"  pattern="^[1-9]\\d*$"  title="请输入数字"></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_addr" required></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_management_addr" required></td>'+ '<td><select class="newSelect virtual_host_type"><option value="1">共享性</option><option value="2">专用式</option><option value="3">云虚拟</option></select></td>' + '<td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_Host" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' + '</tr>');
+        }else{
+            $(this).next().append('<tr class="host_tr">' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_name"></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_state"  pattern="^[1-9]\\d*$"  title="请输入数字"></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_addr"></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_management_addr"></td>'+ '<td><select class="newSelect virtual_host_type "><option value="1">共享性</option><option value="2">专用式</option><option value="3">云虚拟</option></select></td>' + '<td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_Host" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' + '</tr>');
+        }
+
+    });
+    //域名 添加
+    $("body").on('click', '.server_ym_add', function () {
+        $(this).parent().find('.wrap_ym_length').append('<div style="margin-bottom: 10px" class="ym_length marT"> <label style="width: 105px;text-align: right">域名:</label> <input type="text" class="input-sm form-control domain_name" style="width: 140px;"><span style="cursor: pointer;margin-left: 20px;" class="glyphicon glyphicon-trash ym_del" aria-hidden="true"></span></div>');
+    });
+
+    //添加主机信息的删除
+    $("body").on('click', '.del_Host', function () {
+        if (confirm("确定要删除吗？")) {
+            $(this).parent().parent().remove();
+        } else {}
+    });
+    //ajax传参数
+    $('#Use_add').submit(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+//    $("body").on('click', '#Use_add', function () {
+        //var url = '';
+        var type;
+        if ($("#nature").val() == 1) {
+            //url = '__URL__/server_user_add';
+            type = 1;
+            var dataList = [];
+            $('#use .k').each(function(){
+//                var service_content= $(this).find('.service_content').val()
+                var service_content= $(this).find('.service_content').selectpicker('val')
+                var regtype= $(this).find('.regtype').val()
+                var set_mode= $(this).find('.set_mode').val()
+                var regId= $(this).find('.regid').val()
+                var business= $(this).find('.business').val()
+                var _data = {
+                    service_content: '',
+                    regtype: '',
+                    set_mode: '',
+                    regid: '',
+                    business: '',
+                    room_list: [],
+//                    doman_name: []
+                };
+                _data.service_content = service_content;
+                _data.regtype = regtype;
+                _data.set_mode =set_mode;
+                _data.regid = regId;
+                _data.business = business;
+//                占用机房列表
+                var _this=$(this)
+
+                $(this).find('.par').each(function(){
+                   var houseId= $(this).find('.house_id').val()
+                   var band_width=  $(this).find('.band_width').val()
+                   var distribute_time= $(this).find('.distribute_time ').val()
+                   var frame_info_id= $(this).find('.frame_info_id').val()
+
+                    var roomList = { house_id: '', band_width: '', distribute_time: '',frame_info_id:'',Host:[],
+                        IP: [] };
+                    roomList.house_id = houseId;
+                    roomList.band_width = band_width;
+                    roomList.distribute_time = distribute_time
+                    roomList.frame_info_id = frame_info_id;
+
+//                    遍历主机信息
+                   $(this).find('.host_btn .host_tr').each(function(){
+                        var virtual_host_name= $(this).find('.virtual_host_name').val()
+                        var virtual_host_state=  $(this).find('.virtual_host_state').val()
+                        var virtual_host_addr= $(this).find('.virtual_host_addr ').val()
+                        var virtual_host_management_addr= $(this).find('.virtual_host_management_addr').val()
+                        var virtual_host_type= $(this).find('.virtual_host_type ').val()
+
+                       var hostlist={virtual_host_name:'',virtual_host_state:'',virtual_host_addr:'',virtual_host_management_addr:'',virtual_host_type:''}
+                        hostlist.virtual_host_name = virtual_host_name;
+                        hostlist.virtual_host_state = virtual_host_state;
+                        hostlist.virtual_host_addr = virtual_host_addr
+                        hostlist.virtual_host_management_addr = virtual_host_management_addr;
+                        hostlist.virtual_host_type = virtual_host_type;
+                        roomList.Host.push(hostlist)
+                    });
+
+                    //                    遍历IP地址转化
+                    $(this).find('.ip_btn .ip_tr').each(function(){
+                        var internet_start_ip= $(this).find('.internet_start_ip').val()
+                        var internet_end_ip=  $(this).find('.internet_end_ip').val()
+                        var net_start_ip= $(this).find('.net_start_ip ').val()
+                        var net_end_ip= $(this).find('.net_end_ip').val()
+                        var domain_name= $(this).find('.domain_name').val()
+
+                        var iplist={internet_start_ip:'',internet_end_ip:'',net_start_ip:'',net_end_ip:'',domain_name:''}
+                        iplist.internet_start_ip = internet_start_ip;
+                        iplist.internet_end_ip = internet_end_ip;
+                        iplist.net_start_ip = net_start_ip;
+                        iplist.net_end_ip = net_end_ip;
+                        iplist.domain_name = domain_name;
+
+                        roomList.IP.push(iplist)
+                    })
+
+                    _data.room_list.push(roomList);
+
+                })
+//                域名的存放
+//
+//                $(this).children('.ym_div').find('.domain_name').each(function(){
+//                    _data.doman_name.push($(this).val());
+//                })
+                dataList.push(_data);
+//                console.log(dataList)
+
+            })
+            var exp1 = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+            var exp2 = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
+            var is_true = false;
+            $(".internet_start_ip1").each(function(){
+                var internet_start_ip1 = $(this).val().match(exp1);
+                var internet_start_ip2 = $(this).val().match(exp2);
+                if(internet_start_ip1 == undefined || internet_start_ip1=='' ){
+                    if(internet_start_ip2 == undefined || internet_start_ip2==''){
+                        is_true = true;
+                        alert('互联网起始IP地址请填写正确的ipv4或者ipv6格式！') ;
+                        return false
+                    }
+                }
+            })
+            if(is_true == true){
+                return false
+            }
+            $(".internet_end_ip1").each(function(){
+                var internet_end_ip1 = $(this).val().match(exp1);
+                var internet_end_ip2 = $(this).val().match(exp2);
+                if(internet_end_ip1 == undefined || internet_end_ip1=='' ){
+                    if(internet_end_ip2 == undefined || internet_end_ip2==''){
+                        is_true = true;
+                        alert('互联网终止IP地址请填写正确的ipv4或者ipv6格式！') ;
+                        return false
+                    }
+                }
+            })
+            if(is_true == true){
+                return false
+            }
+            $(".net_start_ip1").each(function(){
+                if($(this).val() !=''){
+                    var net_end_ip = $(this).closest("tr").find(".net_end_ip1").val();
+                    if(net_end_ip ==''){
+                        alert('请填写对应的私网终止IP地址！') ;
+                        is_true = true;
+                    }
+                    var net_start_ip1 = $(this).val().match(exp1);
+                    var net_start_ip2 = $(this).val().match(exp2);
+                    if(net_start_ip1 == undefined || net_start_ip1=='' ){
+                        if(net_start_ip2 == undefined || net_start_ip2==''){
+                            is_true = true;
+                            alert('对应的私网起始IP地址请填写正确的ipv4或者ipv6格式！') ;
+                            return false
+                        }
+                    }
+                } 
+            })
+            if(is_true == true){
+                return false
+            }
+            $(".net_end_ip1").each(function(){
+                if($(this).val() !=''){
+                    var net_start_ip = $(this).closest("tr").find(".net_start_ip1").val();
+                    if(net_start_ip ==''){
+                        alert('请填写对应的私网起始IP地址！') ;
+                        is_true = true;
+                    }
+                    var net_end_ip1 = $(this).val().match(exp1);
+                    var net_end_ip2 = $(this).val().match(exp2);
+                    if(net_end_ip1 == undefined || net_end_ip1=='' ){
+                        if(net_end_ip2 == undefined || net_end_ip2==''){
+                            is_true = true;
+                            alert('对应的私网终止IP地址请填写正确的ipv4或者ipv6格式！') ;
+                            return false
+                        }
+                    }
+                }
+            })
+            if(is_true == true){
+                return false
+            }
+           
+        } else if ($("#nature").val() == 2) {
+            //url  = "__URL__/other_user_add";
+            type = 2;
+
+
+            var dataList = [];
+            var one = $('.kk  .house_id');
+            var Ip = $('.kk  .band_width');
+            var times = $('.kk  .distribute_time');
+            //            var listData=[];
+            for (var i = 0; i < $(".kk").length; i++) {
+                var _a = i + 1;
+                var is_special = $('.kk:nth-child( ' + _a + ' ) .table-bordered .is_special');
+                var startIp = $('.kk:nth-child( ' + _a + ' ) .table-bordered .startip');
+                var endIp = $('.kk:nth-child( ' + _a + ' ) .table-bordered .endip');
+                var data = { house_id: '', band_width: '', distribute_time: '', Ip: [] };
+                data.house_id = one[i].value;
+                data.band_width = Ip[i].value;
+                data.distribute_time = times[i].value;
+                for (var j = 0; j < startIp.length; j++) {
+                    var ipList = { startip: '', endip: '' };
+                    ipList.startip = startIp[j].value;
+                    ipList.endip = endIp[j].value;
+                    ipList.is_special = is_special[j].value;
+                    data.Ip.push(ipList);
+                }
+                dataList.push(data);
+            }
+        }
+        var exp1 = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+            var exp2 = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;
+            var is_true = false;
+            $(".startip1").each(function(){
+                var startip1 = $(this).val().match(exp1);
+                var startip2 = $(this).val().match(exp2);
+                if(startip1 == undefined || startip1=='' ){
+                    if(startip2 == undefined || startip2==''){
+                        is_true = true;
+                        alert('互联网起始IP地址请填写正确的ipv4或者ipv6格式！') ;
+                        return false
+                    }
+                    return false
+                }
+            })
+            if(is_true == true){
+                return false
+            }
+            $(".endip1").each(function(){
+                var endip1 = $(this).val().match(exp1);
+                var endip2 = $(this).val().match(exp2);
+                if(endip1 == undefined || endip1=='' ){
+                    if(endip2 == undefined || endip2==''){
+                        is_true = true;
+                        alert('互联网终止IP地址请填写正确的ipv4或者ipv6格式！') ;
+                        return false
+                    }
+                    return false
+                }
+            })
+            if(is_true == true){
+                return false
+            }
+
+        var num = {};
+        num.nature = $("#nature").val();
+        num.unitname = $("#unitname").val();
+        num.addr = $("#addr").val();
+        num.unitnature = $("#unitnature").val();
+        num.id_type = $("#id_type").val();
+        num.idnumber = $("#idnumber").val();
+        num.zip_code = $("#zip_code").val();
+        num.idc_id = $("#idc_id").val();
+        num.register_time = $("#registertime").val();
+        var arr = {};
+        arr.officer_name = $("#officer_name").val();
+        arr.officer_idtype = $("#officer_idtype").val();
+        arr.officer_id = $("#officer_id").val();
+        arr.officer_tel = $("#officer_tel").val();
+        arr.officer_mobile = $("#officer_mobile").val();
+        arr.officer_email = $("#officer_email").val();
+        $.ajax({
+            type: 'post',
+            //url: url,
+            //url: "__URL__/user_add",
+            data: {
+                'data1': num,
+                'data2': arr,
+                'data3': dataList,
+                'type':type
+            },
+            dataType: 'json',
+            success: function success(data) {
+                if (data.status == 'success') {
+                    alert('添加成功！');
+                    window.location.href = "__URL__/user";
+                } else {
+                    alert('添加失败！');
+                }
+            }
+        });
+    });
+
+
+//   当接入方式为虚拟主机时，添加主机信息为必填信息
+    $(document).on('change','.jieru ',function(){
+        console.log($('.jieru').val())
+        if($(this).val()=='1'){
+//            主机信息必填
+            $(this).parents(".info_list").find('.par').each(function(){
+                $(this).find('.host_body').html('<tr class="host_tr">' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_name" required></td>' + '<td><input type="text" class="form-control input-sm state_host internet_start_host virtual_host_state"  pattern="^[1-9]\\d*$"  title="请输入数字"></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_addr" required></td>' + '<td><input type="text" class="form-control input-sm internet_start_host virtual_host_management_addr" required></td>'+ '<td><select class="newSelect virtual_host_type"><option value="1">共享性</option><option value="2">专用式</option><option value="3">云虚拟</option></select></td>' + '<td style="line-height: 30px"><span class="glyphicon glyphicon-trash info_del_l del_Host" aria-hidden="true" style="cursor: pointer;margin-left: 5px"></span></td>' + '</tr>');
+            })
+
+        }else{
+            $(this).parents(".info_list").find('.par').each(function(){
+                $(this).find('.host_body').html('');
+            })
+//            $('.host_body').html("")
+//            $(this).parents(".info_list").find('.internet_start_host').attr('required',false)
+        }
+
+    })
+//    业务类型为IDC时,机架名称必添
+    $(document).on('change','.yw_type ',function(){
+//        console.log($('.yw_type').val())
+        if($(this).val()=='1'){
+//            主机信息必填
+            $(this).parents(".info_list").find('.par').each(function(){
+                $(this).find('.frame_info_id ').attr('required','true');
+            })
+
+        }else{
+            $(this).parents(".info_list").find('.par').each(function(){
+                $(this).find('.frame_info_id ').removeAttr('required');
+            })
+    }
+
+    })
+//    刷新页面时,清除用户属性的缓存,将其置位请选择状态
+    var is_confim=true;
+    //兼容IE
+    $(window).bind('load',function(){
+        if(window.is_confim!==false){
+            $('#nature').val("")
+            return false;
+        }
+    });
+</script>
+
+

@@ -1,0 +1,240 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>日志管理</li>
+            <li class="active" style="color: white">基础数据异常日志</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 12px">机房名称：</label>
+                                                <select class="s house_id newSelect" name="house_id" id="house_id" >
+                                                    <option value="">请选择</option>
+                                                    <volist name="rooms" id="room_info">
+                                                        <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                    </volist>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 24px">域名：</label>
+                                                <input type="text"  name="domain" id="domain">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 60px">IP：</label>
+                                                <input type="text" name="ip" id="ip">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 12px">目的端口：</label>
+                                                <input type="text" name="port" id="port">
+                                            </li>
+                                            <li>
+                                                <label>登记异常：</label>
+                                                <select name="regerror" id="regerror">
+                                                    <option value="">请选择</option>
+                                                    <option value="0">正常</option>
+                                                    <option value="1">IP登记保留，实际为占用</option>
+                                                    <option value="2">IP登记域名有误</option>
+                                                    <option value="3">IP未登记</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>违法违规类型：</label>
+                                                <select id="illegaltype" name="illegaltype">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">未备案</option>
+                                                    <option value="2">违法网站</option>
+                                                    <option value="999">其他</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>发现时间段：</label>
+                                                <input class="date-range-picker" type="text"
+                                                       name="time" data-date-format="YYYY-MM-DD"
+                                                       id="time" />
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询</button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="card-body" style="overflow-x: auto">
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="width: 2000px;max-width: 5000px;text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align:center">机房名称</th>
+                                        <th style="text-align:center">IP</th>
+                                        <th style="text-align:center">端口</th>
+                                        <th style="text-align:center">域名</th>
+                                        <th style="text-align:center">登记域名</th>
+                                        <th style="text-align:center">登记异常</th>
+                                        <th style="text-align:center">首次发现时间</th>
+                                        <th style="text-align:center">最近发现时间</th>
+                                        <th style="text-align:center">24小时累积访问量</th>
+                                        <th style="text-align:center">协议</th>
+                                        <th style="text-align:center">违法违规类型</th>
+                                        <th style="text-align:center">处置状态</th>
+                                        <th style="text-align:center">处置人</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="body">
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>{$info['house_name']}</td>
+                                                <td>{$info['ip']}</td>
+                                                <td>{$info['port']}</td>
+                                                <td>{$info['domain']}</td>
+                                                <td>{$info['regdomain']}</td>
+                                                <td>{$info['regerror']}</td>
+                                                <td>{$info['first_time']}</td>
+                                                <td>{$info['last_time']}</td>
+                                                <td>{$info['views']}</td>
+                                                <td>{$info['protocol']}</td>
+                                                <td>{$info['illegaltype']}</td>
+                                                <td>{$info['currentstate']}</td>
+                                                <td>{$info['operation_account']}</td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                               <!--  <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div> -->
+                            </div>
+                            <div class="dataTables_paginate paging_bootstrap pull-right" id="page"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#house_id').val('<?=$house_id?>');
+    $('#port').val('<?=$port?>');
+    $('#domain').val('<?=$domain?>');
+    $('#ip').val('<?=$ip?>');
+    $('#regerror').val('<?=$regerror?>');
+    $('#illegaltype').val('<?=$illegaltype?>');
+    $('#time').val('<?=$time?>');
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                maxDate:new Date(),
+                locale: {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker: true,
+                timePickerIncrement: 1,
+                timePicker12Hour: false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+    function Paging(index){  
+            var RankInfo = document.getElementById('body');  
+            var totalPage = RankInfo.rows.length; //总条数  
+            var pageSize = 12;//每页显示条数  
+            var pageNumber = Math.ceil(totalPage/pageSize); //总页数  
+            var currentPage = index;//当前页数  
+            var start_row = (currentPage-1)*pageSize;//开始显示的行  
+            var end_row = currentPage*pageSize;//结束显示的行  
+                end_row = (end_row > totalPage) ? totalPage : end_row;  
+            for(var i=0;i<totalPage;i++){  
+                var irow = RankInfo.rows[i];  
+                if(i>=start_row && i<end_row){  
+                    irow.style.display = 'table-row';  
+                }else {  
+                    irow.style.display = 'none';  
+                }  
+            }     
+           var pageHTML = "<ul class='pagination'>";
+            var temnum = "";
+            if(currentPage >1){
+                pageHTML += "<li><a class='p_first' href=\"javascript:Paging(1)\" title=\"首页\">首页</a><li>"; 
+                var up =parseInt(currentPage)-1;  
+                if(up<1){up =1;}  
+                pageHTML += "<li><a class='p_prev' href=\"javascript:Paging("+up+")\" title=\"上一页\">上一页</a></li>";    
+            }
+            
+            pageHTML +="<li></li>";
+            var pageList = '';
+            if(pageNumber >10){
+                if( currentPage>=5){
+                    if(pageNumber - currentPage >=10){
+                        for (i=currentPage-5;i<=(parseInt(currentPage)+5);i++){
+                            if(currentPage == i){
+                                pageList += "<span class='current'>"+i+"</span>";
+
+                            }else{
+                                pageList += "<a class='num' href='javascript:Paging("+i+")'>"+i+"</a>";
+                            } 
+                        }
+                    }else{
+                        for (i=pageNumber-10;i<=pageNumber;i++){
+                            if(currentPage == i){
+                                pageList += "<span class='current'>"+i+"</span>";
+
+                            }else{
+                                pageList += "<a class='num' href='javascript:Paging("+i+")'>"+i+"</a>";
+                            } 
+                        }
+                    }
+                }else if(currentPage<5){
+                    for (i=1;i<=10;i++){
+                        if(currentPage == i){
+                            pageList += "<span class='current'>"+i+"</span>";
+
+                        }else{
+                            pageList += "<a class='num' href='javascript:Paging("+i+")'>"+i+"</a>";
+                        } 
+                    } 
+                }
+            }else{
+                for (i=1;i<=pageNumber;i++){
+                    if(currentPage == i){
+                            pageList += "<span class='current'>"+i+"</span>";
+
+                        }else{
+                            pageList += "<a class='num' href='javascript:Paging("+i+")'>"+i+"</a>";
+                    } 
+                }
+            }
+            pageHTML+="<li>"+pageList+"</li>";   
+  
+            var next = parseInt(currentPage)+1;  
+                if(next >pageNumber){ next = pageNumber ;}  
+                pageHTML += "<li><a  class='p_next js_page' href=\"javascript:Paging("+next+")\" title=\"下一页\">下一页</a>";       
+                pageHTML += "<li><a class='p_last js_page' href=\"javascript:Paging("+pageNumber+")\" title=\"尾页\">"+ pageNumber +"</a></li>"; 
+                pageHTML += "<li><a><span class='rows'>共 "+totalPage+" 条记录 "+ currentPage +"/"+pageNumber+" 页</a></li></ul>"
+            if(totalPage == 0){  
+                $("#page").html('');  
+            }else {  
+                $("#page").html(pageHTML);  
+            }  
+        }        
+  
+   Paging(1);  
+</script>

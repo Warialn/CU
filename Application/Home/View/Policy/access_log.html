@@ -1,0 +1,300 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">访问日志查询指令</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>指令ID：</label>
+                                                <input type="text" id="commandid" name="commandid">
+
+                                            </li>
+                                            <li>
+                                                <label>机房名称：</label>
+                                                <select id="house_name" name="house_name">
+                                                    <option value="">请选择</option>
+                                                    <volist name="rooms" id="room_info">
+                                                        <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                    </volist>
+                                                </select>
+                                            </li>
+
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+
+
+                            </div>
+
+                            <div class="card-body">
+                                {:authcheck('Home/Policy/access_log_add','  
+                                <span style="color: white;cursor: pointer " data-toggle="modal" data-target="#myModal">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: #ADFF2F;margin-right: 5px"></span>添加
+                                </span>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">指令ID</th>
+                                        <th  style="text-align: center">IDC/ISP经营者ID</th>
+                                        <th  style="text-align: center">机房名称</th>
+                                        <th  style="text-align: center">查询起始时间</th>
+                                        <th  style="text-align: center">查询终止时间</th>
+                                        <th  style="text-align: center">规则</th>
+                                        <th  style="text-align: center">生成时间</th>
+                                        <th  style="text-align: center">指令状态</th>
+                                        <th  style="text-align: center">上报结果</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>{$info['commandid']}</td>
+                                                <td>{$info['idc_name']}</td>
+                                                <td>{$info['house_name']}</td>
+                                                <td>{$info['start_time']  | date=('Y-m-d H:i:s'),###}</td>
+                                                <td>{$info['end_time']  | date=('Y-m-d H:i:s'),###}</td>
+                                                <td><a class="show_ruleInfo" style="color: blue;cursor: pointer" data-toggle="modal" data-target="#myModal-gz">查看</a></td>
+                                                <td>{$info['timestamp'] | date=('Y-m-d H:i:s'),###}</td>
+                                                <td>{$info['status']}</td>
+                                                <td>{$info['result']}</td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <!--  添加 模态框   -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-tj" aria-hidden="true">
+                                    <div class="modal-dialog" >
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-tj">添加</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" >
+                                                    <div class="form-group">
+                                                        <label style="width: 96px;text-align: right">机房ID：</label>
+                                                        <select id="houseId" name="houseId" style="width: 168px" class="h30">
+                                                            <option value="">请选择</option>
+                                                            <volist name="rooms" id="room_info">
+                                                                <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">起始时间：</label>
+                                                        <input placeholder="请输入日期" style="width:168px;height: 32px" class="input-sm   laydate-icon" id="startTime"/>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">终止时间：</label>
+                                                        <input placeholder="请输入日期" style="width:168px;height: 32px" class="input-sm   laydate-icon" id="endTime"/>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">源IP：</label>
+                                                        <input type="text" style="width:168px;" class="input-sm form-control" id="srcIp_a" placeholder="起始源IP"> — <input type="text" style="width:168px;" class="input-sm form-control" id="srcIp_b" placeholder="终止源IP">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">目的IP：</label>
+                                                        <input type="text" style="width:168px;" class="input-sm form-control" id="desIp_a" placeholder="起始目的IP"> — <input type="text" style="width:168px;" class="input-sm form-control" id="desIp_b" placeholder="终止目的IP">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">源端口：</label>
+                                                        <input type="text" style="width:168px;" class="input-sm form-control" id="srcPort" placeholder="请填写源端口">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">目的端口：</label>
+                                                        <input type="text" style="width:168px;" class="input-sm form-control" id="dstPort" placeholder="请填写目的端口">
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 98px;text-align: right">传输层协议类型：</label>
+                                                        <select id="protocol_type" style="width: 168px;" class="h30">
+                                                            <option value="">请选择</option>
+                                                            <option value="1">TCP</option>
+                                                            <option value="2">UDP</option>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top: 10px">
+                                                        <label style="width: 96px;text-align: right">URL：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" id="url" placeholder="请填写URL">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="access_log_btn">
+                                                    提交
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- 模态框（Modal） -->
+                                <div class="modal fade" id="myModal-gz" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">查看</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <table id="version-detail-table" class="table table-striped table-bordered table-hover">
+                                                    <thead>
+                                                    <tr class="active">
+                                                        <th>源IP</th>
+                                                        <th>目的IP</th>
+                                                        <th>源端口</th>
+                                                        <th>目的端口</th>
+                                                        <th>传输层协议类型</th>
+                                                        <th style="width: 190px;">URL</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="info_rule">
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!-- 分页 -->
+                                <div class="dataTables_paginate paging_bootstrap pull-right" >
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#commandid').val("<?=$commandid?>");
+    $('#house_name').val("<?=$house_name?>");
+    
+    laydate({
+        elem: '#startTime', //指定元素
+        istime: true,
+        format: 'YYYY-MM-DD hh:mm:ss'
+    });
+    laydate({
+        elem: '#endTime', //指定元素
+        istime: true,
+        format: 'YYYY-MM-DD hh:mm:ss'
+    });
+
+
+    $("#access_log_btn").click(function () {
+        var data={};
+        data.houseId=$("#houseId").find("option:selected").val();
+        data.startTime=$("#startTime").val();
+        data.endTime=$("#endTime").val();
+        data.srcIp=$("#srcIp_a").val()+'-'+$("#srcIp_b").val();
+        data.destIp=$("#desIp_a").val()+'-'+$("#desIp_b").val();
+        data.srcPort=$("#srcPort").val();
+        data.dstPort=$("#dstPort").val();
+        data.ProtocolType=$("#protocol_type").find("option:selected").val();
+        data.url=$("#url").val();
+//        console.log(data)
+        $("#myModal").modal('hide');
+        $("#myModal input").val('');
+        $("#myModal select").val('').select2();
+        $.ajax({
+            type: 'get',
+            url: '__URL__/access_log_add',
+            data: data,
+            dataType: 'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('添加成功');
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+
+    })
+    $(".show_ruleInfo").click(function (){
+        var commandid = $(this).parents('tr').children('td:eq(0)').html();
+        $.ajax({
+            type: "get",
+            //url: "__URL__/access_log_rule_info",
+            url: "__URL__/access_log",
+            data: {'commandid':commandid,type:'rule'},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#info_rule").children().remove();
+                    $.each(data.data, function(index, value) {
+                        if(value.src_start_ip==null){
+                            value.src_start_ip='';
+                        }
+                        if(value.dst_start_ip==null){
+                            value.dst_start_ip='';
+                        }
+                        if(value.src_port==null){
+                            value.src_port='';
+                        }
+                        if(value.dst_port==null){
+                            value.dst_port='';
+                        }
+                        if(value.protocol==null){
+                            value.protocol='';
+                        }
+                        if(value.url==null){
+                            value.url='';
+                        }
+                        $("<tr><td style='text-align:center;'>" + value.src_start_ip + "</td><td style='text-align:center;'>" + value.dst_start_ip +"</td><td style='text-align:center;'>" + value.src_port +"</td><td style='text-align:center;'>" + value.dst_port +"</td><td style='text-align:center;'>" + value.protocol +"</td><td style='text-align:center;' title='"+ value.url+"'><span  style='text-align:center;width: 190px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;display: inline-block;'>" + value.url +"</span></td></tr>").appendTo($("#info_rule"));
+                    });
+                }
+            }
+        })
+    });
+    //机房名称
+    $(".show_roomInfo").click(function (){
+        var commandid = $(this).parents('tr').children('td:eq(0)').html();
+        $.ajax({
+            type: "get",
+            url: "__URL__/room_info",
+            data: {'commandid':commandid},
+            dataType:'json',
+            success: function(data){
+                if (data) {
+                    $("#info_td").children().remove();
+                    $.each(data.data, function(index, value) {
+                        $("<tr><td>" + value.house_name + "</td><td>" + value.status +"</td></tr>").appendTo($("#info_td"));
+                    });
+                }
+            }
+        })
+    });
+</script>

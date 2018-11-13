@@ -1,0 +1,645 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>基础数据管理</li>
+            <li class="active"><a href="__APP__/Basicinfo/room" style="color: blue">机房管理</a></li>
+            <li>添加</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <form class="form-inline" id="room_add_btn">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <div class="title">
+                                            <!--<p>机房基础信息</p>-->
+                                        </div>
+                                        <p style="font-size: 16px;font-weight: 500">机房基础信息</p>
+                                        <!--<form class="form-inline">-->
+                                            <div class="col-md-4" >
+                                                <label style="width: 105px;text-align: right">机房编号：</label>
+                                                <input type="text" class="form-control input-sm" id="house_id" style="width: 168px" pattern="^\d{1,32}$"  title="请输入1-32位数字" required>
+                                            </div>
+                                            <div class="col-md-4" >
+                                                <label style="width: 105px;text-align: right">机房名称：</label>
+                                                <input type="text" class="form-control input-sm" id="house_name" style="width: 168px" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                            </div>
+                                            <div class="col-md-4" style="margin-top: 2px" >
+                                                <label style="width: 105px;text-align: right">机房性质：</label>
+                                                <select name="house_type" id="house_type" style="width: 168px;height: 30px;">
+                                                    <option value="1">自建</option>
+                                                    <option value="2">租用</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4" style="margin-top: 10px">
+                                                <label style="width: 105px;text-align: right">省份：</label>
+                                                <select  id="province" class="province" name="province" style="width: 168px;height: 30px;" required>
+                                                    <option value="">请选择</option>
+                                                    <volist name="region" id="region_info">
+                                                        <option value="{$region_info.id}">{$region_info.name}</option>
+                                                    </volist>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4" style="margin-top: 10px">
+                                                <label style="width: 105px;text-align: right">城市：</label>
+
+                                                <select  id="city" class="city" name="city" style="width: 168px;height: 30px" required>
+                                                    <option value="">请选择</option>
+
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4" style="margin-top: 10px">
+                                                <label style="width: 105px;text-align: right">县级市：</label>
+                                                <select  id="county" class="county" name="county" style="width: 168px;height: 30px;">
+                                                    <option value="">请选择</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4"  style="margin-top: 10px">
+                                                <label style="width: 105px;text-align: right">地址：</label>
+                                                <input type="text" class="form-control input-sm" id="house_addr" style="width: 168px;height: 30px;" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                            </div>
+                                            <div class="col-md-4"  style="margin-top: 10px">
+                                                <label style="width: 105px;text-align: right">邮编：</label>
+                                                <input type="text" class="form-control input-sm" id="house_zip" style="width: 168px"  pattern="^[0-9]\d{5}(?!\d)$" title="请输入6位数字邮编" required>
+                                            </div>
+                                           <div class=" col-md-4" style="margin-top: 10px" >
+                                                <label style="width: 105px;text-align: right">IDC/ISP经营单位：</label>
+                                                <select name="idc_id" id="idc_id" class="idc_id"  style="width: 168px;height: 30px;" required>
+                                                    <option value="">请选择</option>
+                                                    <volist name="basic_idc" id="idc_info">
+                                                        <option value="{$idc_info['idc_id']}">{$idc_info['idc_name']}</option>
+                                                    </volist>
+                                                </select>
+                                            </div>
+                                        <!--</form>-->
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <p style="font-size: 16px;font-weight: 500;">网络信息安全负责人</p>
+                                    <!--<form class="form-inline">-->
+                                        <div class=" col-md-4  ">
+                                            <label style="width: 105px;text-align: right">姓名：</label>
+                                            <input type="text" class="form-control input-sm" id="house_officer_name" style="width: 168px" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class="col-md-4" >
+                                            <label style="width: 105px;text-align: right">证件类型：</label>
+                                            <select name="" id="house_officer_idtype" style="width: 168px;height: 30px;">
+                                                <!-- <option value="">请选择</option> -->
+                                                <option value="2">身份证</option>
+                                                <option value="7">护照</option>
+                                                <option value="8">军官证</option>
+                                                <option value="9">台胞证</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4" >
+                                            <label style="width: 105px;text-align: right">证件号：</label>
+                                            <input type="text" class="form-control input-sm" id="house_officer_id" style="width: 168px" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">固定电话：</label>
+                                            <input type="text" class="form-control input-sm" id="house_officer_tel" style="width: 168px" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">移动电话：</label>
+                                            <input type="text" class="form-control input-sm" id="house_officer_mobile" style="width: 168px" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">email地址：</label>
+                                            <input type="text" class="form-control input-sm" id="house_officer_email"  pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" style="width: 168px" pattern="^\S{1,64}$"  title="请输入1-64位字符" required>
+                                        </div>
+                                    <!--</form>-->
+                                    <br><br><br><br>
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;margin-bottom: 10px ">IP段列表</p>
+                                    <span style="cursor: pointer" id="room_add_IP" data-toggle="modal" data-target="#myModal">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-right: 5px;"></span>添加
+                                    </span>
+                                    <!--  表格IP  -->
+                                    <table class="table table-bordered" id="room_table_IP">
+                                        <thead>
+                                        <tr>
+                                            <th>起始IP地址</th>
+                                            <th>终止IP地址</th>
+                                            <th>IP地址使用方式</th>
+                                            <th>使用人</th>
+                                            <th>使用人证件类型</th>
+                                            <th>使用人证件号</th>
+                                            <th>来源单位</th>
+                                            <th>分配单位</th>
+                                            <th>使用时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+
+
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;margin-bottom: 10px ">机架信息列表</p>
+                                    <span style="cursor: pointer" id="room_add_IO" data-toggle="modal" data-target="#myModal-IO">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-right: 5px;"></span>添加
+                                    </span>
+                                    <!-- 机架信息列表 表格  -->
+                                    <table class="table table-bordered" id="room_table_IO">
+                                        <thead>
+                                        <tr>
+                                             <th>是否为专线</th>
+                                            <th>机架/机位名称</th>
+                                            <!--<th>机房ID</th>-->
+                                            <th>使用类型</th>
+                                            <th>分配状态</th>
+                                            <th>占用状态</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;margin-bottom: 10px ">链路信息列表</p>
+                                    <span style="cursor: pointer" id="room_add_LL" data-toggle="modal" data-target="#myModal-LL">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" style="color: green;margin-right: 5px;"></span>添加
+                                    </span>
+                                    <!--  链路信息列表  -->
+                                    <table class="table table-bordered" id="room_table_LL">
+                                        <thead>
+                                        <tr>
+                                           <!--  <th>链路信息ID</th> -->
+                                            <th>链路带宽</th>
+                                            <th>链路类型</th>
+                                            <th>链路接入单位信息</th>
+                                            <th>网关IP</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+
+                                    <!--  保存按钮 -->
+                                    <div class="text-center">
+                                        <button class="btn btn-info" type='submit' style="margin-top: 20px" >保存</button>
+                                        <a href="{:U('Basicinfo/room')}">
+                                            <button class="btn btn-default" style="margin-top: 20px">返回</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                            <!--  表格IP 添加模态框  -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel-IP" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel_IP">IP段添加</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-inline" id="room_add_btn_ip">
+                                                <div class="form-group">
+                                                    <label style="width: 96px;text-align: right">起始IP地址：</label>
+                                                    <input type="text" class="input-sm form-control" id="a"  required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">终止IP地址：</label>
+                                                    <input type="text" class="input-sm form-control" id="b" required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">IP地址使用方式：</label>
+                                                    <select name="" style="width:168px;height: 30px;border-color: #ccc;" id="c">
+                                                        <!-- <option value="请选择">请选择</option> -->
+                                                        <option value="0">静态</option>
+                                                        <option value="1">动态</option>
+                                                        <option value="2">保留</option>
+                                                        <option value="3">专线</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">使用时间：</label>
+                                                    <input type="text" class="form-control input-sm datetimepicker" style="width: 168px" id="i" required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">使用人或单位：</label>
+                                                    <input type="text" class="input-sm form-control" id="d" pattern="^\S{1,128}$"  title="请输入1-128位字符" >
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">证件类型：</label>
+                                                    <select name="" style="width:168px;height: 30px;border-color: #ccc;" id="e">
+                                                        <option value="请选择">请选择</option>
+                                                        <option value="1">工商营业执照号码</option>
+                                                        <option value="2">身份证</option>
+                                                        <option value="3">组织机构代码证书</option>
+                                                        <option value="4">事业法人证书</option>
+                                                        <option value="5">军队代号</option>
+                                                        <option value="6">社团法人证</option>
+                                                        <option value="7">护照</option>
+                                                        <option value="8">军官证</option>
+                                                        <option value="9">台胞证</option>
+                                                        <option value="999">其他</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">使用人证件号：</label>
+                                                    <input type="text" class="input-sm form-control" id="f" pattern="^\S{1,32}$"  title="请输入1-32位字符" >
+                                                </div>
+
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">来源单位：</label>
+                                                    <input type="text" class="input-sm form-control" id="g" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 96px;text-align: right">分配单位：</label>
+                                                    <input type="text" class="input-sm form-control" id="h" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-info" >
+                                                        提交
+                                                    </button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                </div>
+
+                                            </form>
+                                        </div>
+
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal -->
+                            </div>
+
+
+                            <!--  机架信息列表 添加模态框  -->
+                            <div class="modal fade" id="myModal-IO" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel">机架信息列表添加</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-inline" id="room_add_btn_io">
+                                                <div class="form-group">
+                                                    <label style="width: 88px;text-align: right">是否为专线：</label>
+                                                    <select id="is_special" style="width: 168px" class="h30">
+                                                        <!-- <option value="请选择">请选择</option> -->
+                                                        <option value="1">否</option>
+                                                        <option value="2">是</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="form-group"  style="margin-top: 10px">
+                                                    <label style="width: 88px;text-align: right">机架/机位名称：</label>
+                                                    <input type="text" class="input-sm form-control" id="frame_name" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 88px;text-align: right">使用类型：</label>
+                                                    <select id="usertype" style="width: 168px" class="h30">
+                                                        <!-- <option value="请选择">请选择</option> -->
+                                                        <option value="1">自用</option>
+                                                        <option value="2">出租</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 88px;text-align: right">分配状态：</label>
+                                                    <select id="distribution" style="width: 168px" class="h30">
+                                                        <!-- <option value="请选择">请选择</option> -->
+                                                        <option value="1">未分配</option>
+                                                        <option value="2">已分配</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 88px;text-align: right">占用状态：</label>
+                                                    <select id="occupancy" style="width: 168px" class="h30">
+                                                        <!-- <option value="请选择">请选择</option> -->
+                                                        <option value="1">未占用</option>
+                                                        <option value="2">已占用</option>
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-info" >
+                                                        提交
+                                                    </button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="myModal-LL" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-LL" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">&times;
+                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel_ll">链路信息列表添加</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="form-inline" id="room_add_btn_LL">
+                                                <div class="form-group">
+                                                    <label style="width: 108px;text-align: right">链路带宽：</label>
+                                                    <input type="text" class="input-sm form-control" id="bandwidth" pattern="^[1-9]\d*$"  title="请输入数字" required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label  style="width: 108px;text-align: right">链路类型：</label>
+                                                    <select id="linktype" style="width: 168px" class="h30">
+                                                        <!-- <option value="请选择">请选择</option> -->
+                                                        <option value="1">电信</option>
+                                                        <option value="2">联通</option>
+                                                        <option value="3">移动</option>
+                                                        <option value="9">其他</option>
+                                                    </select>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 108px;text-align: right">链路接入单位信息：</label>
+                                                    <input type="text" class="input-sm form-control" id="accessunit" title="请输入字符" required>
+                                                </div>
+                                                <br>
+                                                <div class="form-group" style="margin-top: 10px">
+                                                    <label style="width: 108px;text-align: right">  网关IP：</label>
+                                                    <input type="text" class="input-sm form-control" id="gatewayip" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-info" >
+                                                        提交
+                                                    </button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.datetimepicker').datetimepicker({
+        language:  'zh-CN',  //日期
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format : "yyyy-mm-dd"
+    });
+    //IP段列表  表格添加
+    $("#room_add_btn_ip").submit(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var exp1 = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/; 
+        var exp2 = /^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/;  
+        var a=$("#a").val();
+        var b=$("#b").val();
+        var start_flag1 = a.match(exp1);
+        var start_flag2 = a.match(exp2);
+        if(start_flag1 == undefined || start_flag1=='' ){
+            if(start_flag2 == undefined || start_flag2==''){
+                alert('起始IP地址请填写正确的ipv4或者ipv6格式！') ;
+                return false
+            }
+        }
+        var end_flag1 = b.match(exp1);
+        var end_flag2 = b.match(exp2);
+        if(end_flag1 == undefined || end_flag1==''){
+            if(end_flag2 == undefined || end_flag2==''){
+                alert('终止IP地址请填写正确的ipv4或者ipv6格式！');
+                return false
+            }
+        }
+        var c=$("#c").find("option:selected").text();
+        var d=$("#d").val();
+        var e=$("#e").find("option:selected").text();
+        var f=$("#f").val();
+        var g=$("#g").val();
+        var h=$("#h").val();
+        var i=$("#i").val();
+        if(a ==''||b ==''|| $("#c").val() ==''||g==''||h==''||i==''){
+            alert('请把信息补充完整')
+        }else if($("#e").find("option:selected").val()=='请选择'){
+            $("#room_table_IP").append('<tr class="valMsg"><td>' + a + '</td><td>' + b + '</td><td>' + c + '</td><td>' + d + '</td><td></td><td>' + f + '</td><td>' + g + '</td><td>' + h + '</td><td>' + i + '</td><td><span style="cursor: pointer" class="glyphicon glyphicon-trash del_IP" aria-hidden="true"></span></td></tr>');
+            $("#myModal").modal('hide');
+            $("#myModal input").val('');
+            $("#myModal select").val('请选择').select2();
+        }else{
+            $("#room_table_IP").append('<tr class="valMsg"><td>' + a + '</td><td>' + b + '</td><td>' + c + '</td><td>' + d + '</td><td>' + e + '</td><td>' + f + '</td><td>' + g + '</td><td>' + h + '</td><td>' + i + '</td><td><span style="cursor: pointer" class="glyphicon glyphicon-trash del_IP" aria-hidden="true"></span></td></tr>');
+            $("#myModal").modal('hide');
+            $("#myModal input").val('');
+            $("#myModal select").val('请选择').select2();
+        }
+        $(".del_IP").click(function () {
+            if(confirm("确定要删除吗？")){
+                $(this).parent().parent().remove();
+            }else{
+
+            }
+        })
+    });
+    //机架信息列表  表格添加
+    $("#room_add_btn_io").submit(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        var is_special=$("#is_special").find("option:selected").text();
+        var frame_id=$("#frame_id").val();
+        var frame_name=$("#frame_name").val();
+        var usertype=$("#usertype").find("option:selected").text();
+        var distribution=$("#distribution").find("option:selected").text();
+        var occupancy=$("#occupancy").find("option:selected").text();
+        if(frame_id ==''||frame_name ==''|| $("#usertype").val() =='请选择'||$("#distribution").val() =='请选择'||$("#occupancy").val() =='请选择'){
+            alert('请把信息补充完整')
+        }else{
+            $("#room_table_IO").append('<tr class="valMsg_b"><td>'+is_special+'</td><td>'+frame_name+'</td><td>'+usertype+'</td><td>'+distribution+'</td><td>'+occupancy+'</td><td><span class="glyphicon glyphicon-trash del_IO" aria-hidden="true" style="cursor: pointer"></span></td></tr>');
+            $("#myModal-IO input").val('');
+            $("#myModal-IO").modal('hide');
+            $("#myModal-IO select").val('请选择').select2();
+        };
+        $(".del_IO").click(function () {
+            if(confirm("确定要删除吗？")){
+                $(this).parent().parent().remove();
+            }else{
+
+            }
+        })
+    });
+    //链路信息列表  表格添加
+    $("#room_add_btn_LL").submit(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+       //var gateway_id=$("#gateway_id").val();
+       var bandwidth=$("#bandwidth").val();
+       var linktype=$("#linktype").find("option:selected").text();
+       var accessunit=$("#accessunit").val();
+       var gatewayip=$("#gatewayip").val();
+        if(bandwidth ==''|| $("#linktype").val() =='请选择'||accessunit==''||gatewayip==''){
+            alert('请把信息补充完整')
+        }else{
+            $("#room_table_LL").append('<tr class="valMsg_c">' +
+                '<td>'+bandwidth+'</td>' +
+                '<td>'+linktype+'</td>' +
+                '<td>'+accessunit+'</td>' +
+                '<td>'+gatewayip+'</td>' +
+                '<td><span class="glyphicon glyphicon-trash del_IO" aria-hidden="true" style="cursor: pointer"></span></td>' +
+                '</tr>');
+            $("#myModal-LL input").val('');
+            $("#myModal-LL").modal("hide");
+            $("#myModal-LL select").val('请选择').select2();
+        };
+        $(".del_IO").click(function () {
+            if(confirm("确定要删除吗？")){
+                $(this).parent().parent().remove();
+            }else{
+
+            }
+        })
+    });
+    //ajax传值
+    $("#room_add_btn").submit(function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        //机房基础信息
+        var data={};
+        data.house_id=$("#house_id").val();
+        data.house_name=$("#house_name").val();
+        data.idc_id=$("#idc_id").val();
+        data.house_type=$("#house_type").val();
+        data.province=$("#province").val();
+        data.city=$("#city").val();
+        data.county=$("#county").val();
+        data.house_addr=$("#house_addr").val();
+        data.house_zip=$("#house_zip").val();
+        //网络信息安全负责人
+        var arr={};
+        arr.house_officer_name=$("#house_officer_name").val();
+        arr.house_officer_idtype=$("#house_officer_idtype").val();
+        arr.house_officer_id=$("#house_officer_id").val();
+        arr.house_officer_tel=$("#house_officer_tel").val();
+        arr.house_officer_mobile=$("#house_officer_mobile").val();
+        arr.house_officer_email=$("#house_officer_email").val();
+        //IP段列表
+        var num=[];
+        $("#room_table_IP .valMsg").each(function (i,v) {
+            num.push({
+                startip: $(v).find(':nth-of-type(1)').html(),
+                endip: $(v).find(':nth-of-type(2)').html(),
+                type: $(v).find(':nth-of-type(3)').html(),
+                user: $(v).find(':nth-of-type(4)').html(),
+                id_type: $(v).find(':nth-of-type(5)').html(),
+                idnumber: $(v).find(':nth-of-type(6)').html(),
+                sourceunit: $(v).find(':nth-of-type(7)').html(),
+                allocationunit: $(v).find(':nth-of-type(8)').html(),
+                usertime: $(v).find(':nth-of-type(9)').html(),
+            })
+        });
+        if(num.length == 0){
+            alert("请添加IP段信息"); 
+            return;
+        }
+        //机架信息列表
+        var num_b=[];
+        $("#room_table_IO .valMsg_b").each(function (i,v) {
+            num_b.push({
+                is_special: $(v).find(':nth-of-type(1)').html(),
+                frame_name: $(v).find(':nth-of-type(2)').html(),
+                usertype: $(v).find(':nth-of-type(3)').html(),
+                distribution: $(v).find(':nth-of-type(4)').html(),
+                occupancy: $(v).find(':nth-of-type(5)').html()
+            })
+        });
+        if(num_b.length == 0){
+            alert("请添加机架信息"); 
+            return;
+        }
+        //链路信息列表
+        var  num_c=[];
+        $("#room_table_LL .valMsg_c").each(function (i,v) {
+            num_c.push({
+            //gateway_id: $(v).find(':nth-of-type(1)').html(),
+                bandwidth: $(v).find(':nth-of-type(1)').html(),
+                linktype : $(v).find(':nth-of-type(2)').html(),
+                accessunit: $(v).find(':nth-of-type(3)').html(),
+                gatewayip: $(v).find(':nth-of-type(4)').html()
+            })
+        });
+        if(num_c.length == 0){
+            alert("请添加链路信息"); 
+            return;
+        }
+        $.ajax({
+            type: 'get',
+            url: '__URL__/room_add',
+            data: {'data1':data,'data2':arr,'data3':num,'data4':num_b,'data5':num_c},
+            dataType: 'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('添加成功！');
+                    window.location.href="__URL__/room"
+                }else if(data.status == 'error'){
+                    alert(data.info);
+                }else{
+                    alert('添加失败！');
+                }
+            }
+        })
+
+    });
+    //省市
+    $('#province').change(function(){
+    var pro_id = $('#province').val();
+        $.ajax({
+            type:"get",
+            url:"{:U('City/city')}",
+            data:{'pro_id':pro_id},
+            dataType:"json",
+            success:function(data){
+                $('#city').html(data);
+            }
+        });
+    });
+    $('#city').change(function(){
+        $.ajax({
+            type:"get",
+            url:"{:U('City/city')}",
+            data:'pro_id='+$('#city').val(),
+            dataType:"json",
+            success:function(data){
+                $('#county').html(data);
+            }
+        });
+    });
+
+
+</script>
+

@@ -1,0 +1,300 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>基础数据管理</li>
+            <li class="active" style="color: white">用户管理</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label style="margin-left: 24px">用户属性：</label>
+                                                <select id="nature" name="nature">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">提供互联网服务用户</option>
+                                                    <option value="2">其他用户</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label  style="margin-left:60px">单位名称：</label>
+                                                <input type="text" name="unitname" id="unitname">
+                                            </li>
+                                            <li>
+                                                <label>单位证件类型：</label>
+                                                <select id="id_type" name="id_type">
+                                                    <option value="">请选择</option>
+                                                    <option value="1">工商营业执照号码</option>
+                                                    <option value="2">身份证</option>
+                                                    <option value="3">组织机构代码证书</option>
+                                                    <option value="4">事业法人证书</option>
+                                                    <option value="5">军队代号</option>
+                                                    <option value="6">社团法人证书</option>
+                                                    <option value="7">护照</option>
+                                                    <option value="8">军官证</option>
+                                                    <option value="9">台胞证</option>
+                                                    <option value="999">其他</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>单位证件号码：</label>
+                                                <input type="text" name="idnumber" id="idnumber">
+                                            </li>
+                                            <li>
+                                                <label>网络信息安全负责人：</label>
+                                                <input type="text" name="officer_name" id="officer_name">
+                                            </li>
+
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+
+                                        </ul>
+                                    </form>
+                                </div>
+
+                            </div>
+
+                            <div class="card-body">
+                                <!-- 添加 -->
+                                {:authcheck('Home/Basicinfo/user_add','
+                                <a href="__URL__/user_add">
+                                    <span  class="glyphicon glyphicon-plus" aria-hidden="true" style="color: #ADFF2F;margin-right: 5px"></span>添加
+                                </a>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th style="text-align: center">用户属性</th>
+                                        <th style="text-align: center">单位名称</th>
+                                        <th style="text-align: center">单位属性</th>
+                                        <th style="text-align: center">单位地址</th>
+                                        <th style="text-align: center">IDC/ISP经营者</th>
+                                        <th style="text-align: center">邮编</th>
+                                        <th style="text-align: center">证件类型</th>
+                                        <th style="text-align: center">证件号码</th>
+                                        <th style="text-align: center">网络信息安全负责人</th>
+                                        <th style="text-align: center">注册时间</th>
+                                        <th style="text-align: center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>{$info['nature']}</td>
+
+                                                <td title="{$info['unitnme']}">{$info['unitname']}</td>
+                                                <td>{$info['unitnature']}</td>
+                                                <td>{$info['addr']}</td>
+                                                <td title="{$info['idc_name']}">{$info['idc_name']}</td>
+
+                                                <td>{$info['zip_code']}</td>
+                                                <td>{$info['id_type']}</td>
+                                                <td title="{$info['idnumber']}">{$info['idnumber']}</td>
+                                                <td><a style="color:blue;cursor: pointer" onclick="Values(' {$info['officer_name']}  ','{$info['officer_idtype']}','{$info['officer_id']}','{$info['officer_tel']}','{$info['officer_mobile']}','{$info['officer_email']}')" data-toggle="modal" data-target="#myModal-b" >{$info['officer_name']}</a></td>
+                                                <td>{$info['register_time'] | date="Y-m-d",###}</td>
+
+                                                <td style="text-align: center">
+                                                    <if condition="$info['nature'] eq '提供互联网用户'">
+                                                        <!-- <a href="{:U('Basicinfo/user_edit_server',
+                                                        array('id'=>$info['user_id']))}"> -->
+                                                        <a href="{:U('Basicinfo/user_edit',array('id'=>$info['user_id'],'type'=>11))}">
+                                                        {:authcheck('Home/Basicinfo/user_edit','
+                                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                                              style="color:#3BA430;cursor: pointer" ></span>
+                                                        ','')}
+                                                        </a>
+                                                        {:authcheck('Home/Basicinfo/user_del','
+                                                         <span class="glyphicon glyphicon-trash deleteDef_user" aria-hidden="true"
+                                                          style="color: red;cursor: pointer;margin-left: 5px" data-toggle="modal"
+                                                          data-target="#myModal_server" ></span>
+                                                        ','')}
+
+                                                          <span data="{$info['user_id']}"></span>
+                                                    <else />
+                                                        <!-- <a href="{:U('Basicinfo/user_edit_other',
+                                                        array('id'=>$info['user_id']))}"> -->
+                                                        <a href="{:U('Basicinfo/user_edit',
+                                                        array('id'=>$info['user_id'],'type'=>21))}">
+                                                        {:authcheck('Home/Basicinfo/user_edit','
+                                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"
+                                                                  style="color: #3BA430;cursor: pointer" >
+                                                            </span>
+                                                        ','')}
+                                                        </a>
+                                                        {:authcheck('Home/Basicinfo/user_del','
+                                                            <span class="glyphicon glyphicon-trash deleteDef_other" aria-hidden="true"
+                                                          style="color: red;cursor: pointer;margin-left: 5px" data-toggle="modal"
+                                                          data-target="#myModal_other" >
+                                                            </span>
+                                                        ','')}
+                                                        <span data="{$info['user_id']}"></span>
+                                                </if>
+                                                   
+                                                </td>
+
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                 <div class="dataTables_paginate paging_bootstrap pull-right" >
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                                <!-- 网络信息安全责任人 -->
+                                <div class="modal fade" id="myModal-b" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-b" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel-b">网络信息安全责任人</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p><span style="width: 71px;text-align: right;display: inline-block">姓名：</span><input name="name" id="name" style="border:none;" readonly></p>
+                                                <p><span style="width: 71px;text-align: right;display: inline-block">证件类型：</span><input name="type" id="type" style="border:none;" readonly></p>
+                                                <p><span style="width: 71px;text-align: right;display: inline-block">证件号：</span><input name="id" id="id" style="border:none;width:250px;" readonly></p>
+                                                <p><span style="width: 71px;text-align: right;display: inline-block">固定电话：</span><input name="tel" id="tel" style="border:none;" readonly></p>
+                                                <p><span style="width: 71px;text-align: right;display: inline-block">移动电话：</span><input name="mobile" id="mobile" style="border:none;" readonly></p>
+                                                <p><span style="width: 71px;text-align: right;display: inline-block">email地址：</span><input name="email" id="email" style="border:none;width:250px;" readonly></p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+
+                                <!--  删除 模态框  -->
+                                <div class="modal fade" id="myModal_server" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel_server" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel_server">删除</h4>
+                                            </div>
+                                            <div class="modal-body">确定删除此记录吗？</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="del_server">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                <!--  删除 模态框  -->
+                                <div class="modal fade" id="myModal_other" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel_other" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel_other">删除</h4>
+                                            </div>
+                                            <div class="modal-body">确定删除此记录吗？</div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="del_other">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#nature').val("<?=$nature?>");
+    $('#unitname').val("<?=$unitname?>");
+    $('#id_type').val("<?=$id_type?>");
+    $('#idnumber').val("<?=$idnumber?>");
+    $('#officer_name').val("<?=$officer_name?>");
+    function Values(name,type,id,tel,mobile,email){
+        $("#name").val(name);
+        $("#type").val(type);
+        $("#id").val(id);
+        $("#tel").val(tel);
+        $("#mobile").val(mobile);
+        $("#email").val(email);
+
+    };
+
+    //删除server
+    var del = '',htm = '';
+    $('.table').on('click','.deleteDef_user',function () {
+        //del = $(this).data('id');
+        del = $(this).next().attr('data');
+        htm = $(this).parent('tr');
+    });
+    $('#del_server').click(function () {
+        $("#myModal_server").modal('hide');
+        //console.log(del);
+        $.ajax({
+            type: "get",
+            //url: "__URL__/server_del",
+            url: "__URL__/user_del",
+            data: {'id':del,type:1},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+//                    window.location.href('__URL__/illegal_info') 把他隐藏
+                    htm.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+
+      //删除other
+    var del_other = '',htm_other = '';
+    $('.table').on('click','.deleteDef_other',function () {
+        //del_other = $(this).data('id');
+        del_other = $(this).next().attr('data');
+        htm_other = $(this).parent('tr');
+    });
+    $('#del_other').click(function () {
+        $("#myModal_other").modal('hide');
+        
+        $.ajax({
+            type: "get",
+            //url: "__URL__/other_del",
+            url: "__URL__/user_del",
+            data: {'id':del_other,type:2},
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('删除成功');
+                    window.location.reload();
+//                    window.location.href('__URL__/illegal_info') 把他隐藏
+                    htm_other.remove();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    });
+</script>
+

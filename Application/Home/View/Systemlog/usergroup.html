@@ -1,0 +1,297 @@
+<div class="app-container no-padding"> 
+    <div class="row content-container" >
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>系统管理</li>
+            <li class="active" style="color: white">用户组管理</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                               
+                            <div class="card-body no-padding" style="margin-top: 10px">
+                                {:authcheck('Home/Systemlog/usergroup_add','
+                                <a href="#" style="margin-right: 10px" data-toggle="modal" data-target="#myModal-add">
+                                    <span class="glyphicon glyphicon-plus info_del_l " aria-hidden="true" style="margin-right: 5px;color: greenyellow" ></span>添加
+                                </a>
+                                ','')}
+                                {:authcheck('Home/Systemlog/usergroup_del','
+                                <a href="#" class="deleteDef"  data-toggle="modal"  data-target="#myModal-deleteDef">
+                                    <span class="glyphicon glyphicon-remove info_del_l deleteDef" aria-hidden="true" style="margin-right: 5px;color: red"></span>批量删除
+                                </a>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered"  style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th  style="text-align: center;">
+                                            <input type="checkbox" id="allCheck">
+                                        </th>
+                                        <th style="text-align:center">用户组名</th>
+                                        <th style="text-align:center">备注</th>
+                                        <th style="text-align:center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="usergroup_data" id="usergroup_data_vo" >
+                                            <tr>
+                                                <td><input type="checkbox" name="checkbox" value="{$usergroup_data_vo['id']}" class="checkbtn"></td>
+                                                 <td style="text-align:center">{$usergroup_data_vo['title']}</td>
+                                                <td style="text-align:center"><if condition="$usergroup_data_vo['note'] eq ''">--<else />{$usergroup_data_vo['note']}</if></td>
+
+                                                <td style="text-align:center">
+                                                    <span data="{$usergroup_data_vo['id']}">
+                                                    <a href="__URL__/authorize/id/{$usergroup_data_vo['id']}">
+                                                    {:authcheck('Home/Systemlog/authorize','
+                                                        <span title="权限管理" class="glyphicon glyphicon-wrench"
+                                                           style="color: #1ABC9C;margin-right: 5px;margin-left: 5px;cursor: pointer" ></span>
+                                                    ','')}
+                                                    </a>
+                                                    {:authcheck('Home/Systemlog/usergroup_edite','
+                                                    <span title="编辑" class="glyphicon glyphicon-pencil" aria-hidden="true" data-toggle="modal" style="color: #1ABC9C;margin-right: 5px;margin-left: 5px;cursor: pointer"
+                                                             data-target="#myModal-edit"></span>
+                                                    ','')}
+                                                    {:authcheck('Home/Systemlog/usergroup_del','
+                                                    <span title="删除" class="glyphicon glyphicon-trash del" aria-hidden="true" style="cursor: pointer;color: red" data-toggle="modal" data-target="#myModal-deleteDef"></span>
+                                                    ','')}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </volist>
+                                    
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$usergroup_show}
+                                    </ul>
+                                </div>
+                                <!--  添加 模态框  -->
+                                <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-sc" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-sc">添加用户组</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" id="addUser_form" class="form-horizontal" role="form">
+
+                                                    <div class="form-group">
+                                                        <span style="color: red">*</span>
+                                                        <label>用户组：</label>
+                                                        <input type="text" class="form-control input-sm" style="width: 168px" pattern="^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_.!@#$%^&*]{1,19}$" name="title" title="请输入1到20位的字符,必须以字母或汉字开头"  placeholder="请填写用户组" required>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 20px">
+                                                        <label>备注：</label>
+                                                        <input type="text" name="note" class="form-control input-sm" style="width: 168px"  pattern="^\S{1,50}$"  placeholder="请填写备注信息">
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-info" id="user_add_btn">确定</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+                                <!--  编辑 模态框  -->
+                                <div class="modal fade" id="myModal-edit" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-edit" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-edit">编辑</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline" id="editUser_form" class="form-horizontal" role="form">
+
+                                                    <input type="hidden" name="id" id="id" value=/>
+                                                    <div class="form-group">
+                                                        <span style="color: red">*</span>
+                                                        <label>用户组：</label>
+                                                        <input type="text" name="title" class="form-control input-sm usergroup_adit" style="width: 168px" pattern="^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5_.!@#$%^&*]{1,19}$" title="请输入1到20位的字符,必须以字母或汉字开头" value="newadmin" required>
+
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group" style="margin-top:10px;margin-left: 20px">
+                                                        <label>备注：</label>
+                                                        <input type="text" name="note" class="form-control input-sm remarks_adit" style="width: 168px" pattern="^\S{1,50}$"  placeholder="请填写备注信息" value="普通用户组">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-info" id="user_edt_btn">确定</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                                <!-- 批量删除 模态框  -->
+                                <div class="modal fade" id="myModal-deleteDef" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-edit" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-deleteDef">删除</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p style="font-size: 16px"><span class="glyphicon glyphicon-remove-sign info_del_l " aria-hidden="true"  style="margin-right: 5px;color: red"></span>确定要删除吗？</p>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button"  class="btn btn-info" id="user_deleteDef">确定</button>
+                                                <button type="button" class="btn btn-default pop" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.checkbtn').each(function(){
+        if($(this).val()=='1'){
+            $(this).parents('tr').children().last().remove()
+            $(this).remove();
+        }
+
+    })
+
+</script>
+<script>
+$('.checkbtn').prop('checked',false)
+$('#allCheck').prop('checked',false)
+    //添加
+    $('#addUser_form').submit(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var data=$('#addUser_form').serialize();
+        //console.log(data);
+        $.ajax({
+            type: "GET",
+            url: "__URL__/usergroup_add",
+            data: data,
+            dataType: "json",
+            success:function(data){
+                if(data.status=='success'){
+                    $("#myModal-add").modal('hide');
+                    $('#addUser_form')[0].reset();
+                    alert("添加成功");
+                    $("form input").val('');
+                    window.location.reload();
+                }else if(data.status=='1'){
+                    alert("用户已存在");
+                }
+            }
+        });
+        $("#myModal-add").modal('hide');
+        $('#addUser_form')[0].reset();
+
+    })
+
+    // 编辑
+    $(document).on("click",".glyphicon-pencil",function(){
+        var row = $(this).parents('tr');
+        $('#id').val($(this).parent().attr('data'));
+        $(".usergroup_adit").val(row.children('td:eq(1)').html());
+        $(".remarks_adit").val(row.children('td:eq(2)').html());
+
+    })
+    $('#editUser_form').submit(function(e){
+        e.stopPropagation();
+        e.preventDefault();
+        var data=$('#editUser_form').serialize();
+        $.ajax({
+            url:'__URL__/usergroup_edite',
+            type:'get',
+            dataType:'json',
+            data:data,
+            success:function(data){
+                if(data.status=='success'){
+                    $("#myModal-edit").modal('hide');
+                    $('#editUser_form')[0].reset();
+                    alert("编辑成功");
+                    window.location.reload();
+                }else{
+                    alert(data.msg);
+                }
+            }
+        });
+    })
+
+    //    批量删除
+    $(document).on("click","#user_deleteDef",function(){
+        var id = $("input:checkbox[name='checkbox']:checked").map(function() {
+            return $(this).val();
+        }).get().join(',');
+        $.ajax({
+            url:'__URL__/usergroup_del',
+            type:'get',
+            dataType:'json',
+            data:{'id':id},
+            success:function(data){
+                if(data.status=='success'){
+                    $("#myModal-deleteDef").modal('hide');
+                    alert(data.msg);
+                    window.location.reload();
+                }else{
+                    $("#myModal-deleteDef").modal('hide');
+                    alert(data.msg);
+                }
+            }
+        });
+    })
+    //    单条删除时选中当前的单选框
+    $(document).on("click",".del",function(){
+        $('.checkbtn').prop('checked',false);
+        $('#allCheck').prop('checked',false);
+        $(this).parents("tr").children('td:eq(0)').children().prop('checked',true);
+
+    })
+    //    取消的事件
+    $(document).on("click",".pop",function(){
+        $('.checkbtn').prop('checked',false);
+        $('#allCheck').prop('checked',false);
+
+    })
+
+    //全选全不选
+    //点击其他，更新全选
+    $(document).on('click', '.checkbtn', function () {
+        if($('.checkbtn:not(:checked)').length === 0){
+            var is_checked = $(this).prop("checked");
+            $('#allCheck').prop("checked", is_checked);
+        }else{
+            $('#allCheck').prop('checked', false);
+        }
+    })
+    //设置全选，全不选
+    $(document).on('click', '#allCheck', function () {
+        $('.checkbtn').prop('checked', this.checked);
+    });
+</script>

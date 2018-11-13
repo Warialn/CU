@@ -1,0 +1,149 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">基础数据核验处理</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="formArea">
+                                    <form class="form-inline" action='' method="get">
+                                        <ul>
+                                            <li>
+                                                <label>有无退回数据：</label>
+                                                <select id="is_return" name="is_return">
+                                                    <option value="">请选择</option>
+                                                    <option value="0">无</option>
+                                                    <option value="1">有</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>指令处理结果：</label>
+                                                <select id="operation_type" name="operation_type">
+                                                    <option value="">请选择</option>
+                                                    <option value="0">未处理</option>
+                                                    <option value="1">已处理</option>
+                                                </select>
+                                            </li>
+                                            <li>
+                                                <label>处理人：</label>
+                                                <input type="text"  id="operation_user" name="operation_user">
+                                            </li>
+                                            <li>
+                                                <label style="margin-left: 23px;">处理时间：</label>
+                                                <input class="date-range-picker" type="text" name="operation_time" data-date-format="YYYY-MM-DD" id="operation_time"  style="width: 220px"/>
+                                            </li>
+                                            <li>
+                                                <label style="    margin-left: 12px;">退回时间段：</label>
+                                                <input class="date-range-picker" type="text" name="return_stamp" data-date-format="YYYY-MM-DD"
+                                                       id="return_stamp" style="width: 220px"/>
+                                            </li>
+                                            <button type="submit" class="btn btn-info" style="margin-left: 10px">查询
+                                            </button>
+                                        </ul>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover"  style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th>IDC/ISP经营单位</th>
+                                        <th>退回原因</th>
+                                        <th>退回原因说明</th>
+                                        <th>有无退回数据</th>
+                                        <th>退回机房数据</th>
+                                        <th>退回用户数据</th>
+                                        <th>退回时间</th>
+                                        <th>处理时间</th>
+                                        <th>处理人</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>
+                                                <td>{$info['idc_name']}</td>
+                                                <td>{$info['return_code']}</td>
+                                                <td>{$info['return_msg']}</td>
+                                                <td>{$info['is_return']}</td>
+                                                <!-- <td><a href="{:U('Policy/house_return',array('return_id'=>$info['id']))}" style="color: blue;">查看详情</a></td>
+                                                <td><a href="{:U('Policy/user_return',array('return_id'=>$info['id']))}" style="color: blue;">查看详情</a></td> -->
+                                                <td><a href="{:U('Policy/basic_check',array('return_id'=>$info['id'],'type'=>'house'))}" style="color: blue;">查看详情</a></td>
+                                                <td><a href="{:U('Policy/basic_check',array('return_id'=>$info['id'],'type'=>'user'))}" style="color: blue;">查看详情</a></td>
+                                                <td>{$info['return_stamp'] | date='Y-m-d H:i:s',###}</td>
+                                                <td><if condition="$info['operation_time'] eq ''">
+                                                    {$info['operation_time']}<else/>{$info['operation_time'] | date='Y-m-d H:i:s',###}</if></td>
+                                                <td>{$info['operation_user']}</td>
+                                                <td><if condition="$info['operation_type'] eq '0'">
+                                                    <a id="operation" data="{$info['id']}" style="cursor: pointer;color:blue">{:authcheck_basic('Home/Policy/basic_check_operation,Home/Basicinfo/company,Home/Basicinfo/room,Home/Basicinfo/user','处置','')}</a><else/>已处置</if></td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <div class="dataTables_paginate paging_bootstrap pull-right">
+                                    <ul class="pagination">
+                                        {$show}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$('#is_return').val("<?=$is_return?>");
+$('#operation_type').val("<?=$operation_type?>");
+$('#operation_time').val("<?=$operation_time?>");
+$('#operation_user').val("<?=$operation_user?>");
+$('#return_stamp').val("<?=$return_stamp?>");
+$('#operation').click(function(){
+    var id = $(this).attr('data');
+    $.ajax({
+        'url':'__URL__/basic_check_operation',
+        'type':'get',
+        'data':{'id':id},
+        success: function (data) {
+                if (data.status == 'success') {
+                    $("#myModal-plxf").modal('hide');
+                    alert("处置成功");
+                    window.location.reload();
+                } else {
+                    alert(data.info);
+                }
+            }
+    })
+})
+    jQuery(function ($) {
+        $('.date-range-picker').daterangepicker({
+                locale : {
+                    applyLabel: '提交',
+                    cancelLabel: '取消',
+                    fromLabel: '开始时间',
+                    toLabel: '结束时间',
+                    weekLabel: 'W',
+                    customRangeLabel: 'Custom Range',
+                    daysOfWeek: ['日', '一', '二', '三', '四', '五','六'],
+                    monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+                    // firstDay: moment.localeData()._week.dow
+                },
+                language: 'cn',
+                timePicker:true,
+                timePickerIncrement:1,
+                timePicker12Hour:false,
+                format: 'MM/DD/YYYY HH:mm'
+            }
+        ).prev().on(ace.click_event, function () {
+            $(this).next().focus();
+        });
+
+    })
+</script>

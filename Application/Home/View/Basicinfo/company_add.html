@@ -1,0 +1,148 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>基础数据管理</li>
+            <li class="active"><a href="{:U('Basicinfo/company')}" style="color: blue">IDC/ISP经营单位信息</a></li>
+            <!--<li class="active" style="color: blue"><a href="{:U('Basicinfo/company')}"></a>IDC/ISP经营单位信息</li>-->
+            <li class="active" style="color: white">添加</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <form class="form-inline"  id="addCompany" method="post" >
+                                <div class="card-header">
+                                    <div class="card-title">
+
+                                            <div class=" col-md-4  ">
+                                                <label style="width: 105px;text-align: right">IDC/ISP许可证号：</label>
+                                                <input type="text" class="form-control input-sm" name="idc_id" id="idc_id" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                            </div>
+                                            <div class="col-md-4" >
+                                                <label style="width: 105px;text-align: right">单位名称：</label>
+                                                <input type="text" class="form-control input-sm"  name="idc_name" id="idc_name" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                            </div>
+                                            <div class=" col-md-4  " >
+                                                <label style="width: 105px;text-align: right">企业法人：</label>
+                                                <input type="text" class="form-control input-sm" name="idc_corp" id="idc_corp" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                            </div>
+                                            <div class=" col-md-4" style="margin-top: 10px">
+                                                <label style="width: 105px;text-align: right">单位地址：</label>
+                                                <input type="text" class="form-control input-sm" name="idc_addr" id="idc_addr" pattern="^\S{1,128}$"  title="请输入1-128位字符" required>
+                                            </div>
+                                            <div class=" col-md-4" style="margin-top: 10px" >
+                                                <label style="width: 105px;text-align: right">邮编：</label>
+                                                <input type="text" class="form-control input-sm" name="idc_zip" id="idc_zip" pattern="^[0-9]\d{5}(?!\d)$"  title="请输入6位字符" required>
+                                            </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-body">
+                                    <p  style="font-size: 16px;font-weight: 500">应急联系人</p>
+
+                                        <div  class=" col-md-4  ">
+                                            <label style="width: 105px;text-align: right">姓名：</label>
+                                            <input type="text" class="form-control input-sm" name="idc_emergency_name" id="idc_emergency_name" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class="col-md-4" >
+                                            <label style="width: 105px;text-align: right">证件类型：</label>
+                                            <select name="idc_emergency_idtype" class="form-control input-sm"  id="idc_emergency_idtype" style="width: 168px">
+                                                <!-- <option value="">请选择</option> -->
+                                                <option value="2">身份证</option>
+                                                <option value="7">护照</option>
+                                                <option value="8">军官证</option>
+                                                <option value="9">台胞证</option>
+                                            </select>
+                                        </div>
+                                        <div class=" col-md-4  " >
+                                            <label style="width: 105px;text-align: right">证件号：</label>
+                                            <input type="text" class="form-control input-sm" name="idc_emergency_id" id="idc_emergency_id" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">固定电话：</label>
+                                            <input type="text" class="form-control input-sm"  name="idc_emergency_tel" id="idc_emergency_tel" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">移动电话：</label>
+                                            <input type="text" class="form-control input-sm"  name="idc_emergency_mobile" id="idc_emergency_mobile" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">email地址：</label>
+                                            <input type="email" class="form-control input-sm" name="idc_emergency_email" id="idc_emergency_email" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"  title="请输入1-64位字符" required>
+                                        </div>
+
+                                    <br><br><br><br>
+                                    <p class="sub-title" style="font-size: 16px;font-weight: 500;">网络信息安全负责人</p>
+                                        <div class=" col-md-4  ">
+                                            <label style="width: 105px;text-align: right">姓名：</label>
+                                            <input type="text" class="form-control input-sm" name="idc_officer_name"  id="idc_officer_name" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class="col-md-4" >
+                                            <label style="width: 105px;text-align: right">证件类型：</label>
+                                            <select name="idc_officer_idtype" class="form-control input-sm"  id="idc_officer_idtype" style="width: 168px">
+                                                <!-- <option value="">请选择</option> -->
+                                                <option value="2">身份证</option>
+                                                <option value="7">护照</option>
+                                                <option value="8">军官证</option>
+                                                <option value="9">台胞证</option>
+                                            </select>
+                                        </div>
+                                        <div class=" col-md-4  " >
+                                            <label style="width: 105px;text-align: right">证件号：</label>
+                                            <input type="text" class="form-control input-sm" name="idc_officer_id" id="idc_officer_id" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px">
+                                            <label style="width: 105px;text-align: right">固定电话：</label>
+                                            <input type="text" class="form-control input-sm" name="idc_officer_tel" id="idc_officer_tel" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">移动电话：</label>
+                                            <input type="text" class="form-control input-sm" name="idc_officer_mobile" id="idc_officer_mobile" pattern="^\S{1,32}$"  title="请输入1-32位字符" required>
+                                        </div>
+                                        <div class=" col-md-4" style="margin-top: 10px" >
+                                            <label style="width: 105px;text-align: right">email地址：</label>
+                                            <input type="email" class="form-control input-sm" name="idc_officer_email" id="idc_officer_email" pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"  title="请输入1-64位字符" required>
+                                            <!-- pattern="^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$" -->
+                                        </div>
+                                    <div class="text-center">
+                                        <button class="btn btn-info add"  type="submit" style="margin-top: 20px">确定</button>
+                                        <a href="{:U('Basicinfo/company')}" class="btn btn-default" style="margin-top: 20px;color: #000"> 返回</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$('#addCompany').submit(function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var data = $('#addCompany').serialize();
+        $.ajax({
+            url: '__URL__/company_add',
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            data: data,
+            success:function(data){
+                if(data.status == 'success'){
+                    alert('添加成功！');
+                    $("form input").val('');
+                    window.location.href="__URL__/company";
+                }else if(data.status == 'error'){
+                    alert(data.info);
+                }else{
+                    alert('添加失败！');
+                }
+            }
+        })
+            
+
+    })
+</script>
+

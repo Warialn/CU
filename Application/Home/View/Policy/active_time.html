@@ -1,0 +1,113 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>策略管理</li>
+            <li class="active" style="color: white">活跃资源周期</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-body no-padding">
+                                {:authcheck('Home/Policy/active_time_add','  
+                                    <span id="info_add" style="color: white;cursor: pointer " data-toggle="modal" data-target="#myModal">
+                                        <span class="glyphicon glyphicon-plus" aria-hidden="true" style="color: #ADFF2F;margin-right: 5px"></span>添加
+                                    </span>
+                                ','')}
+                                <!--  表格  -->
+                                <table class="table table-bordered table-hover" id="active_time_add" style="text-align: center;background-color:#F9F9F9">
+                                    <thead>
+                                    <tr style="background-color: #E8F1F6">
+                                        <th>机房名称</th>
+                                        <th>上报周期</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <volist name="res" id="info">
+                                            <tr>                                               
+                                                <td>{$info['house_name']}</td>
+                                                <td>{$info['report_time']}</td>
+                                            </tr>
+                                        </volist>
+                                    </tbody>
+                                </table>
+                                <!--  模态框  -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel-tj" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">&times;
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-tj">添加</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="form-inline">
+                                                    <div class="form-group" style="margin-left: 12px">
+                                                        <label>机房ID：</label>
+                                                        <!--<input type="text" class="form-control input-sm" id="houseId">-->
+                                                         <select  id="houseId" style="width: 168px;" class="h30">
+                                                            <volist name="rooms" id="room_info">
+                                                                 <option value="{$room_info['house_id']}">{$room_info['house_name']}</option>
+                                                            </volist>
+                                                        </select>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group"  style="margin-top: 10px">
+                                                        <label>上报周期：</label>
+                                                        <input type="number" min="1"  class="form-control input-sm" id="reportTime" placeholder="请填写上报周期（分钟）">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-info" id="active_time_btn">确定</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#active_time_btn").click(function () {
+        var data={};
+        data.houseId = $("#houseId").val();
+        data.reportTime = $("#reportTime").val();
+        $("#myModal").modal('hide');
+        var a = $("#reportTime").val();
+        if(a==''){
+            alert('上报周期不能为空')
+        } else {
+            $.ajax({
+                type: 'get',
+                url: '__URL__/active_time_add',
+                data: data,
+                dataType: 'json',
+                success:function (data) {
+                    if(data.status == 'success'){
+                        alert('下发成功');
+                        window.location.reload();
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            })
+            $("#myModal input").val()
+        }
+
+
+    });
+
+
+
+</script>

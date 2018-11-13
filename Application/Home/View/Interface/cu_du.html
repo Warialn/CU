@@ -1,0 +1,142 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>配置管理</li>
+            <li class="active" style="color: white">CU与DU参数</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-body" style="padding-top: 0">
+
+                                <p class="sub-title" style="color: white;margin-top: -15px;font-size: 16px;font-weight: 500;">DU服务接口地址配置</p>
+                                <br/><br/>
+                                <form class="form-inline" style="color: white;margin-left:-90px;">
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">DU接口地址：</label>
+                                        <input type="text" value="{$data.webservice_addr}" class="form-control input-sm" id="webservice_addr" placeholder="请填写DU的webservice接口地址" style="width: 240px">
+                                    </div>
+                                </form>
+                                <!-- <p class="sub-title" style="color: white;font-size: 16px;font-weight: 500;">DU服务接口认证信息配置</p>
+
+                                <form class="form-inline" style="color: white;margin-left: 10px">
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">用户口令：</label>
+                                        <input type="text" class="form-control input-sm" id="user_passwd" value="{$data.user_passwd}" placeholder="请输入用户口令" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">消息认证密钥：</label>
+                                        <input type="text" value="{$data.authentication_key}" class="form-control input-sm" id="authentication_key" placeholder="请填写消息认证密钥" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">加密方式：</label>
+                                        <div class="form-group" id="is_encrypt">
+                                            <div class="radio3 radio-check radio-success radio-inline">
+                                                <input type="radio" id="radio1" name="radio2" value="0" <if condition="$data['is_encrypt'] eq 0"> checked="" </if>>
+                                                <label for="radio1">不加密</label>
+                                            </div>
+                                            <div class="radio3 radio-check radio-warning radio-inline" style="margin-left: 2px">
+                                                <input type="radio" id="radio2" name="radio2" value="1" <if condition="$data['is_encrypt'] eq 1"> checked="" </if>>
+                                                <label for="radio2">加密</label>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">加密密钥：</label>
+                                        <input type="text" value="{$data.aes_key}" class="form-control input-sm" id="aes_key" placeholder="请填写密密钥" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">密钥偏移量：</label>
+                                        <input type="text" value="{$data.aes_offset}" class="form-control input-sm" id="aes_offset" placeholder="请填写密钥偏移量" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom:10px">
+                                        <label style="width: 175px;text-align: right">HASH方式：</label>
+                                        <div class="form-group" id="hash_method">
+                                            <div class="radio3 radio-check radio-inline">
+                                                <input type="radio" id="radio4" name="radio3" value="0" <if condition="$data['hash_method'] eq 0"> checked="" </if>>
+                                                <label for="radio4">
+                                                    无hash
+                                                </label>
+                                            </div>
+                                            <div class="radio3 radio-check radio-success radio-inline">
+                                                <input type="radio" id="radio5" name="radio3" value="1" <if condition="$data['hash_method'] eq 1"> checked="" </if>>
+                                                <label for="radio5">
+                                                    MD5
+                                                </label>
+                                            </div>
+                                            <div class="radio3 radio-check radio-warning radio-inline">
+                                                <input type="radio" id="radio6" name="radio3" value="2" <if condition="$data['hash_method'] eq 2"> checked="" </if>>
+                                                <label for="radio6">
+                                                    SHA-1
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">压缩方式：</label>
+                                        <div class="form-group" id="is_zip">
+                                            <div class="radio3 radio-check radio-success radio-inline">
+                                                <input type="radio" id="radio9" name="radio4" value="0" <if condition="$data['is_zip'] eq 0"> checked="" </if>>
+                                                <label for="radio9">无压缩</label>
+                                            </div>
+                                            <div class="radio3 radio-check radio-warning radio-inline" style="margin-left: 2px">
+                                                <input type="radio" id="radio10" name="radio4" value="1" <if condition="$data['is_zip'] eq 1"> checked="" </if>>
+                                                <label for="radio10">Zip压缩格式</label>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">接口版本方法：</label>
+                                        <input type="text" value="{$data.version}" class="form-control input-sm" id="version" placeholder="请填写接口版本方法" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">省份编号：</label>
+                                        <input type="text" value="{$data.prov_id}" class="form-control input-sm" id="prov_id" placeholder="请填写省份编号" style="width: 240px">
+                                    </div> -->
+                                </form>
+                                <br/>
+                                {:authcheck('Home/Interface/du_addoredit','  
+                                <button class="btn btn-info" style="margin-left: 188px" id="DU_btn">保存</button>
+                                ','')}
+                                <br/><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#DU_btn").click(function () {
+        var data = {};
+        data.id = "<?=$data['id']?>";
+        data.webservice_addr=$("#webservice_addr").val();
+        /*data.user_passwd=$("#user_passwd").val();
+        data.authentication_key=$("#authentication_key").val();
+        data.is_encrypt = $("#is_encrypt input[type='radio']:checked").val();
+        data.aes_key=$("#aes_key").val();
+        data.aes_offset=$("#aes_offset").val();
+        data.hash_method= $("#hash_method input[type='radio']:checked").val();
+        data.is_zip= $("#is_zip input[type='radio']:checked").val();
+        data.version=$("#version").val();
+        data.prov_id=$("#prov_id").val();*/
+//        console.log(data);
+        $.ajax({
+            type: "get",
+            url: "__URL__/du_addoredit",
+            data:data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('保存成功');
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    })
+
+</script>

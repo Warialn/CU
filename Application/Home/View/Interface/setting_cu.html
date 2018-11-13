@@ -1,0 +1,81 @@
+<div class="app-container">
+    <div class="row content-container">
+        <ol class="breadcrumb navbar-breadcrumb" style="padding-left: 100px;color: white;">
+            <li>配置管理</li>
+            <li class="active" style="color: white">CU系统配置</li>
+        </ol>
+        <div class="container-fluid">
+            <div class="side-body" style="padding-top: 0">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="card">
+                            <div class="card-body" style="padding-top: 0">
+                                <p class="sub-title" style="margin-top: -15px;color: white;font-size: 16px;font-weight: 500;">CU系统信息配置</p>
+                                <form class="form-inline" style="color: white;margin-left: 10px">
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">上报模块IP地址：</label>
+                                        <input type="text" class="form-control input-sm" id="report_ip" value="{$data.report_ip}" placeholder="请输入上报模块IP地址" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">上报模块ftp服务端口：</label>
+                                        <input type="text" value="{$data.report_ftp_port}" class="form-control input-sm" id="report_ftp_port" placeholder="请输入上报模块ftp服务端口" style="width: 240px">
+                                    </div><br>
+
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">ES模块IP地址：</label>
+                                        <input type="text" value="{$data.es_ip}" class="form-control input-sm" id="es_ip" placeholder="请填写ES模块IP地址" style="width: 240px">
+                                    </div><br>
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">ES设备IP地址：</label>
+                                        <input type="text" value="{$data.es_device_ip}" class="form-control input-sm" id="es_device_ip" placeholder="请填写ES设备IP地址" style="width: 240px">
+                                    </div><br>
+
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">ES数据库端口：</label>
+                                        <input type="text" value="{$data.es_port}" class="form-control input-sm" id="es_port" placeholder="请填写ES数据库端口" style="width: 240px">
+                                    </div><br>
+
+                                    <div class="form-group" style="margin-bottom: 10px">
+                                        <label style="width: 175px;text-align: right">ES模块ftp服务端口：</label>
+                                        <input type="text" value="{$data.es_ftp_port}" class="form-control input-sm" id="es_ftp_port" placeholder="请填写ES模块ftp服务端口" style="width: 240px">
+                                    </div><br>
+
+                                </form>
+                                {:authcheck('Home/Interface/do_cuaddoredit',' 
+                                <button class="btn btn-info" style="margin-left: 188px" id="setting_cu">保存</button>
+                                ','')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $("#setting_cu").click(function () {
+        var data = {};
+        data.id = "<?=$data['id']?>";
+        data.report_ip=$("#report_ip").val();
+        data.report_ftp_port=$("#report_ftp_port").val();
+        data.es_ip=$("#es_ip").val();
+        data.es_device_ip=$("#es_device_ip").val();
+        data.es_port=$("#es_port").val();
+        data.es_ftp_port=$("#es_ftp_port").val();
+        $.ajax({
+            type: "get",
+            url: "__URL__/do_cuaddoredit",
+            data:data,
+            dataType:'json',
+            success:function (data) {
+                if(data.status == 'success'){
+                    alert('保存成功');
+                    window.location.reload();
+                }else{
+                    alert(data.info);
+                }
+            }
+        })
+    })
+
+</script>
